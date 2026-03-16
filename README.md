@@ -2,181 +2,174 @@
 
 > **S**ource · **P**roduct · **E**xhaustive · **C**ontractual · **T**ruth · **R**econstructable · **A**gentic
 
-**El framework de especificación diseñado para ser consumido por IA, no por humanos.**
+**The specification framework designed to be consumed by AI, not humans.**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/GuiMiran/spectra/releases)
+
+[🇪🇸 Versión en español](README.es.md)
 
 ---
 
-## El problema
+## The problem
 
-Le das una tarea a un agente de IA. Le explicas qué quieres. Lo construye. Pero adivina las reglas de negocio, ignora la normativa, inventa las excepciones. A los 10 mensajes lo estás corrigiendo en cada paso.
+You give a task to an AI agent. You explain what you want. It builds something. But it guesses the business rules, ignores regulations, invents the exceptions. Ten messages later you're correcting it at every step.
 
-No es un problema de la IA. Es un problema de contexto.
+This is not an AI problem. It's a context problem.
 
-**La IA no falla porque sea incapaz. Falla porque no sabe lo que tú sí sabes.**
+**AI doesn't fail because it's incapable. It fails because it doesn't know what you know.**
 
 ---
 
-## La solución
+## The solution
 
-Spectra es un framework para escribir especificaciones que una IA puede consumir directamente — sin ambigüedad, sin contexto adicional, sin que la corrijas en cada paso.
+Spectra is a framework for writing specifications that an AI agent can consume directly — without ambiguity, without additional context, without you correcting it at every step.
 
-No es documentación técnica. No es un README. No son comentarios en el código.
+It's not technical documentation. Not a README. Not code comments.
 
-Es la **fuente de verdad del dominio**: reglas de negocio, invariantes, contratos, normativa, decisiones — todo estructurado en 12 capas diseñadas para que un agente opere de forma autónoma.
+It's the **domain source of truth**: business rules, invariants, contracts, regulations, decisions — all structured in 13 layers designed for an agent to operate autonomously.
 
 ```
-Tú defines el dominio  →  Spectra estructura las specs  →  La IA construye, mantiene y evoluciona el sistema
+You define the domain  →  Spectra structures the specs  →  AI builds, maintains and evolves the system
 ```
 
 ---
 
-## Qué hace diferente a Spectra
+## How it works
 
-| | Documentación tradicional | OpenSpec | **Spectra** |
-|---|---|---|---|
-| **Destinatario** | Humanos | Agentes de código | Agentes de dominio |
-| **Qué describe** | Cómo funciona | Cómo evoluciona el código | Qué es el sistema |
-| **Incluye normativa** | Rara vez | No | Sí, obligatorio |
-| **Incluye invariantes** | No | No | Sí, booleanas |
-| **Reconstrucción** | Imposible | Parcial | Total |
-| **Capa** | Sobre el código | Sobre el código | Antes del código |
-
-**Spectra y OpenSpec no compiten — son capas distintas. Spectra va primero.**
+![Spectra flow](docs/flow.svg)
 
 ---
 
-## Las 13 capas
+## What makes Spectra different
+
+| | Traditional docs | OpenSpec | GitHub Spec Kit | **Spectra** |
+|---|---|---|---|---|
+| **Audience** | Humans | Coding agents | Coding agents | Domain agents |
+| **Describes** | How it works | How code evolves | How to build features | What the system IS |
+| **Legal regulations** | Rarely | ❌ | ❌ | ✅ Required |
+| **Boolean invariants** | ❌ | ❌ | ❌ | ✅ |
+| **Full reconstruction** | ❌ | ❌ | ❌ | ✅ |
+| **Bidirectional traceability** | ❌ | ❌ | ❌ | ✅ SPECTRA-TRACE |
+| **Layer** | On top of code | On top of code | On top of code | **Before code** |
+
+**Spectra doesn't compete with OpenSpec or GitHub Spec Kit — they are different layers. Spectra goes first.**
 
 ```
-00 · Visión y Contexto        ← qué es y para quién
-01 · Glosario de Dominio      ← el lenguaje canónico
-02 · Historias de Usuario     ← qué necesitan los usuarios
-03 · Reglas de Negocio        ← cada regla con fuente normativa
-04 · Invariantes              ← condiciones siempre verdaderas
-05 · Contratos de Operación   ← pre/postcondiciones por operación
-06 · Políticas de Decisión    ← árboles SI/ENTONCES
-07 · Eventos de Dominio       ← hechos y sus consecuencias
-08 · Agentes                  ← actores autónomos del sistema
-09 · Skills                   ← capacidades atómicas invocables
-10 · Workflows                ← orquestación de agentes y skills
-11 · Criterios de Aceptación  ← tests en lenguaje natural
+Spectra (domain)  →  OpenSpec / GitHub Spec Kit (construction)  →  Your code
+```
+
+---
+
+## The 13 layers
+
+```
+Static layers — define the domain
 ──────────────────────────────────────────────────────────────
-12 · SPECTRA-TRACE            ← matriz de trazabilidad agéntica
+00 · Vision & Context         ← what it is and who it's for
+01 · Domain Glossary          ← the canonical language
+02 · User Stories             ← what users need
+03 · Business Rules           ← every rule with regulatory source
+04 · Invariants               ← always-true conditions
+05 · Operation Contracts      ← pre/postconditions per operation
+06 · Decision Policies        ← IF/THEN trees
+07 · Domain Events            ← facts and their consequences
+08 · Agents                   ← autonomous actors
+09 · Skills                   ← atomic invocable capabilities
+10 · Workflows                ← agent and skill orchestration
+11 · Acceptance Criteria      ← tests in natural language
+──────────────────────────────────────────────────────────────
+Live layer — updated by the agent every iteration
+──────────────────────────────────────────────────────────────
+12 · SPECTRA-TRACE            ← bidirectional traceability matrix
 ```
 
-Las capas 00-11 son **estáticas** — definen el dominio. La capa 12 es **viva** — el agente la actualiza automáticamente al final de cada iteración.
+Every layer has an exact format. Every element has a unique ID. Everything is cross-referenced.
 
-Cada capa tiene un formato exacto. Cada elemento tiene un ID único. Todo está referenciado cruzadamente.
+**SPECTRA-TRACE** is the key innovation: a bidirectional matrix the agent updates automatically at the end of every iteration.
+
+- **Spec → Code** (forward): detects **functional gaps** — things the business needs that don't exist yet
+- **Code → Spec** (reverse): detects **technical gaps** — orphaned code with no business rule justifying it
 
 ---
 
-## Cómo funciona
+## Quickstart
 
-### 1. Rellenas el prompt universal
+### 1. Fill the universal prompt
 
-```
-SPECTRA-PROMPT.md contiene las variables que defines:
-nombre del proyecto, sector, normativa, usuarios, módulos,
-reglas conocidas, restricciones regulatorias...
-```
+Open `SPECTRA-PROMPT.md` and fill the variables: project name, sector, regulations, users, modules, known rules, regulatory constraints.
 
-### 2. La IA genera las 12 capas
+### 2. Paste into any LLM
 
-Un LLM con el prompt completo genera la especificación estructurada de tu dominio. No es código — es conocimiento de negocio en formato machine-readable.
+Claude, GPT-4o, Gemini — any frontier model generates the 13 layers from the filled prompt.
 
-### 3. El agente construye con las specs como contexto
+### 3. Save specs in your repo
 
-Con las specs en contexto, el agente puede:
-- Construir la app sin que expliques cada decisión
-- Respetar los invariantes al generar código
-- Detectar conflictos con las reglas de negocio
-- Reconstruir el sistema completo si algo se rompe
+The specs live alongside your code. They are the source of truth — not documentation about the system, but the system itself.
 
-### 4. Tú evolucionas las specs, la IA evoluciona el sistema
+### 4. Agent builds with specs as context
 
-Cuando cambia una regla de negocio, cambias la spec. El agente propaga el cambio correctamente porque entiende el dominio completo.
+With specs in context, the agent builds, respects invariants, detects conflicts with business rules, and can fully reconstruct the system if something breaks.
 
 ---
 
-## Caso de uso real: GastroFlow
+## Real-world example: GastroFlow
 
-El repo incluye **GastroFlow** — una app completa de gestión de restaurante construida 100% con Spectra:
+The repo includes **GastroFlow** — a complete restaurant management app built 100% with Spectra:
 
-- 12 capas de specs completas
-- App React 19 + Vite 8 + Tailwind v4
-- Lógica contable con doble partida
-- Facturación con IVA y normativa española
-- Reconstruible desde cero leyendo solo las specs
+- Full 13-layer specs
+- React 19 + Vite 8 + Tailwind v4
+- Double-entry accounting logic
+- Invoice generation with Spanish tax regulations
+- **Fully reconstructable from specs alone**
 
-> [Ver GastroFlow →](./examples/gastroflow/)
+> [See GastroFlow →](./examples/gastroflow/)
+
+**The reconstruction test**: give the specs to an agent in an empty context. Ask it to build GastroFlow from scratch. It should produce an identical app without any additional explanation. That's Spectra working.
 
 ---
 
-## Estructura del repo
+## Repo structure
 
 ```
 spectra/
-├── README.md                     ← estás aquí
-├── MANIFESTO.md                  ← los 7 principios de SPECTRA
-├── SPECTRA-PROMPT.md             ← el prompt universal (rellena y usa)
-├── GUIA-VARIABLES.md             ← qué poner en cada variable
+├── README.md                     ← you are here
+├── README.es.md                  ← Spanish version
+├── MANIFESTO.md                  ← the 7 principles of SPECTRA
+├── SPECTRA-PROMPT.md             ← universal prompt (fill and use)
+├── GUIA-VARIABLES.md             ← variable guide
+├── docs/
+│   └── flow.svg                  ← architecture diagram
 ├── layers/
-│   ├── 00-vision.md
-│   ├── 01-glosario.md
-│   ├── 02-historias.md
-│   ├── 03-reglas-negocio.md
-│   ├── 04-invariantes.md
-│   ├── 05-contratos.md
-│   ├── 06-politicas.md
-│   ├── 07-eventos.md
-│   ├── 08-agentes.md
-│   ├── 09-skills.md
-│   ├── 10-workflows.md
-│   ├── 11-criterios-aceptacion.md
-│   └── 12-trace.md               ← SPECTRA-TRACE · matriz bidireccional viva
+│   └── 12-trace.md               ← SPECTRA-TRACE · bidirectional matrix
 ├── examples/
-│   ├── gastroflow/               ← caso de uso completo
-│   └── saas-gestion/             ← ejemplo rellenado
-├── vs-openspec.md                ← Spectra vs OpenSpec y GitHub Spec Kit
+│   ├── gastroflow/               ← complete real-world example
+│   └── EJEMPLO-RELLENADO-SAAS-GESTION.md
+├── vs-openspec.md                ← Spectra vs OpenSpec + GitHub Spec Kit
 └── vs-frameworks.md              ← Spectra vs RTM, BDD, ADR, Backstage, SBOM, OTel
 ```
 
 ---
 
-## Empieza ahora
+## Framework comparison
 
-```bash
-# 1. Clona el repo
-git clone https://github.com/tuusuario/spectra
+| Framework | Layer | Business domain | Regulations | Invariants | Gap detection | AI-native |
+|---|---|---|---|---|---|---|
+| **Spectra** | Domain | ✅ | ✅ | ✅ | ✅ Bidirectional | ✅ |
+| OpenSpec | Construction | ❌ | ❌ | ❌ | ❌ | Partial |
+| GitHub Spec Kit | Construction | ❌ | ❌ | ❌ | ❌ | Partial |
+| BDD/Cucumber | Behaviour | Partial | ❌ | ❌ | ❌ | ❌ |
+| RTM/DOORS | Traceability | ❌ | Reference | ❌ | Partial | ❌ |
+| ADR/MADR | Decisions | Partial | ❌ | ❌ | ❌ | ❌ |
 
-# 2. Abre el prompt universal
-# spectra/SPECTRA-PROMPT.md
-
-# 3. Rellena las variables con la guía
-# spectra/GUIA-VARIABLES.md
-
-# 4. Pega el prompt en Claude, GPT-4o o Gemini
-
-# 5. Guarda las 12 capas generadas en tu repo
-# Las specs SON tu proyecto. El código es un artefacto derivado.
-```
+Full breakdown → [vs-frameworks.md](vs-frameworks.md)
 
 ---
 
-## Por qué esto importa ahora
+## License
 
-Los agentes de IA están pasando de asistentes a ejecutores autónomos. La diferencia entre un agente que funciona bien y uno que falla no está en el modelo — está en si el agente conoce el dominio en el que opera.
-
-Spectra es la infraestructura de conocimiento que los agentes necesitan para operar solos.
-
-**Las specs no son documentación. Son el sistema.**
+MIT — use it, adapt it, improve it.
 
 ---
 
-## Licencia
-
-MIT — úsalo, adáptalo, mejóralo.
-
----
-
-*Spectra fue construido con IA, describe cómo construir con IA, y es el manual que la IA usa para mantenerse. Esa recursividad no es accidental — es el punto.*
+*Spectra was built with AI, describes how to build with AI, and is the manual AI uses to maintain itself. That recursion is not accidental — it's the point.*

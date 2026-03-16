@@ -1,0 +1,105 @@
+<svg width="100%" viewBox="0 0 680 620" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<!-- STEP 1 -->
+<g>
+  <rect x="40" y="30" width="200" height="56" rx="8" stroke-width="0.5" style="fill:rgb(68,68,65);stroke:rgb(180,178,169);"/>
+  <text x="140" y="52" text-anchor="middle" dominant-baseline="central" style="fill:rgb(211,209,199);font-family:system-ui,sans-serif;font-size:14px;font-weight:500;">1. Download the template</text>
+  <text x="140" y="72" text-anchor="middle" dominant-baseline="central" style="fill:rgb(180,178,169);font-family:system-ui,sans-serif;font-size:12px;">SPECTRA-PROMPT.md</text>
+</g>
+
+<!-- STEP 2 -->
+<g>
+  <rect x="40" y="140" width="200" height="56" rx="8" stroke-width="0.5" style="fill:rgb(60,52,137);stroke:rgb(175,169,236);"/>
+  <text x="140" y="158" text-anchor="middle" dominant-baseline="central" style="fill:rgb(206,203,246);font-family:system-ui,sans-serif;font-size:14px;font-weight:500;">2. Open and edit it</text>
+  <text x="140" y="178" text-anchor="middle" dominant-baseline="central" style="fill:rgb(175,169,236);font-family:system-ui,sans-serif;font-size:12px;">Fill variables for your domain</text>
+</g>
+
+<!-- STEP 3 -->
+<g>
+  <rect x="40" y="250" width="200" height="56" rx="8" stroke-width="0.5" style="fill:rgb(8,80,65);stroke:rgb(93,202,165);"/>
+  <text x="140" y="268" text-anchor="middle" dominant-baseline="central" style="fill:rgb(159,225,203);font-family:system-ui,sans-serif;font-size:14px;font-weight:500;">3. Paste into any LLM</text>
+  <text x="140" y="288" text-anchor="middle" dominant-baseline="central" style="fill:rgb(93,202,165);font-family:system-ui,sans-serif;font-size:12px;">Claude, GPT-4o, Gemini…</text>
+</g>
+
+<!-- STEP 4 -->
+<g>
+  <rect x="40" y="360" width="200" height="56" rx="8" stroke-width="0.5" style="fill:rgb(99,56,6);stroke:rgb(239,159,39);"/>
+  <text x="140" y="378" text-anchor="middle" dominant-baseline="central" style="fill:rgb(250,199,117);font-family:system-ui,sans-serif;font-size:14px;font-weight:500;">4. AI generates 13 layers</text>
+  <text x="140" y="398" text-anchor="middle" dominant-baseline="central" style="fill:rgb(239,159,39);font-family:system-ui,sans-serif;font-size:12px;">Glossary · Rules · Invariants…</text>
+</g>
+
+<!-- STEP 5 -->
+<g>
+  <rect x="40" y="470" width="200" height="56" rx="8" stroke-width="0.5" style="fill:rgb(39,80,10);stroke:rgb(151,196,89);"/>
+  <text x="140" y="488" text-anchor="middle" dominant-baseline="central" style="fill:rgb(192,221,151);font-family:system-ui,sans-serif;font-size:14px;font-weight:500;">5. Save specs in your repo</text>
+  <text x="140" y="508" text-anchor="middle" dominant-baseline="central" style="fill:rgb(151,196,89);font-family:system-ui,sans-serif;font-size:12px;">Specs ARE your project</text>
+</g>
+
+<!-- Vertical arrows left column -->
+<line x1="140" y1="86" x2="140" y2="140" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156,154,146);stroke-width:1.5px;"/>
+<line x1="140" y1="196" x2="140" y2="250" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156,154,146);stroke-width:1.5px;"/>
+<line x1="140" y1="306" x2="140" y2="360" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156,154,146);stroke-width:1.5px;"/>
+<line x1="140" y1="416" x2="140" y2="470" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156,154,146);stroke-width:1.5px;"/>
+
+<!-- AGENT box -->
+<g>
+  <rect x="310" y="30" width="330" height="80" rx="12" stroke-width="0.5" style="fill:rgb(30,30,40);stroke:rgb(120,120,160);"/>
+  <text x="475" y="55" text-anchor="middle" dominant-baseline="central" style="fill:rgb(200,200,230);font-family:system-ui,sans-serif;font-size:14px;font-weight:600;">AI Agent</text>
+  <text x="475" y="75" text-anchor="middle" dominant-baseline="central" style="fill:rgb(150,150,190);font-family:system-ui,sans-serif;font-size:12px;">Reads specs as context</text>
+  <text x="475" y="93" text-anchor="middle" dominant-baseline="central" style="fill:rgb(150,150,190);font-family:system-ui,sans-serif;font-size:12px;">every session</text>
+</g>
+
+<!-- Specs box -->
+<g>
+  <rect x="310" y="140" width="150" height="56" rx="8" stroke-width="0.5" style="fill:rgb(99,56,6);stroke:rgb(239,159,39);"/>
+  <text x="385" y="161" text-anchor="middle" dominant-baseline="central" style="fill:rgb(250,199,117);font-family:system-ui,sans-serif;font-size:13px;font-weight:500;">Spectra Specs</text>
+  <text x="385" y="181" text-anchor="middle" dominant-baseline="central" style="fill:rgb(239,159,39);font-family:system-ui,sans-serif;font-size:11px;">13 layers · your repo</text>
+</g>
+
+<!-- SPECTRA-TRACE box -->
+<g>
+  <rect x="480" y="140" width="160" height="56" rx="8" stroke-width="0.5" style="fill:rgb(60,52,137);stroke:rgb(175,169,236);"/>
+  <text x="560" y="161" text-anchor="middle" dominant-baseline="central" style="fill:rgb(206,203,246);font-family:system-ui,sans-serif;font-size:13px;font-weight:500;">SPECTRA-TRACE</text>
+  <text x="560" y="181" text-anchor="middle" dominant-baseline="central" style="fill:rgb(175,169,236);font-family:system-ui,sans-serif;font-size:11px;">bidirectional · live</text>
+</g>
+
+<!-- Arrows specs+trace → agent -->
+<line x1="380" y1="140" x2="430" y2="110" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156,154,146);stroke-width:1.5px;"/>
+<line x1="550" y1="140" x2="510" y2="110" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156,154,146);stroke-width:1.5px;"/>
+
+<!-- WHAT THE AGENT CAN DO -->
+<g>
+  <rect x="310" y="235" width="330" height="120" rx="12" stroke-width="0.5" style="fill:rgb(8,80,65);stroke:rgb(93,202,165);"/>
+  <text x="475" y="258" text-anchor="middle" dominant-baseline="central" style="fill:rgb(159,225,203);font-family:system-ui,sans-serif;font-size:14px;font-weight:500;">The agent can:</text>
+  <text x="330" y="282" dominant-baseline="central" style="fill:rgb(93,202,165);font-family:system-ui,sans-serif;font-size:12px;">✓  Build without you explaining every decision</text>
+  <text x="330" y="302" dominant-baseline="central" style="fill:rgb(93,202,165);font-family:system-ui,sans-serif;font-size:12px;">✓  Respect invariants when generating code</text>
+  <text x="330" y="322" dominant-baseline="central" style="fill:rgb(93,202,165);font-family:system-ui,sans-serif;font-size:12px;">✓  Detect conflicts with business rules</text>
+  <text x="330" y="342" dominant-baseline="central" style="fill:rgb(93,202,165);font-family:system-ui,sans-serif;font-size:12px;">✓  Fully reconstruct if something breaks</text>
+</g>
+
+<!-- WITHOUT SPECS -->
+<g>
+  <rect x="310" y="385" width="330" height="80" rx="12" stroke-width="0.5" style="fill:rgb(113,43,19);stroke:rgb(240,153,123);"/>
+  <text x="475" y="410" text-anchor="middle" dominant-baseline="central" style="fill:rgb(245,196,179);font-family:system-ui,sans-serif;font-size:14px;font-weight:500;">Without specs → not agentic</text>
+  <text x="475" y="432" text-anchor="middle" dominant-baseline="central" style="fill:rgb(240,153,123);font-family:system-ui,sans-serif;font-size:12px;">Guesses rules, ignores regulations,</text>
+  <text x="475" y="450" text-anchor="middle" dominant-baseline="central" style="fill:rgb(240,153,123);font-family:system-ui,sans-serif;font-size:12px;">needs correction at every step</text>
+</g>
+
+<!-- WITH SPECS -->
+<g>
+  <rect x="310" y="490" width="330" height="80" rx="12" stroke-width="0.5" style="fill:rgb(39,80,10);stroke:rgb(151,196,89);"/>
+  <text x="475" y="515" text-anchor="middle" dominant-baseline="central" style="fill:rgb(192,221,151);font-family:system-ui,sans-serif;font-size:14px;font-weight:500;">With specs → truly agentic</text>
+  <text x="475" y="537" text-anchor="middle" dominant-baseline="central" style="fill:rgb(151,196,89);font-family:system-ui,sans-serif;font-size:12px;">Makes autonomous correct decisions</text>
+  <text x="475" y="555" text-anchor="middle" dominant-baseline="central" style="fill:rgb(151,196,89);font-family:system-ui,sans-serif;font-size:12px;">because it knows the full domain</text>
+</g>
+
+<!-- vs arrow -->
+<line x1="475" y1="465" x2="475" y2="490" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156,154,146);stroke-width:1.5px;"/>
+<text x="520" y="480" dominant-baseline="central" style="fill:rgb(156,154,146);font-family:system-ui,sans-serif;font-size:12px;">vs</text>
+
+</svg>
