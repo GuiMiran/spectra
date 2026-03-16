@@ -1,0 +1,193 @@
+{
+  "version": "2.0",
+  "description": "GastroFlow skills — full implementation contracts for agentic AI reconstruction",
+
+  "AccountingAgent": {
+    "description": "Calcula el cierre de caja diario comparando ventas vs facturas emitidas.",
+    "file": "src/utils/accounting.js",
+    "exports": {
+      "VAT_RATE": {
+        "type": "constant",
+        "value": 0.21,
+        "usage": "Single source of truth for 21% VAT. Import this everywhere; never hardcode 0.21."
+      },
+      "computeInvoiceFigures": {
+        "signature": "(items: OrderItem[]) => { subtotal: number, vat: number, total: number }",
+        "description": "Implements Invariant B-1. Derives totals from line items. Never rounds manually.",
+        "logic": "subtotal = Σ(item.price × item.qty); vat = subtotal × VAT_RATE; total = subtotal + vat"
+      },
+      "validateInvoiceable": {
+        "signature": "(order: Order) => { valid: boolean, error?: string }",
+        "description": "Implements Invariant B-2. Returns error if order has no customerId.",
+        "logic": "if (!order.customerId) return { valid: false, error: 'El pedido necesita un cliente asignado.' }; return { valid: true }"
+      },
+      "generateJournalEntries": {
+        "signature": "(invoice: Invoice) => JournalEntry[]",
+        "description": "Implements Invariant B-5. Returns exactly 3 balanced double-entry journal entries.",
+        "entries": [
+          { "account": "430", "accountName": "Clientes", "debit": "invoice.total", "credit": 0 },
+          { "account": "700", "accountName": "Ventas", "debit": 0, "credit": "invoice.subtotal" },
+          { "account": "477", "accountName": "IVA Repercutido", "debit": 0, "credit": "invoice.vat" }
+        ],
+        "invariant": "sum(debit) === sum(credit) === invoice.total"
+      },
+      "computeDailyClosure": {
+        "signature": "(invoices: Invoice[], orders: Order[]) => { totalRevenue, totalVat, totalSubtotal, invoiceCount, pendingCount, chartData }",
+        "description": "Aggregates data for AccountingView. chartData is an array of { name, ventas, iva } for recharts BarChart.",
+        "logic": "Sum all invoices for revenue/VAT. pendingCount = orders with status !== 'invoiced'. chartData groups by day or invoice number."
+      },
+      "formatCurrency": {
+        "signature": "(value: number) => string",
+        "description": "Formats number as Spanish Euro currency. Must be used for ALL monetary display in components.",
+        "implementation": "new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(value)"
+      }
+    }
+  },
+
+  "InvoiceGen": {
+    "description": "Renderiza un documento profesional listo para imprimir o enviar por WhatsApp.",
+    "file": "src/utils/invoiceGen.js",
+    "exports": {
+      "generateInvoiceNumber": {
+        "signature": "(existingInvoices: Invoice[]) => string",
+        "description": "Returns next sequential invoice number.",
+        "format": "FAC-YYYY-NNN (e.g. FAC-2024-001)",
+        "logic": "Pad (existingInvoices.length + 1) to 3 digits. Use current year."
+      },
+      "renderInvoiceText": {
+        "signature": "(invoice: Invoice) => string",
+        "description": "Returns WhatsApp-ready plain text with emoji formatting. Used for wa.me deep-link.",
+        "format": {
+          "separator": "━━━━━━━━━━━━━━━━━━",
+          "header": "🧾 *GASTROFLOW — FACTURA*",
+          "fields": [
+            "📄 Nº: {invoice.invoiceNumber}",
+            "📅 Fecha: {dd/MM/yyyy}",
+            "👤 Cliente: {customer.name}",
+            "🪪 NIF: {customer.nif}",
+            "{separator}",
+            "🍽 DETALLE:",
+            "• {item.name} (x{qty}) ... {lineTotal EUR}   ← dot-padded to 33 chars",
+            "{separator}",
+            "💰 Base imponible: {subtotal}",
+            "🧾 IVA (21%): {vat}",
+            "{separator}",
+            "🏷 *TOTAL: {total}*",
+            "{separator}",
+            "✅ Gracias por su visita — GastroFlow"
+          ],
+          "item_line_rule": "const label = qty > 1 ? `${name} (x${qty})` : name; const dots = '.'.repeat(Math.max(3, 33 - label.length)); return `• ${label} ${dots} ${fmt(lineTotal)}`"
+        },
+        "whatsapp_link": "https://wa.me/?text=encodeURIComponent(renderInvoiceText(invoice))"
+      },
+      "renderInvoiceHTML": {
+        "signature": "(invoice: Invoice, customer: Customer) => string",
+        "description": "Returns printable HTML string injected into an iframe for window.print(). Styled with inline CSS for print compatibility.",
+        "usage": "Used in InvoiceDocument component. Create a Blob URL from the HTML string and embed in <iframe>."
+      }
+    }
+  },
+
+  "TaxLogic": {
+    "description": "Clasifica automáticamente cada ítem en la categoría impositiva correcta.",
+    "file": "src/utils/taxLogic.js",
+    "exports": {
+      "TAX_CATEGORIES": {
+        "type": "constant",
+        "value": {
+          "FOOD": { "rate": 0.10, "label": "Alimentos (10%)", "account": "700.1" },
+          "BEVERAGE_AL": { "rate": 0.21, "label": "Bebidas alcohólicas (21%)", "account": "700.2" },
+          "BEVERAGE_SOFT": { "rate": 0.10, "label": "Bebidas sin alcohol (10%)", "account": "700.3" },
+          "SERVICE": { "rate": 0.21, "label": "Servicios (21%)", "account": "700.4" }
+        }
+      },
+      "classifyItem": {
+        "signature": "(item: { name: string, category?: string }) => keyof TAX_CATEGORIES",
+        "description": "Classifies a menu item into a tax category using keyword matching on name/category.",
+        "keyword_map": {
+          "BEVERAGE_AL": ["cerveza", "vino", "copa", "cava", "ron", "whisky", "gin", "cubata"],
+          "BEVERAGE_SOFT": ["agua", "refresco", "zumo", "café", "té", "infusión"],
+          "SERVICE": ["cubierto", "servicio", "mesa", "cargo"],
+          "FOOD": "default fallback"
+        }
+      },
+      "classifyOrderItems": {
+        "signature": "(items: OrderItem[]) => { category: string, label: string, rate: number, subtotal: number, vat: number }[]",
+        "description": "Groups order items by tax category. Returns breakdown for AccountingView display.",
+        "usage": "Used to show itemized tax breakdown per category in the accounting view."
+      }
+    }
+  },
+
+  "UISystem": {
+    "description": "Design system and component patterns for consistent UI reconstruction.",
+    "design_tokens": {
+      "colors": {
+        "surface-900": "#0f172a",
+        "surface-800": "#1e293b",
+        "surface-700": "#334155",
+        "surface-600": "#475569",
+        "brand": "#10b981",
+        "brand-light": "#34d399",
+        "brand-dark": "#059669",
+        "danger": "#f43f5e"
+      },
+      "shadows": {
+        "card": "0 0 0 1px rgba(51,65,85,0.5), 0 4px 24px rgba(0,0,0,0.4)",
+        "glow": "0 0 16px rgba(16,185,129,0.3)",
+        "glow-red": "0 0 16px rgba(244,63,94,0.3)"
+      },
+      "fonts": {
+        "sans": "'Inter', ui-sans-serif, system-ui, sans-serif",
+        "mono": "'JetBrains Mono', ui-monospace, monospace"
+      }
+    },
+    "badge_variants": {
+      "badge-success": { "bg": "rgba(16,185,129,0.15)", "color": "#34d399", "border": "rgba(16,185,129,0.3)" },
+      "badge-warning": { "bg": "rgba(245,158,11,0.15)", "color": "#fbbf24", "border": "rgba(245,158,11,0.3)" },
+      "badge-info":    { "bg": "rgba(59,130,246,0.15)",  "color": "#60a5fa", "border": "rgba(59,130,246,0.3)" },
+      "badge-neutral": { "bg": "rgba(100,116,139,0.15)", "color": "#94a3b8", "border": "rgba(100,116,139,0.3)" }
+    },
+    "icon_library": "lucide-react",
+    "icon_usage": {
+      "ChefHat": "Sidebar logo",
+      "LayoutDashboard": "Dashboard nav item",
+      "Banknote": "Cobros nav item + CobrosView header",
+      "BookOpen": "Accounting nav item",
+      "FileText": "Invoices nav item + generate invoice button",
+      "CreditCard": "Cobrar mesa button",
+      "User": "Customer indicator on cards",
+      "CheckCircle": "Empty state (all done)",
+      "AlertTriangle": "Invariant B-2 warning",
+      "Bell": "Header notification bell",
+      "Calendar": "Header date display",
+      "Plus": "New order button",
+      "X": "Close modal button"
+    }
+  },
+
+  "StateManagement": {
+    "description": "Global state architecture using React context + useReducer.",
+    "pattern": "AppContext (createContext + useReducer) + AppProvider + useApp hook (separate file)",
+    "reducer_actions": {
+      "ADD_ORDER": "payload: Order — appends to orders array",
+      "UPDATE_ORDER_STATUS": "payload: { orderId, status } — updates order.status",
+      "ASSIGN_CUSTOMER": "payload: { orderId, customerId } — updates order.customerId",
+      "ADD_INVOICE": "payload: Invoice — appends invoice, updates matching order.status to 'invoiced'",
+      "SET_NOTIFICATION": "payload: { type, message } — sets notification, triggers 3s auto-clear",
+      "CLEAR_NOTIFICATION": "no payload — sets notification to null"
+    },
+    "hooks": {
+      "useApp": {
+        "file": "src/hooks/useApp.js",
+        "returns": "Full AppContext value. Throws if used outside AppProvider.",
+        "hmr_rule": "Must be in its own file — NOT in AppContext.jsx (HMR constraint T-3)"
+      },
+      "useOrders": {
+        "file": "src/hooks/useOrders.js",
+        "returns": "{ enrichedOrders, stats, updateOrderStatus, assignCustomer, generateInvoice }",
+        "enrichment": "Joins customer, computes subtotal/vat/total, joins invoice for each order"
+      }
+    }
+  }
+}
