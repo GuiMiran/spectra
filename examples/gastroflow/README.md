@@ -1,37 +1,37 @@
 # GastroFlow — Spectra Example
 
-> Caso de uso completo. Una app de gestión de restaurante especificada con Spectra y construida 100% por IA agéntica.
+> Complete real-world case. A restaurant management app specified with Spectra and built 100% by an AI agent.
 
-## Qué es GastroFlow
+## What is GastroFlow
 
-SPA de gestión de restaurante sin backend. Dark mode. Todo el estado vive en React context con mock data.
+A backend-free restaurant management SPA. Dark mode. All state lives in React context with mock data.
 
-Flujo principal:
+Main flow:
 ```
-[/dashboard] Camarero crea pedido
+[/dashboard] Waiter creates order
      ↓
-[/cobros] Caja cobra la mesa → asigna cliente → genera factura
+[/cobros] Cashier collects payment → assigns customer → generates invoice
      ↓
-[/accounting] Asientos contables automáticos (doble partida)
-[/invoices]   Registro de facturas + exportación WhatsApp/PDF
+[/accounting] Automatic journal entries (double-entry bookkeeping)
+[/invoices]   Invoice registry + WhatsApp/PDF export
 ```
 
 ## Stack
 React 19 + Vite 8 + Tailwind CSS v4 + react-router-dom v6
 
-## Archivos de specs
+## Spec files
 
-| Archivo | Contenido |
-|---------|-----------|
-| `00-index.md` | Índice y dispatcher para agentes IA |
-| `01-setup.md` | Stack, npm, file tree, Tailwind v4 |
+| File | Contents |
+|------|----------|
+| `00-index.md` | Index and dispatcher for AI agents |
+| `01-setup.md` | Stack, npm, file tree, Tailwind v4 setup |
 | `02-models.md` | Data models, state shape, reducer, hooks |
-| `specs.md` | Master reconstruction prompt — spec completa |
-| `invariants.md` | Todas las reglas que nunca pueden romperse |
-| `skills.json` | Contratos de utilidades (accounting, invoiceGen, taxLogic, UI) |
+| `specs.md` | Master reconstruction prompt — complete spec |
+| `invariants.md` | All rules that can never be broken |
+| `skills.json` | Utility contracts (accounting, invoiceGen, taxLogic, UI) |
 
-## Test de reconstrucción
+## The reconstruction test
 
-Dale estos archivos a un agente en contexto vacío y pídele que construya GastroFlow desde cero. Debe producir una app idéntica sin que le expliques nada más.
+Give these files to an agent in an empty context and ask it to build GastroFlow from scratch. It should produce an identical app without any additional explanation from you.
 
-Eso es Spectra funcionando.
+That's Spectra working.

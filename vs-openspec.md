@@ -1,168 +1,161 @@
-# Spectra vs el ecosistema de specs para IA
+# Spectra vs the AI spec ecosystem
 
-> **TL;DR**: Spectra, OpenSpec y GitHub Spec Kit no compiten. Son capas distintas del mismo stack. Spectra va primero.
+> **TL;DR**: Spectra, OpenSpec and GitHub Spec Kit don't compete. They are different layers of the same stack. Spectra goes first.
 
 ---
 
-## El stack completo
+## The full stack
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│  CAPA 1 · DOMINIO                                   │
+│  LAYER 1 · DOMAIN                                   │
 │  ┌─────────────────────────────────────────────┐   │
 │  │  SPECTRA                                    │   │
-│  │  Qué es el sistema                          │   │
-│  │  Reglas · Invariantes · Normativa · Dominio │   │
+│  │  What the system IS                         │   │
+│  │  Rules · Invariants · Regulations · Domain  │   │
 │  └─────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────┘
-         ↓  las specs alimentan al agente
+         ↓  specs feed the agent
 ┌─────────────────────────────────────────────────────┐
-│  CAPA 2 · CONSTRUCCIÓN                              │
+│  LAYER 2 · CONSTRUCTION                             │
 │  ┌──────────────────┐   ┌──────────────────────┐   │
 │  │  OpenSpec        │   │  GitHub Spec Kit      │   │
-│  │  Cómo evoluciona │   │  /specify → /plan     │   │
-│  │  el código       │   │  → /tasks → build     │   │
+│  │  How code        │   │  /specify → /plan     │   │
+│  │  evolves         │   │  → /tasks → build     │   │
 │  └──────────────────┘   └──────────────────────┘   │
 └─────────────────────────────────────────────────────┘
-         ↓  el agente construye
+         ↓  agent builds
 ┌─────────────────────────────────────────────────────┐
-│  CAPA 3 · CÓDIGO                                    │
-│  Tu aplicación                                      │
+│  LAYER 3 · CODE                                     │
+│  Your application                                   │
 └─────────────────────────────────────────────────────┘
 ```
 
-Sin Spectra en la capa 1, el agente en la capa 2 adivina el dominio. Con Spectra, lo conoce.
+Without Spectra in layer 1, the agent in layer 2 guesses the domain. With Spectra, it knows it.
 
 ---
 
-## Comparativa detallada
+## Detailed comparison
 
-### ¿Qué especifica cada herramienta?
+### What does each tool specify?
 
 | | Spectra | OpenSpec | GitHub Spec Kit |
 |---|---|---|---|
-| **Reglas de negocio** | ✅ Con fuente normativa | ❌ | ❌ |
-| **Invariantes booleanas** | ✅ | ❌ | ❌ |
-| **Normativa legal** | ✅ Obligatorio | ❌ | ❌ |
-| **Glosario de dominio** | ✅ | ❌ | ❌ |
-| **Contratos de operación** | ✅ Pre/post condiciones | ❌ | Parcial |
-| **Agentes y skills** | ✅ | ❌ | ❌ |
-| **Features técnicas** | ❌ (no es su capa) | ✅ | ✅ |
-| **Tareas de código** | ❌ (no es su capa) | ✅ | ✅ |
-| **Reconstrucción total** | ✅ | ❌ | ❌ |
+| **Business rules** | ✅ With regulatory source | ❌ | ❌ |
+| **Boolean invariants** | ✅ | ❌ | ❌ |
+| **Legal regulations** | ✅ Required | ❌ | ❌ |
+| **Domain glossary** | ✅ | ❌ | ❌ |
+| **Operation contracts** | ✅ Pre/post conditions | ❌ | Partial |
+| **Agents and skills** | ✅ | ❌ | ❌ |
+| **Technical features** | ❌ (not its layer) | ✅ | ✅ |
+| **Code tasks** | ❌ (not its layer) | ✅ | ✅ |
+| **Full reconstruction** | ✅ | ❌ | ❌ |
+| **Bidirectional traceability** | ✅ SPECTRA-TRACE | ❌ | ❌ |
 
-### ¿Cómo funciona cada uno?
+### How does each one work?
 
 **Spectra**
 ```
-1. Rellenas SPECTRA-PROMPT.md con tu dominio
-2. LLM genera las 12 capas (Markdown puro)
-3. Las specs viven en tu repo como fuente de verdad
-4. El agente las consume como contexto en cada sesión
-5. Cuando cambia una regla → actualizas la spec
+1. Fill SPECTRA-PROMPT.md with your domain
+2. LLM generates the 13 layers (pure Markdown)
+3. Specs live in your repo as source of truth
+4. Agent consumes them as context every session
+5. When a rule changes → update the spec
 ```
 
 **OpenSpec**
 ```
-1. /opsx:new  → crea carpeta para el cambio
-2. /opsx:ff   → genera proposal.md + specs/ + design.md + tasks.md
-3. /opsx:apply → el agente implementa las tasks
-4. /opsx:archive → fusiona en la spec principal
+1. /opsx:new   → creates folder for the change
+2. /opsx:ff    → generates proposal.md + specs/ + design.md + tasks.md
+3. /opsx:apply → agent implements the tasks
+4. /opsx:archive → merges into main spec
 ```
 
 **GitHub Spec Kit**
 ```
-1. /specify  → genera la especificación técnica de la feature
-2. /plan     → produce el plan de implementación
-3. /tasks    → deriva la lista de tareas accionables
-4. El agente (Copilot/Claude Code/Gemini) implementa
+1. /specify  → generates technical spec for the feature
+2. /plan     → produces implementation plan
+3. /tasks    → derives actionable task list
+4. Agent (Copilot/Claude Code/Gemini) implements
 ```
 
-### ¿Qué problema resuelve cada uno?
+### What problem does each solve?
 
-| | Problema que resuelve |
+| | Problem it solves |
 |---|---|
-| **Spectra** | *"El agente no conoce mi dominio, adivina las reglas de negocio y las normas que aplican"* |
-| **OpenSpec** | *"El agente pierde el contexto de los cambios anteriores y no mantiene coherencia entre features"* |
-| **GitHub Spec Kit** | *"No sé cómo pasar de una idea a tareas concretas que el agente pueda ejecutar"* |
+| **Spectra** | *"The agent doesn't know my domain, guesses business rules and applicable regulations"* |
+| **OpenSpec** | *"The agent loses context between changes and can't maintain coherence across features"* |
+| **GitHub Spec Kit** | *"I don't know how to go from an idea to concrete tasks the agent can execute"* |
 
-Son tres problemas distintos. Los tres son reales.
+Three different problems. All three are real.
 
 ---
 
-## Por qué Spectra va primero
+## Why Spectra goes first
 
-OpenSpec y GitHub Spec Kit son herramientas de construcción. Necesitan saber qué construir.
+OpenSpec and GitHub Spec Kit are construction tools. They need to know what to build.
 
-Cuando el agente genera una feature con OpenSpec o GitHub Spec Kit, implícitamente toma decisiones de negocio: qué validaciones aplicar, qué estados son posibles, qué reglas fiscales respetar, qué flujos son legales. Sin Spectra, esas decisiones las toma el agente solo — y las toma mal, o de forma inconsistente, o ignorando la normativa.
+When an agent generates a feature with OpenSpec or GitHub Spec Kit, it implicitly makes business decisions: what validations to apply, what states are possible, what fiscal rules to respect, what flows are legal. Without Spectra, the agent makes those decisions alone — and makes them wrong, or inconsistently, or ignoring regulations.
 
-Con Spectra como contexto, el agente que ejecuta OpenSpec o GitHub Spec Kit ya conoce el dominio. Sus decisiones de implementación son correctas porque las restricciones del negocio están explícitas.
+With Spectra as context, the agent executing OpenSpec or GitHub Spec Kit already knows the domain. Its implementation decisions are correct because the business constraints are explicit.
 
 ```
-Sin Spectra:
-/opsx:new "añadir facturación"
-→ el agente inventa cómo funciona la facturación
+Without Spectra:
+/opsx:new "add invoicing"
+→ agent invents how invoicing works
 
-Con Spectra:
-/opsx:new "añadir facturación"
-→ el agente sabe que factura = subtotal + IVA 21%,
-  que necesita customerId obligatorio,
-  que genera 3 asientos contables,
-  que el número es secuencial FAC-YYYY-NNN
+With Spectra:
+/opsx:new "add invoicing"
+→ agent knows invoice = subtotal + 21% VAT,
+  requires mandatory customerId,
+  generates 3 accounting journal entries,
+  sequential number FAC-YYYY-NNN
 ```
 
 ---
 
-## El argumento de reconstrucción
+## The reconstruction argument
 
-Esta es la diferencia más importante, y la menos obvia.
+This is the most important difference, and the least obvious.
 
-Cada vez que abres una nueva sesión con un agente, el agente empieza desde cero. No recuerda la sesión anterior. No sabe qué decisiones se tomaron hace tres semanas. No conoce las excepciones que "todo el mundo sabe".
+Every time you open a new session with an agent, the agent starts from scratch. It doesn't remember the previous session. It doesn't know what decisions were made three weeks ago. It doesn't know the exceptions that "everyone knows".
 
-OpenSpec y GitHub Spec Kit gestionan el historial de cambios — qué se añadió, qué se modificó, qué está planificado. Pero no capturan el porqué de las reglas de negocio, la normativa que las justifica, los invariantes que no pueden romperse.
+OpenSpec and GitHub Spec Kit manage the history of changes — what was added, modified, planned. But they don't capture the *why* behind business rules, the regulations that justify them, the invariants that can never be broken.
 
-Spectra captura exactamente eso. Es el contexto que no cambia entre sesiones.
+Spectra captures exactly that. It's the context that doesn't change between sessions.
 
 ```
-Test de reconstrucción:
+Reconstruction test:
 
-1. Borra todo el código
-2. Abre una sesión nueva con el agente
-3. Dale solo las Spectra specs
-4. Pídele que reconstruya el sistema
+1. Delete all the code
+2. Open a new agent session
+3. Give it only the Spectra specs
+4. Ask it to reconstruct the system
 
-Si puede: las specs son completas.
-Si no puede: hay conocimiento viviendo fuera de las specs.
+If it can: specs are complete.
+If it can't: there's knowledge living outside the specs.
 ```
 
-OpenSpec y GitHub Spec Kit no pasan este test. No están diseñados para ello. Spectra sí.
+OpenSpec and GitHub Spec Kit don't pass this test. They're not designed to. Spectra is.
 
 ---
 
-## Cuándo usar qué
+## When to use what
 
-**Solo Spectra** — cuando estás en fase de diseño de dominio, antes de escribir una línea de código. Cuando necesitas alinear al equipo sobre las reglas del negocio. Cuando quieres que cualquier agente pueda retomar el proyecto sin briefing.
+**Spectra only** — when you're in domain design phase, before writing a single line of code. When you need to align the team on business rules. When you want any agent to pick up the project without a briefing.
 
-**Spectra + OpenSpec** — para proyectos en curso con cambios frecuentes. Spectra como capa de dominio permanente, OpenSpec para gestionar la evolución del código.
+**Spectra + OpenSpec** — for ongoing projects with frequent changes. Spectra as permanent domain layer, OpenSpec to manage code evolution.
 
-**Spectra + GitHub Spec Kit** — si usas el ecosistema GitHub/Copilot. Spectra como contexto de dominio, GitHub Spec Kit para el flujo /specify → /plan → /tasks.
+**Spectra + GitHub Spec Kit** — if you use the GitHub/Copilot ecosystem. Spectra as domain context, GitHub Spec Kit for the /specify → /plan → /tasks flow.
 
-**Los tres juntos** — stack completo para proyectos complejos con dominio regulado, equipo distribuido y agentes múltiples.
-
----
-
-## Lo que Spectra no intenta ser
-
-Spectra no reemplaza a OpenSpec ni a GitHub Spec Kit. No gestiona el historial de features, no genera tareas de código, no se integra con tu IDE.
-
-Spectra hace una sola cosa: dar al agente el conocimiento de dominio que necesita para que todas las demás herramientas funcionen correctamente.
-
-**Las specs no son documentación. Son el sistema.**
+**All three** — full stack for complex projects with regulated domain, distributed team, and multiple agents.
 
 ---
 
-## Referencias
+## What Spectra doesn't try to be
 
-- [OpenSpec](https://github.com/fission-codes/openspec) — Fission AI, 27k⭐
-- [GitHub Spec Kit](https://github.com/github/spec-kit) — GitHub, 2025
-- [Spectra](https://github.com/tuusuario/spectra) — este repo
+Spectra doesn't replace OpenSpec or GitHub Spec Kit. It doesn't manage feature history, doesn't generate code tasks, doesn't integrate with your IDE.
+
+Spectra does one thing: give the agent the domain knowledge it needs for all the other tools to work correctly.
+
+**Specs are not documentation. Specs are the system.**

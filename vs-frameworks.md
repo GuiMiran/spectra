@@ -1,235 +1,234 @@
-# Spectra vs el ecosistema completo de frameworks de especificación
+# Spectra vs the complete specification framework ecosystem
 
-> Comparativa honesta. Spectra no reemplaza a ninguno de estos — toma lo mejor de cada uno y añade lo que ninguno tiene.
+> Honest comparison. Spectra doesn't replace any of these — it takes the best of each and adds what none of them have.
 
 ---
 
-## El mapa completo
+## The full map
 
 ```
-CATEGORÍA 1 — ESPECIFICACIÓN DE DOMINIO
-  Spectra          ← este repo
-  DOORS (IBM)      ← enterprise RTM tradicional
-  
-CATEGORÍA 2 — ESPECIFICACIÓN PARA AGENTES DE CÓDIGO  
+CATEGORY 1 — DOMAIN SPECIFICATION
+  Spectra          ← this repo
+  DOORS (IBM)      ← enterprise traditional RTM
+
+CATEGORY 2 — SPECIFICATION FOR CODING AGENTS
   OpenSpec         ← Fission AI, 27k⭐
   GitHub Spec Kit  ← GitHub, 2025
 
-CATEGORÍA 3 — ESPECIFICACIÓN DE COMPORTAMIENTO
+CATEGORY 3 — BEHAVIOUR SPECIFICATION
   BDD / Cucumber   ← Behaviour-Driven Development
-  Gherkin          ← lenguaje de BDD
-  
-CATEGORÍA 4 — REGISTRO DE DECISIONES
+  Gherkin          ← BDD language
+
+CATEGORY 4 — DECISION RECORDS
   ADR              ← Architecture Decision Records
   MADR             ← Markdown ADR
 
-CATEGORÍA 5 — CATÁLOGO DE SOFTWARE
+CATEGORY 5 — SOFTWARE CATALOG
   Backstage        ← Spotify, software catalog
-  
-CATEGORÍA 6 — INVENTARIO DE COMPONENTES
+
+CATEGORY 6 — COMPONENT INVENTORY
   SBOM             ← Software Bill of Materials
 
-CATEGORÍA 7 — TRAZABILIDAD EN RUNTIME
-  OpenTelemetry    ← spans, traces, métricas de ejecución
+CATEGORY 7 — RUNTIME TRACEABILITY
+  OpenTelemetry    ← spans, traces, runtime metrics
 ```
 
 ---
 
-## Comparativa detallada
+## Detailed comparison
 
 ### Spectra vs RTM / DOORS
 
-**RTM (Requirements Traceability Matrix)** es el estándar IEEE 829 de trazabilidad. DOORS es su implementación enterprise de IBM.
+**RTM (Requirements Traceability Matrix)** is the IEEE 829 traceability standard. DOORS is IBM's enterprise implementation.
 
-| Dimensión | RTM / DOORS | Spectra |
+| Dimension | RTM / DOORS | Spectra |
 |---|---|---|
-| Origen | IEEE 829, 1998 | 2025 |
-| Destinatario | QA engineers, auditores | Agentes de IA |
-| Formato | Excel, Word, herramienta SaaS | Markdown en el repo |
-| Actualización | Manual por humanos | Automática por el agente |
-| Dirección | Req → Test (unidireccional) | Spec ↔ Código (bidireccional) |
-| Gap typing | No existe | FUNCIONAL vs TÉCNICO |
-| Normativa | Referenciada externamente | Integrada en la spec |
-| Coste | DOORS: licencia enterprise | Free, open source |
-| Setup | Semanas | Minutos |
-| Adecuado para IA agéntica | ❌ No | ✅ Diseñado para ello |
+| Origin | IEEE 829, 1998 | 2025 |
+| Audience | QA engineers, auditors | AI agents |
+| Format | Excel, Word, SaaS tool | Markdown in the repo |
+| Updates | Manual by humans | Automatic by the agent |
+| Direction | Req → Test (one-way) | Spec ↔ Code (bidirectional) |
+| Gap typing | Doesn't exist | FUNCTIONAL vs TECHNICAL |
+| Regulations | Referenced externally | Integrated in the spec |
+| Cost | DOORS: enterprise license | Free, open source |
+| Setup | Weeks | Minutes |
+| AI-agent ready | ❌ No | ✅ Designed for it |
 
-**Lo que Spectra toma de RTM**: la estructura matricial bidireccional y el concepto de trazabilidad como artefacto de primera clase.
+**What Spectra takes from RTM**: the bidirectional matrix structure and the concept of traceability as a first-class artifact.
 
-**Lo que Spectra añade**: actualización agéntica, gap typing, severidad automática, integración con el ciclo de desarrollo.
+**What Spectra adds**: agentic updates, gap typing, automatic severity, integration with the development cycle.
 
 ---
 
 ### Spectra vs OpenSpec
 
-**OpenSpec** (Fission AI) gestiona la evolución iterativa del código con un flujo `/opsx:new → /opsx:ff → /opsx:apply → /opsx:archive`.
+**OpenSpec** (Fission AI) manages iterative code evolution with a `/opsx:new → /opsx:ff → /opsx:apply → /opsx:archive` flow.
 
-| Dimensión | OpenSpec | Spectra |
+| Dimension | OpenSpec | Spectra |
 |---|---|---|
-| Capa | Construcción (capa 2) | Dominio (capa 1) |
-| Qué especifica | Features de código | Dominio de negocio |
-| Normativa legal | ❌ No | ✅ Obligatorio |
-| Invariantes | ❌ No | ✅ Booleanas, verificables |
-| Reconstrucción total | ❌ No | ✅ Sí |
-| Requiere CLI | ✅ Sí | ❌ Solo Markdown |
-| Gestiona backlog | ✅ Sí | ❌ No (lo delega) |
-| Gap detection | ❌ No | ✅ Bidireccional |
-| Historial de cambios | ✅ Por feature | ✅ Por iteración |
+| Layer | Construction (layer 2) | Domain (layer 1) |
+| What it specifies | Code features | Business domain |
+| Legal regulations | ❌ No | ✅ Required |
+| Invariants | ❌ No | ✅ Boolean, verifiable |
+| Full reconstruction | ❌ No | ✅ Yes |
+| Requires CLI | ✅ Yes | ❌ Markdown only |
+| Manages backlog | ✅ Yes | ❌ No (delegates) |
+| Gap detection | ❌ No | ✅ Bidirectional |
 
-**Relación**: Spectra va primero. El Gap Report de SPECTRA-TRACE es el input natural para `/opsx:new`. Son complementarios, no competidores.
+**Relationship**: Spectra goes first. The SPECTRA-TRACE Gap Report is the natural input for `/opsx:new`. They are complementary, not competitors.
 
 ```
-Spectra gap report  →  /opsx:new "implementar RN-012"  →  /opsx:ff  →  /opsx:apply
+Spectra gap report  →  /opsx:new "implement BR-012"  →  /opsx:ff  →  /opsx:apply
 ```
 
 ---
 
 ### Spectra vs GitHub Spec Kit
 
-**GitHub Spec Kit** es el flujo `/specify → /plan → /tasks` integrado con Copilot/Claude Code/Gemini dentro del IDE de GitHub.
+**GitHub Spec Kit** is the `/specify → /plan → /tasks` flow integrated with Copilot/Claude Code/Gemini inside the GitHub IDE.
 
-| Dimensión | GitHub Spec Kit | Spectra |
+| Dimension | GitHub Spec Kit | Spectra |
 |---|---|---|
-| Capa | Construcción (capa 2) | Dominio (capa 1) |
-| Integración | GitHub + IDE | Agnóstico (cualquier LLM) |
-| Qué genera | Plan técnico + tareas | Conocimiento de dominio |
-| Normativa | ❌ No | ✅ Sí |
-| Independiente del IDE | ❌ No | ✅ Sí |
-| Reconstrucción total | ❌ No | ✅ Sí |
+| Layer | Construction (layer 2) | Domain (layer 1) |
+| Integration | GitHub + IDE | Agnostic (any LLM) |
+| What it generates | Technical plan + tasks | Domain knowledge |
+| Regulations | ❌ No | ✅ Yes |
+| IDE-independent | ❌ No | ✅ Yes |
+| Full reconstruction | ❌ No | ✅ Yes |
 
-**Relación**: El SPECTRA-TRACE Gap Report puede alimentar directamente `/specify`. Spectra le da el contexto de dominio que GitHub Spec Kit no tiene.
+**Relationship**: The SPECTRA-TRACE Gap Report can feed directly into `/specify`. Spectra gives it the domain context GitHub Spec Kit doesn't have.
 
 ---
 
 ### Spectra vs BDD / Cucumber / Gherkin
 
-**BDD (Behaviour-Driven Development)** especifica comportamiento en formato DADO/CUANDO/ENTONCES. Cucumber lo ejecuta como test.
+**BDD (Behaviour-Driven Development)** specifies behaviour in GIVEN/WHEN/THEN format. Cucumber executes it as tests.
 
-| Dimensión | BDD / Cucumber | Spectra |
+| Dimension | BDD / Cucumber | Spectra |
 |---|---|---|
-| Foco | Comportamiento testeable | Dominio completo |
-| Normativa | ❌ No | ✅ Sí |
-| Invariantes | ❌ No | ✅ Sí |
-| Ejecutable como test | ✅ Sí | ❌ No directamente |
-| Requiere implementación | ✅ Sí (step definitions) | ❌ No |
-| Orientado a IA | ❌ No | ✅ Sí |
-| Cubre todo el dominio | Parcial (solo comportamiento) | ✅ Completo |
+| Focus | Testable behaviour | Complete domain |
+| Regulations | ❌ No | ✅ Yes |
+| Invariants | ❌ No | ✅ Yes |
+| Executable as test | ✅ Yes | ❌ Not directly |
+| Requires implementation | ✅ Yes (step definitions) | ❌ No |
+| AI-oriented | ❌ No | ✅ Yes |
+| Covers full domain | Partial (behaviour only) | ✅ Complete |
 
-**Lo que Spectra toma de BDD**: la capa 11 (Criterios de Aceptación) usa el formato DADO/CUANDO/ENTONCES de Gherkin.
+**What Spectra takes from BDD**: Layer 11 (Acceptance Criteria) uses Gherkin's GIVEN/WHEN/THEN format.
 
-**Diferencia clave**: BDD especifica cómo el sistema se comporta en situaciones concretas. Spectra especifica por qué el sistema existe, qué reglas lo gobiernan, y qué invariantes nunca pueden romperse. BDD es un subconjunto de lo que Spectra cubre.
+**Key difference**: BDD specifies how the system behaves in concrete situations. Spectra specifies why the system exists, what rules govern it, and what invariants can never be broken. BDD is a subset of what Spectra covers.
 
 ```
-Spectra Capa 11 (Criterios de Aceptación)  ≈  BDD scenarios
-Spectra Capas 03-06 (Reglas, Invariantes, Contratos, Políticas)  ≠  Nada en BDD
+Spectra Layer 11 (Acceptance Criteria)  ≈  BDD scenarios
+Spectra Layers 03-06 (Rules, Invariants, Contracts, Policies)  ≠  Nothing in BDD
 ```
 
 ---
 
 ### Spectra vs ADR / MADR
 
-**ADR (Architecture Decision Records)** captura decisiones de arquitectura: contexto, opciones consideradas, decisión tomada, consecuencias.
+**ADR (Architecture Decision Records)** captures architecture decisions: context, options considered, decision taken, consequences.
 
-| Dimensión | ADR / MADR | Spectra |
+| Dimension | ADR / MADR | Spectra |
 |---|---|---|
-| Qué captura | Decisiones pasadas | Estado actual + historial |
-| Formato | Narrativo | Estructurado y machine-readable |
-| Orientado a IA | ❌ No | ✅ Sí |
-| Bidireccional | ❌ No (solo pasado→presente) | ✅ Sí |
-| Dominio de negocio | Parcial | ✅ Completo |
-| Gap detection | ❌ No | ✅ Sí |
+| What it captures | Past decisions | Current state + history |
+| Format | Narrative | Structured and machine-readable |
+| AI-oriented | ❌ No | ✅ Yes |
+| Bidirectional | ❌ No (only past→present) | ✅ Yes |
+| Business domain | Partial | ✅ Complete |
+| Gap detection | ❌ No | ✅ Yes |
 
-**Lo que Spectra toma de ADR**: el concepto de capturar el *porqué* de las decisiones, no solo el *qué*. La capa de notas en SPECTRA-TRACE incluye el contexto de decisión como hace ADR.
+**What Spectra takes from ADR**: the concept of capturing the *why* of decisions, not just the *what*. The notes field in SPECTRA-TRACE includes decision context like ADR does.
 
-**Diferencia clave**: ADR mira hacia atrás (por qué se decidió así). Spectra mira hacia adelante (qué falta implementar) y hacia atrás simultáneamente.
+**Key difference**: ADR looks backward (why was it decided this way). Spectra looks forward (what's missing to implement) and backward simultaneously.
 
 ---
 
 ### Spectra vs Backstage
 
-**Backstage** (Spotify) es un portal de desarrolladores que cataloga componentes de software, owners, documentación y dependencias.
+**Backstage** (Spotify) is a developer portal that catalogs software components, owners, documentation and dependencies.
 
-| Dimensión | Backstage | Spectra |
+| Dimension | Backstage | Spectra |
 |---|---|---|
-| Qué cataloga | Componentes técnicos | Dominio de negocio |
-| Requiere infraestructura | ✅ Servidor, plugins | ❌ Solo Markdown |
-| Normativa | ❌ No | ✅ Sí |
-| Gap detection | ❌ No | ✅ Sí |
-| Para equipos grandes | ✅ Diseñado para ello | ✅ También escala |
-| Orientado a IA agéntica | ❌ No | ✅ Sí |
+| What it catalogs | Technical components | Business domain |
+| Requires infrastructure | ✅ Server, plugins | ❌ Markdown only |
+| Regulations | ❌ No | ✅ Yes |
+| Gap detection | ❌ No | ✅ Yes |
+| For large teams | ✅ Designed for it | ✅ Also scales |
+| AI-agent oriented | ❌ No | ✅ Yes |
 
-**Diferencia clave**: Backstage cataloga lo que existe. Spectra define lo que debe existir y detecta la diferencia.
+**Key difference**: Backstage catalogs what exists. Spectra defines what must exist and detects the difference.
 
 ---
 
 ### Spectra vs SBOM
 
-**SBOM (Software Bill of Materials)** es un inventario formal de los componentes de un sistema software. Origen en supply chain security.
+**SBOM (Software Bill of Materials)** is a formal inventory of a software system's components. Originates in supply chain security.
 
-| Dimensión | SBOM | Spectra |
+| Dimension | SBOM | Spectra |
 |---|---|---|
-| Qué inventaría | Dependencias y componentes | Specs y su implementación |
-| Orientado a seguridad | ✅ Sí (CVEs, licencias) | ❌ No |
-| Orientado a dominio | ❌ No | ✅ Sí |
-| Gap detection | ❌ No | ✅ Sí |
-| Machine-readable | ✅ SPDX, CycloneDX | ✅ Markdown estructurado |
+| What it inventories | Dependencies and components | Specs and their implementation |
+| Security-oriented | ✅ Yes (CVEs, licenses) | ❌ No |
+| Domain-oriented | ❌ No | ✅ Yes |
+| Gap detection | ❌ No | ✅ Yes |
+| Machine-readable | ✅ SPDX, CycloneDX | ✅ Structured Markdown |
 
-**Concepto prestado**: SPECTRA-TRACE toma la idea de inventario exhaustivo de SBOM y la aplica a la relación specs↔código en lugar de dependencias↔vulnerabilidades.
+**Borrowed concept**: SPECTRA-TRACE takes SBOM's idea of exhaustive inventory and applies it to the spec↔code relationship instead of dependencies↔vulnerabilities.
 
 ---
 
 ### Spectra vs OpenTelemetry
 
-**OpenTelemetry** captura trazas, métricas y logs de la ejecución de sistemas distribuidos en runtime.
+**OpenTelemetry** captures traces, metrics and logs from the execution of distributed systems at runtime.
 
-| Dimensión | OpenTelemetry | Spectra |
+| Dimension | OpenTelemetry | Spectra |
 |---|---|---|
-| Cuándo actúa | Runtime (producción) | Design time (antes del código) |
-| Qué traza | Llamadas, latencias, errores | Specs, gaps, decisiones |
-| Orientado a IA | ❌ No | ✅ Sí |
-| Normativa | ❌ No | ✅ Sí |
+| When it acts | Runtime (production) | Design time (before code) |
+| What it traces | Calls, latencies, errors | Specs, gaps, decisions |
+| AI-oriented | ❌ No | ✅ Yes |
+| Regulations | ❌ No | ✅ Yes |
 
-**Concepto prestado**: SPECTRA-TRACE toma el concepto de **span** de OpenTelemetry — cada implementación tiene metadata tipada (qué spec implementa, cuándo, en qué iteración) — y lo aplica al diseño en lugar del runtime.
+**Borrowed concept**: SPECTRA-TRACE takes the **span** concept from OpenTelemetry — each implementation has typed metadata (which spec it implements, when, in which iteration) — and applies it to design rather than runtime.
 
 ---
 
-## Tabla resumen global
+## Global summary table
 
-| Framework | Capa | Dominio negocio | Normativa | Invariantes | Gap detection | Orientado IA | Actualización |
+| Framework | Layer | Business domain | Regulations | Invariants | Gap detection | AI-native | Updates |
 |---|---|---|---|---|---|---|---|
-| **Spectra** | Dominio | ✅ | ✅ | ✅ | ✅ Bidireccional | ✅ | Agéntica |
-| OpenSpec | Construcción | ❌ | ❌ | ❌ | ❌ | Parcial | Agéntica |
-| GitHub Spec Kit | Construcción | ❌ | ❌ | ❌ | ❌ | Parcial | Agéntica |
-| BDD/Cucumber | Comportamiento | Parcial | ❌ | ❌ | ❌ | ❌ | Manual |
-| RTM/DOORS | Trazabilidad | ❌ | Referencia | ❌ | Parcial | ❌ | Manual |
-| ADR/MADR | Decisiones | Parcial | ❌ | ❌ | ❌ | ❌ | Manual |
-| Backstage | Catálogo | ❌ | ❌ | ❌ | ❌ | ❌ | Semi-auto |
-| SBOM | Inventario | ❌ | ❌ | ❌ | ❌ | ❌ | Auto |
+| **Spectra** | Domain | ✅ | ✅ | ✅ | ✅ Bidirectional | ✅ | Agentic |
+| OpenSpec | Construction | ❌ | ❌ | ❌ | ❌ | Partial | Agentic |
+| GitHub Spec Kit | Construction | ❌ | ❌ | ❌ | ❌ | Partial | Agentic |
+| BDD/Cucumber | Behaviour | Partial | ❌ | ❌ | ❌ | ❌ | Manual |
+| RTM/DOORS | Traceability | ❌ | Reference | ❌ | Partial | ❌ | Manual |
+| ADR/MADR | Decisions | Partial | ❌ | ❌ | ❌ | ❌ | Manual |
+| Backstage | Catalog | ❌ | ❌ | ❌ | ❌ | ❌ | Semi-auto |
+| SBOM | Inventory | ❌ | ❌ | ❌ | ❌ | ❌ | Auto |
 | OpenTelemetry | Runtime | ❌ | ❌ | ❌ | ❌ | ❌ | Auto |
 
 ---
 
-## El stack completo recomendado
+## Recommended full stack
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  ANTES DEL CÓDIGO                                           │
-│  Spectra ← dominio, normativa, invariantes, 12 capas       │
-│  ADR     ← decisiones de arquitectura que complementan      │
+│  BEFORE CODE                                                │
+│  Spectra ← domain, regulations, invariants, 13 layers      │
+│  ADR     ← architecture decisions that complement          │
 └────────────────────────┬────────────────────────────────────┘
                          ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  CONSTRUCCIÓN ITERATIVA                                     │
-│  OpenSpec / GitHub Spec Kit ← features, tareas, código     │
-│  alimentado por SPECTRA-TRACE.Gap Report                    │
+│  ITERATIVE CONSTRUCTION                                     │
+│  OpenSpec / GitHub Spec Kit ← features, tasks, code        │
+│  fed by SPECTRA-TRACE.Gap Report                            │
 └────────────────────────┬────────────────────────────────────┘
                          ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  EL CÓDIGO                                                  │
-│  BDD/Cucumber ← tests de comportamiento                     │
-│  SBOM         ← inventario de dependencias                  │
-│  OpenTelemetry ← observabilidad en runtime                  │
+│  THE CODE                                                   │
+│  BDD/Cucumber  ← behaviour tests                            │
+│  SBOM          ← dependency inventory                       │
+│  OpenTelemetry ← runtime observability                      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-Spectra no compite con ninguno de estos frameworks. Es la capa que faltaba antes de todos ellos.
+Spectra doesn't compete with any of these frameworks. It's the layer that was missing before all of them.

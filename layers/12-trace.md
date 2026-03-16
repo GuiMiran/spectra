@@ -1,47 +1,47 @@
-# CAPA 12 — SPECTRA-TRACE
-## Matriz de Trazabilidad Agéntica Bidireccional
+# LAYER 12 — SPECTRA-TRACE
+## Bidirectional Agentic Traceability Matrix
 
-> **Propósito**: Grafo vivo de relaciones entre specs e implementación. Se actualiza automáticamente al final de cada iteración. Detecta gaps funcionales (spec sin código) y gaps técnicos (código sin spec).
+> **Purpose**: Live graph of relationships between specs and implementation. Updated automatically at the end of each iteration. Detects functional gaps (spec without code) and technical gaps (code without spec).
 
 ---
 
-## Diseño de ingeniería
+## Engineering design
 
-### Qué problema resuelve
+### What problem it solves
 
-Los sistemas de trazabilidad tradicionales (RTM, DOORS, Jira) son **snapshots manuales**. Alguien los crea, nadie los actualiza, en dos semanas son mentira.
+Traditional traceability systems (RTM, DOORS, Jira) are **manual snapshots**. Someone creates them, nobody updates them, two weeks later they're lies.
 
-SPECTRA-TRACE es diferente en tres aspectos:
+SPECTRA-TRACE is different in three ways:
 
-1. **Lo actualiza el agente, no el humano** — al final de cada iteración, el agente ejecuta el protocolo de traza y actualiza el archivo
-2. **Es bidireccional** — no solo spec→código sino también código→spec
-3. **Tipifica los gaps** — no todos los gaps son iguales. Un invariante sin implementar es CRÍTICO. Una historia de baja prioridad sin implementar es MENOR.
+1. **Updated by the agent, not the human** — at the end of each iteration, the agent runs the trace protocol and updates the file
+2. **Bidirectional** — not just spec→code but also code→spec
+3. **Typed gaps** — not all gaps are equal. An unimplemented invariant is CRITICAL. A low-priority unimplemented story is MINOR.
 
-### Inspiración de frameworks existentes
+### Inspiration from existing frameworks
 
-| Framework | Qué tomamos | Qué descartamos |
+| Framework | What we take | What we discard |
 |---|---|---|
-| **RTM (IEEE 829)** | Estructura matricial bidireccional | Proceso manual, estático |
-| **ADR** | Registro de decisiones con contexto | Solo captura el pasado, no el estado actual |
-| **Cucumber/BDD** | Linkado spec↔test ejecutable | Acoplado a código, no a dominio |
-| **OpenTelemetry** | Concepto de span con metadata tipada | Orientado a runtime, no a diseño |
-| **Backstage** | Catálogo con ownership y relaciones | Demasiado pesado, requiere infraestructura |
-| **SBOM** | Inventario exhaustivo de componentes | Solo descripción, sin gaps ni estado |
+| **RTM (IEEE 829)** | Bidirectional matrix structure | Manual process, static |
+| **ADR** | Decision records with context | Only captures the past, not current state |
+| **Cucumber/BDD** | Spec↔test executable linkage | Coupled to code, not domain |
+| **OpenTelemetry** | Typed span concept with metadata | Runtime-oriented, not design |
+| **Backstage** | Catalog with ownership and relationships | Too heavy, requires infrastructure |
+| **SBOM** | Exhaustive component inventory | Only description, no gaps or state |
 
-SPECTRA-TRACE combina la **estructura de RTM**, el **tipado de OpenTelemetry** y el **protocolo de actualización agéntica** que ninguno de ellos tiene.
+SPECTRA-TRACE combines the **RTM structure**, the **OpenTelemetry typing**, and the **agentic update protocol** that none of them have.
 
 ---
 
-## Schema del archivo `SPECTRA-TRACE.md`
+## File schema `SPECTRA-TRACE.md`
 
 ```
 SPECTRA-TRACE.md
-├── [1] Coverage Dashboard     ← métricas de cobertura auto-calculadas
-├── [2] Forward Matrix         ← Spec → Código (detecta gaps FUNCIONALES)
-├── [3] Reverse Matrix         ← Código → Spec (detecta gaps TÉCNICOS)
-├── [4] Gap Report             ← resumen accionable de la iteración actual
-├── [5] Iteration Log          ← historial de cambios por iteración
-└── [6] Agent Protocol         ← instrucciones para que el agente actualice
+├── [1] Coverage Dashboard     ← auto-calculated coverage metrics
+├── [2] Forward Matrix         ← Spec → Code (detects FUNCTIONAL gaps)
+├── [3] Reverse Matrix         ← Code → Spec (detects TECHNICAL gaps)
+├── [4] Gap Report             ← actionable summary for the current iteration
+├── [5] Iteration Log          ← change history per iteration
+└── [6] Agent Protocol         ← instructions for the agent to update
 ```
 
 ---
@@ -50,275 +50,275 @@ SPECTRA-TRACE.md
 
 ```markdown
 ## Coverage Dashboard
-> Última actualización: iter-N · {fecha} · Agente: {modelo}
+> Last updated: iter-N · {date} · Agent: {model}
 
-| Métrica                    | Valor   | Tendencia |
+| Metric                     | Value   | Trend     |
 |----------------------------|---------|-----------|
-| Specs totales              | 47      | —         |
-| Specs implementadas        | 31      | ↑ +4      |
-| Cobertura funcional        | 65.9%   | ↑ +8.5%   |
-| Artefactos sin spec        | 3       | ↓ -1      |
-| Gaps CRÍTICOS              | 2       | ↓ -1      |
-| Gaps MAYORES               | 6       | → 0       |
-| Gaps MENORES               | 8       | ↑ +2      |
-| Iteración actual           | iter-5  | —         |
+| Total specs                | 47      | —         |
+| Implemented specs          | 31      | ↑ +4      |
+| Functional coverage        | 65.9%   | ↑ +8.5%   |
+| Artifacts without spec     | 3       | ↓ -1      |
+| CRITICAL gaps              | 2       | ↓ -1      |
+| MAJOR gaps                 | 6       | → 0       |
+| MINOR gaps                 | 8       | ↑ +2      |
+| Current iteration          | iter-5  | —         |
 ```
 
-**Regla de cobertura funcional**:
+**Functional coverage rule**:
 ```
-cobertura = specs_implementadas / specs_totales × 100
+coverage = implemented_specs / total_specs × 100
 ```
 
-Una spec está "implementada" cuando tiene al menos un artefacto de código vinculado Y al menos un criterio de aceptación que la valida.
+A spec is "implemented" when it has at least one linked code artifact AND at least one acceptance criterion that validates it.
 
 ---
 
-## [2] Forward Matrix — Spec → Código
+## [2] Forward Matrix — Spec → Code
 
-**Detecta gaps FUNCIONALES**: specs que no tienen implementación.
+**Detects FUNCTIONAL gaps**: specs with no implementation.
 
-### Campos obligatorios
+### Required fields
 
-| Campo | Tipo | Descripción |
+| Field | Type | Description |
 |---|---|---|
-| `spec_id` | string | ID de la spec origen (RN-001, INV-003, HU-007...) |
-| `spec_type` | enum | `RN` `INV` `HU` `POL` `EVT` `SK` `WF` |
-| `descripcion` | string | Descripción corta de la spec |
-| `prioridad` | enum | `MUST` `SHOULD` `COULD` |
-| `estado` | enum | `✅ IMPL` `⏳ PARCIAL` `❌ PENDIENTE` `🚫 EXCLUIDO` |
-| `artefactos` | string[] | Archivos/funciones que la implementan |
-| `tests` | string[] | IDs de criterios de aceptación que la validan |
-| `severidad_gap` | enum | `CRÍTICO` `MAYOR` `MENOR` `—` |
-| `iter_ultima` | string | Última iteración que la tocó |
-| `notas` | string | Decisiones, bloqueos, deuda técnica |
+| `spec_id` | string | Source spec ID (BR-001, INV-003, US-007...) |
+| `spec_type` | enum | `BR` `INV` `US` `POL` `EVT` `SK` `WF` |
+| `description` | string | Short spec description |
+| `priority` | enum | `MUST` `SHOULD` `COULD` |
+| `status` | enum | `✅ IMPL` `⏳ PARTIAL` `❌ PENDING` `🚫 EXCLUDED` |
+| `artifacts` | string[] | Files/functions that implement it |
+| `tests` | string[] | Acceptance criteria IDs that validate it |
+| `gap_severity` | enum | `CRITICAL` `MAJOR` `MINOR` `—` |
+| `last_iter` | string | Last iteration that touched it |
+| `notes` | string | Decisions, blockers, technical debt |
 
-### Tabla de severidad de gaps
+### Gap severity table
 
 ```
-CRÍTICO  ← INV (invariante) sin implementar
-          ← RN de normativa legal sin implementar  
-          ← SK (skill) bloqueante sin implementar
-          
-MAYOR    ← RN de negocio MUST sin implementar
-          ← HU prioridad MUST sin implementar
-          ← WF (workflow) principal sin implementar
-          
-MENOR    ← RN SHOULD/COULD sin implementar
-          ← HU prioridad SHOULD/COULD sin implementar
-          ← POL de caso edge sin implementar
+CRITICAL  ← INV (invariant) not implemented
+           ← BR from legal regulation not implemented
+           ← SK (skill) blocking not implemented
+
+MAJOR     ← MUST business BR not implemented
+           ← MUST priority US not implemented
+           ← Main WF (workflow) not implemented
+
+MINOR     ← SHOULD/COULD BR not implemented
+           ← SHOULD/COULD priority US not implemented
+           ← POL edge case not implemented
 ```
 
-### Ejemplo de Forward Matrix
+### Forward Matrix example
 
 ```markdown
-## Forward Matrix — Spec → Código
+## Forward Matrix — Spec → Code
 
-| spec_id | tipo | descripción | prior. | estado | artefactos | tests | severidad | iter |
-|---------|------|-------------|--------|--------|------------|-------|-----------|------|
-| INV-001 | INV | total = subtotal + IVA siempre | MUST | ✅ IMPL | accounting.js:computeInvoiceFigures | AC-001 | — | iter-2 |
-| INV-002 | INV | cliente requerido para facturar | MUST | ✅ IMPL | AppContext.jsx:generateInvoice, CobrosView.jsx | AC-007 | — | iter-3 |
-| INV-003 | INV | 3 asientos contables por factura | MUST | ⏳ PARCIAL | accounting.js:generateJournalEntries | — | CRÍTICO | iter-4 |
-| RN-001  | RN  | IVA 21% base imponible | MUST | ✅ IMPL | accounting.js:VAT_RATE | AC-002 | — | iter-2 |
-| RN-007  | RN  | numeración FAC-YYYY-NNN secuencial | MUST | ✅ IMPL | invoiceGen.js:generateInvoiceNumber | AC-011 | — | iter-3 |
-| RN-012  | RN  | retención IRPF 15% profesionales | MUST | ❌ PENDIENTE | — | — | MAYOR | — |
-| HU-004  | HU  | exportar factura a PDF | SHOULD | ⏳ PARCIAL | InvoiceDocument.jsx | — | MENOR | iter-4 |
-| POL-003 | POL | recargo equivalencia 5.2% | COULD | 🚫 EXCLUIDO | — | — | — | iter-1 |
+| spec_id | type | description           | prio | status     | artifacts                  | tests  | severity | iter   |
+|---------|------|-----------------------|------|------------|----------------------------|--------|----------|--------|
+| INV-001 | INV  | total = subtotal + VAT | MUST | ✅ IMPL   | accounting.js:computeFigs  | AC-001 | —        | iter-2 |
+| INV-002 | INV  | customer req. invoice  | MUST | ✅ IMPL   | AppContext.jsx              | AC-007 | —        | iter-3 |
+| INV-003 | INV  | 3 journal entries/inv  | MUST | ⏳ PARTIAL | accounting.js:genJournal   | —      | CRITICAL | iter-4 |
+| BR-001  | BR   | 21% VAT base           | MUST | ✅ IMPL   | accounting.js:VAT_RATE     | AC-002 | —        | iter-2 |
+| BR-007  | BR   | FAC-YYYY-NNN sequential| MUST | ✅ IMPL   | invoiceGen.js:genNumber    | AC-011 | —        | iter-3 |
+| BR-012  | BR   | 15% IRPF withholding   | MUST | ❌ PENDING | —                          | —      | MAJOR    | —      |
+| US-004  | US   | export invoice to PDF  | SHOULD| ⏳ PARTIAL | InvoiceDocument.jsx        | —      | MINOR    | iter-4 |
+| POL-003 | POL  | equivalence surcharge  | COULD| 🚫 EXCLUDED| —                          | —      | —        | iter-1 |
 ```
 
 ---
 
-## [3] Reverse Matrix — Código → Spec
+## [3] Reverse Matrix — Code → Spec
 
-**Detecta gaps TÉCNICOS**: artefactos de código sin spec que los justifique.
+**Detects TECHNICAL gaps**: code artifacts with no spec to justify them.
 
-### Campos obligatorios
+### Required fields
 
-| Campo | Tipo | Descripción |
+| Field | Type | Description |
 |---|---|---|
-| `artefacto` | string | Archivo o función |
-| `tipo` | enum | `función` `componente` `hook` `util` `config` `test` |
-| `descripcion` | string | Qué hace |
-| `spec_id` | string[] | IDs de specs que lo justifican |
-| `estado` | enum | `✅ TRAZADO` `⚠️ HUÉRFANO` `🔍 REVISAR` |
-| `accion` | enum | `MANTENER` `ESPECIFICAR` `ELIMINAR` `REFACTORIZAR` |
-| `iter_detectado` | string | Cuándo se detectó el gap |
+| `artifact` | string | File or function |
+| `type` | enum | `function` `component` `hook` `util` `config` `test` |
+| `description` | string | What it does |
+| `spec_id` | string[] | Spec IDs that justify it |
+| `status` | enum | `✅ TRACED` `⚠️ ORPHAN` `🔍 REVIEW` |
+| `action` | enum | `KEEP` `SPECIFY` `DELETE` `REFACTOR` |
+| `iter_detected` | string | When the gap was detected |
 
-### Clasificación de artefactos huérfanos
+### Orphan artifact classification
 
 ```
-⚠️ HUÉRFANO + ELIMINAR     ← código que nadie pidió, no aporta valor
-⚠️ HUÉRFANO + ESPECIFICAR  ← código válido pero falta la spec que lo justifique
-⚠️ HUÉRFANO + REFACTORIZAR ← código que debería estar en otra spec
-🔍 REVISAR                 ← ambiguo, necesita decisión humana
+⚠️ ORPHAN + DELETE     ← code nobody asked for, adds no value
+⚠️ ORPHAN + SPECIFY    ← valid code but missing the spec that justifies it
+⚠️ ORPHAN + REFACTOR   ← code that should belong to another spec
+🔍 REVIEW              ← ambiguous, requires human decision
 ```
 
-### Ejemplo de Reverse Matrix
+### Reverse Matrix example
 
 ```markdown
-## Reverse Matrix — Código → Spec
+## Reverse Matrix — Code → Spec
 
-| artefacto | tipo | descripción | specs | estado | acción | iter |
-|-----------|------|-------------|-------|--------|--------|------|
-| accounting.js:computeInvoiceFigures | función | calcula subtotal/vat/total | INV-001, RN-001 | ✅ TRAZADO | MANTENER | iter-2 |
-| invoiceGen.js:renderInvoiceText | función | genera texto WhatsApp | HU-009 | ✅ TRAZADO | MANTENER | iter-3 |
-| utils/calculateDiscount.js | función | aplica descuentos por volumen | — | ⚠️ HUÉRFANO | ESPECIFICAR | iter-4 |
-| hooks/useRetryLogic.js | hook | reintentos de llamadas API | — | ⚠️ HUÉRFANO | ELIMINAR | iter-4 |
-| components/DebugPanel.jsx | componente | panel de debug interno | — | ⚠️ HUÉRFANO | ELIMINAR | iter-3 |
+| artifact                           | type      | description              | specs            | status      | action   | iter   |
+|------------------------------------|-----------|--------------------------|------------------|-------------|----------|--------|
+| accounting.js:computeInvoiceFigs   | function  | calculates subtotal/vat  | INV-001, BR-001  | ✅ TRACED  | KEEP     | iter-2 |
+| invoiceGen.js:renderInvoiceText    | function  | generates WhatsApp text  | US-009           | ✅ TRACED  | KEEP     | iter-3 |
+| utils/calculateDiscount.js         | function  | applies volume discounts | —                | ⚠️ ORPHAN  | SPECIFY  | iter-4 |
+| hooks/useRetryLogic.js             | hook      | API call retry logic     | —                | ⚠️ ORPHAN  | DELETE   | iter-4 |
+| components/DebugPanel.jsx          | component | internal debug panel     | —                | ⚠️ ORPHAN  | DELETE   | iter-3 |
 ```
 
 ---
 
 ## [4] Gap Report
 
-Generado automáticamente al final de cada iteración. Es el output accionable.
+Generated automatically at the end of each iteration. This is the actionable output.
 
 ```markdown
 ## Gap Report — iter-5 · 2024-03-15
 
-### 🔴 Gaps CRÍTICOS (bloquean completitud del dominio)
+### 🔴 CRITICAL Gaps (block domain completeness)
 
-GAP-C001 · INV-003 sin implementar completamente
-  Spec: "Cada factura genera exactamente 3 asientos contables balanceados"
-  Estado actual: generateJournalEntries() genera DR 430 pero falta CR 700 y CR 477
-  Acción requerida: completar los 3 asientos en accounting.js
-  Impacto: el sistema puede emitir facturas con contabilidad incorrecta
+GAP-C001 · INV-003 not fully implemented
+  Spec: "Every invoice generates exactly 3 balanced journal entries"
+  Current state: generateJournalEntries() creates DR 430 but missing CR 700 and CR 477
+  Required action: complete the 3 entries in accounting.js
+  Impact: system can issue invoices with incorrect accounting
 
-### 🟠 Gaps MAYORES (funcionalidad de negocio incompleta)
+### 🟠 MAJOR Gaps (incomplete business functionality)
 
-GAP-M001 · RN-012 sin implementar
-  Spec: "Retención IRPF 15% en facturas a profesionales"
-  Estado actual: sin implementación
-  Acción requerida: añadir lógica de retención en invoiceGen.js
-  Impacto: facturas a profesionales son fiscalmente incorrectas
+GAP-M001 · BR-012 not implemented
+  Spec: "15% IRPF withholding on professional invoices"
+  Current state: no implementation
+  Required action: add withholding logic in invoiceGen.js
+  Impact: invoices to professionals are fiscally incorrect
 
-GAP-M002 · HU-006 parcialmente implementada
-  Spec: "Como administrador quiero ver el libro de IVA mensual"
-  Estado actual: AccountingView muestra totales pero sin desglose mensual
-  Acción requerida: añadir filtro temporal en DailyClosure.jsx
+GAP-M002 · US-006 partially implemented
+  Spec: "As admin I want to see the monthly VAT ledger"
+  Current state: AccountingView shows totals but no monthly breakdown
+  Required action: add time filter in DailyClosure.jsx
 
-### 🟡 Gaps MENORES (mejoras y casos edge)
+### 🟡 MINOR Gaps (improvements and edge cases)
 
-GAP-m001 · HU-004 parcialmente implementada
-  Spec: "exportar factura a PDF"
-  Estado actual: renderInvoiceHTML() existe pero el botón de descarga no está conectado
-  Acción requerida: conectar botón en InvoiceDocument.jsx
+GAP-m001 · US-004 partially implemented
+  Spec: "export invoice to PDF"
+  Current state: renderInvoiceHTML() exists but download button not connected
+  Required action: connect button in InvoiceDocument.jsx
 
-### ⚠️ Artefactos Huérfanos (código sin spec)
+### ⚠️ Orphan Artifacts (code without spec)
 
-HUÉRFANO-001 · utils/calculateDiscount.js
-  Detectado: iter-4. Nadie ha reclamado esta función.
-  Decisión requerida: ¿especificar descuentos o eliminar?
+ORPHAN-001 · utils/calculateDiscount.js
+  Detected: iter-4. Nobody has claimed this function.
+  Decision required: specify discounts or delete?
 
-HUÉRFANO-002 · hooks/useRetryLogic.js
-  Detectado: iter-4. Lógica de reintentos sin caso de uso definido.
-  Recomendación: ELIMINAR — no hay spec que lo justifique
+ORPHAN-002 · hooks/useRetryLogic.js
+  Detected: iter-4. Retry logic with no defined use case.
+  Recommendation: DELETE — no spec justifies it
 
-### ✅ Cerrado en esta iteración
+### ✅ Closed in this iteration
 
-CERRADO-001 · INV-002 — cliente requerido para facturar (era CRÍTICO en iter-4)
-CERRADO-002 · RN-001 — IVA 21% base imponible (era MAYOR en iter-1)
+CLOSED-001 · INV-002 — customer required for invoicing (was CRITICAL in iter-4)
+CLOSED-002 · BR-001 — 21% VAT base amount (was MAJOR in iter-1)
 ```
 
 ---
 
 ## [5] Iteration Log
 
-Historial comprimido. Una línea por iteración.
+Compressed history. One line per iteration.
 
 ```markdown
 ## Iteration Log
 
-| iter | fecha | specs_impl | cobertura | gaps_críticos | gaps_mayores | huérfanos | nota |
-|------|-------|------------|-----------|---------------|--------------|-----------|------|
-| iter-1 | 2024-01-10 | 8/47 | 17% | 5 | 12 | 0 | Setup inicial, modelos de datos |
-| iter-2 | 2024-01-17 | 18/47 | 38% | 3 | 9 | 0 | Lógica contable core |
-| iter-3 | 2024-01-24 | 25/47 | 53% | 2 | 8 | 1 | Generación de facturas |
-| iter-4 | 2024-02-01 | 27/47 | 57% | 3 | 7 | 3 | CobrosView — regresión en INV-003 |
-| iter-5 | 2024-02-08 | 31/47 | 65% | 2 | 6 | 2 | Corrección INV-002, HU parciales |
+| iter   | date       | specs_impl | coverage | critical_gaps | major_gaps | orphans | note |
+|--------|------------|------------|----------|---------------|------------|---------|------|
+| iter-1 | 2024-01-10 | 8/47       | 17%      | 5             | 12         | 0       | Initial setup, data models |
+| iter-2 | 2024-01-17 | 18/47      | 38%      | 3             | 9          | 0       | Core accounting logic |
+| iter-3 | 2024-01-24 | 25/47      | 53%      | 2             | 8          | 1       | Invoice generation |
+| iter-4 | 2024-02-01 | 27/47      | 57%      | 3             | 7          | 3       | CobrosView — regression in INV-003 |
+| iter-5 | 2024-02-08 | 31/47      | 65%      | 2             | 6          | 2       | INV-002 fix, partial US |
 ```
 
-**Regresión**: cuando `gaps_críticos` sube entre iteraciones, el agente debe incluir una nota explicando por qué (nueva spec añadida, refactoring que rompió algo, etc.)
+**Regression**: when `critical_gaps` increases between iterations, the agent must include a note explaining why (new spec added, refactoring that broke something, etc.)
 
 ---
 
-## [6] Agent Protocol — Cómo actualizar SPECTRA-TRACE
+## [6] Agent Protocol — How to update SPECTRA-TRACE
 
-Este bloque es para el agente. Lo lee al final de cada iteración.
+This block is for the agent. Read at the end of each iteration.
 
 ```
-PROTOCOLO DE ACTUALIZACIÓN — SPECTRA-TRACE
-Ejecutar al final de cada iteración, antes de cerrar la sesión.
+UPDATE PROTOCOL — SPECTRA-TRACE
+Execute at the end of every iteration, before closing the session.
 
-PASO 1 — ESCANEAR SPECS
-  Para cada spec en layers/03 a 11:
-    - Buscar su ID en el código fuente
-    - Determinar estado: IMPL / PARCIAL / PENDIENTE
-    - Identificar artefactos que la implementan
-    - Vincular criterios de aceptación que la validan
+STEP 1 — SCAN SPECS
+  For each spec in layers 03 to 11:
+    - Search for its ID in the source code
+    - Determine status: IMPL / PARTIAL / PENDING
+    - Identify artifacts that implement it
+    - Link acceptance criteria that validate it
 
-PASO 2 — ESCANEAR CÓDIGO
-  Para cada artefacto significativo (funciones, componentes, hooks, utils):
-    - Buscar qué spec_id lo justifica
-    - Si no hay spec_id: marcar como HUÉRFANO
-    - Clasificar acción: ESPECIFICAR / ELIMINAR / REFACTORIZAR
+STEP 2 — SCAN CODE
+  For each significant artifact (functions, components, hooks, utils):
+    - Find which spec_id justifies it
+    - If no spec_id: mark as ORPHAN
+    - Classify action: SPECIFY / DELETE / REFACTOR
 
-PASO 3 — CALCULAR GAPS
-  Forward gaps = specs con estado PENDIENTE o PARCIAL
-  Reverse gaps = artefactos con estado HUÉRFANO
-  Clasificar severidad según tabla de severidad
+STEP 3 — CALCULATE GAPS
+  Forward gaps = specs with PENDING or PARTIAL status
+  Reverse gaps = artifacts with ORPHAN status
+  Classify severity according to severity table
 
-PASO 4 — ACTUALIZAR ARCHIVO
-  Actualizar [1] Coverage Dashboard con nuevas métricas
-  Actualizar [2] Forward Matrix con cambios de estado
-  Actualizar [3] Reverse Matrix con nuevos artefactos
-  Generar nuevo [4] Gap Report para la iteración
-  Añadir fila a [5] Iteration Log
+STEP 4 — UPDATE FILE
+  Update [1] Coverage Dashboard with new metrics
+  Update [2] Forward Matrix with status changes
+  Update [3] Reverse Matrix with new artifacts
+  Generate new [4] Gap Report for the iteration
+  Add row to [5] Iteration Log
 
-PASO 5 — REPORTAR AL HUMANO
-  Formato de reporte de fin de iteración:
+STEP 5 — REPORT TO HUMAN
+  End-of-iteration report format:
 
-  "Iteración {N} completada.
-   Cobertura: {X}% ({+/-Y}% respecto a iter anterior)
-   Gaps críticos: {N} ({+/-M})
-   Próxima prioridad recomendada: {GAP-ID} — {descripción}"
+  "Iteration {N} complete.
+   Coverage: {X}% ({+/-Y}% vs previous iter)
+   Critical gaps: {N} ({+/-M})
+   Next recommended priority: {GAP-ID} — {description}"
 
-REGLAS DEL PROTOCOLO:
-  - Nunca marcar IMPL sin artefacto vinculado
-  - Nunca marcar IMPL sin criterio de aceptación vinculado
-  - Siempre documentar regresiones (gap nuevo que antes era IMPL)
-  - Los huérfanos no se eliminan automáticamente — se marcan y se reportan
-  - Las specs 🚫 EXCLUIDO no se tocan — son decisiones explícitas de alcance
+PROTOCOL RULES:
+  - Never mark IMPL without a linked artifact
+  - Never mark IMPL without a linked acceptance criterion
+  - Always document regressions (new gap that was previously IMPL)
+  - Orphans are never deleted automatically — marked and reported
+  - 🚫 EXCLUDED specs are never touched — they are explicit scope decisions
 ```
 
 ---
 
-## Integración con el resto de Spectra
+## Integration with the rest of Spectra
 
 ```
-Capa 03 (RN) ──────────────────┐
-Capa 04 (INV) ─────────────────┤
-Capa 02 (HU) ──────────────────┤──→ SPECTRA-TRACE.Forward Matrix
-Capa 06 (POL) ─────────────────┤       ↕ bidireccional
-Capa 09 (SK) ──────────────────┘
+Layer 03 (BR) ─────────────────┐
+Layer 04 (INV) ────────────────┤
+Layer 02 (US) ─────────────────┤──→ SPECTRA-TRACE.Forward Matrix
+Layer 06 (POL) ────────────────┤       ↕ bidirectional
+Layer 09 (SK) ─────────────────┘
                                     SPECTRA-TRACE.Reverse Matrix
-Código fuente ─────────────────────────────────────────────────→
+Source code ───────────────────────────────────────────────────→
 
-SPECTRA-TRACE.Gap Report ──→ próxima iteración de OpenSpec/GitHub Spec Kit
+SPECTRA-TRACE.Gap Report ──→ next iteration of OpenSpec/GitHub Spec Kit
 ```
 
-SPECTRA-TRACE es el puente entre las specs estáticas (capas 00-11) y las herramientas de construcción iterativa (OpenSpec, GitHub Spec Kit). El Gap Report es el input natural para `/opsx:new` o `/specify`.
+SPECTRA-TRACE is the bridge between static specs (layers 00-11) and iterative construction tools (OpenSpec, GitHub Spec Kit). The Gap Report is the natural input for `/opsx:new` or `/specify`.
 
 ---
 
-## Diferencia clave con RTM tradicional
+## Key difference vs traditional RTM
 
-| | RTM Tradicional | SPECTRA-TRACE |
+| | Traditional RTM | SPECTRA-TRACE |
 |---|---|---|
-| **Quién lo actualiza** | Humano (QA/PM) | El agente autónomamente |
-| **Cuándo se actualiza** | Cuando alguien recuerda | Al final de cada iteración |
-| **Dirección** | Unidireccional (req→test) | Bidireccional (spec↔código) |
-| **Gap typing** | No existe | FUNCIONAL vs TÉCNICO |
-| **Severidad** | Manual o no existe | Automática por tipo de spec |
-| **Historial** | Snapshot | Log de iteraciones |
-| **Accionable** | No directamente | Gap Report → siguiente iteración |
-| **Formato** | Excel/Word/herramienta SaaS | Markdown en el repo |
+| **Who updates it** | Human (QA/PM) | Agent autonomously |
+| **When updated** | When someone remembers | End of every iteration |
+| **Direction** | One-way (req→test) | Bidirectional (spec↔code) |
+| **Gap typing** | Doesn't exist | FUNCTIONAL vs TECHNICAL |
+| **Severity** | Manual or nonexistent | Automatic by spec type |
+| **History** | Snapshot | Iteration log |
+| **Actionable** | Not directly | Gap Report → next iteration |
+| **Format** | Excel/Word/SaaS tool | Markdown in the repo |

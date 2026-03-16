@@ -1,128 +1,128 @@
 # SPECTRA MANIFESTO
 
-> Los 7 principios del framework. Si algo viola uno de estos principios, no es Spectra.
+> The 7 principles of the framework. If something violates one of these principles, it's not Spectra.
 
 ---
 
 ## S · Source
-### Las specs son la fuente. El código es el derivado.
+### Specs are the source. Code is the derivative.
 
-El código se genera, se borra, se reescribe. Las specs permanecen.
+Code gets generated, deleted, rewritten. Specs remain.
 
-Si pierdes el código pero guardas las specs, no pierdes nada esencial. Si pierdes las specs pero guardas el código, perdiste el conocimiento que hace que ese código tenga sentido.
+If you lose the code but keep the specs, you lose nothing essential. If you lose the specs but keep the code, you've lost the knowledge that makes that code meaningful.
 
-En Spectra, las specs viven en el repo como ciudadanas de primera clase — no en Notion, no en Confluence, no en la cabeza de alguien. Son versionables, revisables, mergeables.
+In Spectra, specs live in the repo as first-class citizens — not in Notion, not in Confluence, not in someone's head. They are versionable, reviewable, mergeable.
 
-> **Consecuencia práctica**: antes de tocar el código, actualiza la spec. Siempre.
+> **Practical consequence**: before touching code, update the spec. Always.
 
 ---
 
 ## P · Product
-### El dominio de negocio, no la arquitectura técnica.
+### The business domain, not the technical architecture.
 
-Spectra no describe cómo está construido el sistema. Describe qué es el sistema.
+Spectra doesn't describe how the system is built. It describes what the system is.
 
-Una spec de Spectra no contiene nombres de tablas, endpoints, componentes React ni patrones de diseño. Contiene reglas de negocio, invariantes, flujos de usuario, normativa aplicable, glosario de dominio.
+A Spectra spec contains no table names, endpoints, React components, or design patterns. It contains business rules, invariants, user flows, applicable regulations, domain glossary.
 
-La arquitectura técnica es una decisión de implementación. El dominio de negocio es una verdad del mundo real.
+Technical architecture is an implementation decision. Business domain is a truth about the real world.
 
-> **Consecuencia práctica**: cualquier desarrollador, en cualquier stack, debería poder construir el mismo sistema leyendo solo las specs.
+> **Practical consequence**: any developer, in any stack, should be able to build the same system by reading only the specs.
 
 ---
 
 ## E · Exhaustive
-### Cada regla, cada caso límite, cada excepción.
+### Every rule, every edge case, every exception.
 
-Una spec incompleta es peor que no tener spec. El agente rellena los huecos con suposiciones — y las suposiciones son el origen de todos los bugs de negocio.
+An incomplete spec is worse than no spec. The agent fills the gaps with assumptions — and assumptions are the origin of all business bugs.
 
-Especificar exhaustivamente significa incluir: las excepciones que "todo el mundo conoce", los casos límite que "nunca pasan", la normativa que "ya se sabe", las reglas implícitas que viven en la cabeza del fundador.
+Specifying exhaustively means including: the exceptions "everyone knows", the edge cases that "never happen", the regulations that "are obvious", the implicit rules living in the founder's head.
 
-Si no está escrito, no existe para el agente.
+If it's not written, it doesn't exist for the agent.
 
-> **Consecuencia práctica**: cuando dudes si incluir algo, inclúyelo. El coste de sobre-especificar es cero. El coste de sub-especificar es un agente que adivina.
+> **Practical consequence**: when in doubt whether to include something, include it. The cost of over-specifying is zero. The cost of under-specifying is an agent that guesses.
 
 ---
 
 ## C · Contractual
-### Precondiciones, postcondiciones, invariantes booleanas.
+### Preconditions, postconditions, boolean invariants.
 
-Las specs de Spectra no son narrativas. Son contratos.
+Spectra specs are not narratives. They are contracts.
 
-Cada operación importante tiene precondiciones (qué debe ser verdad antes), postcondiciones (qué debe ser verdad después) y casos de error (qué pasa si falla). Cada invariante es una condición booleana — verdadera o falsa, sin ambigüedad.
+Every important operation has preconditions (what must be true before), postconditions (what must be true after), and error cases (what happens on failure). Every invariant is a boolean condition — true or false, no ambiguity.
 
-El lenguaje natural es para el glosario. Las reglas son precisas.
+Natural language is for the glossary. Rules are precise.
 
-> **Consecuencia práctica**: si una regla no puede expresarse como condición verificable, es que no está suficientemente definida. Vuelve al dominio y clarifica.
+> **Practical consequence**: if a rule can't be expressed as a verifiable condition, it's not sufficiently defined. Go back to the domain and clarify.
 
 ---
 
 ## T · Truth
-### Una sola fuente de verdad. Sin contradicciones.
+### One single source of truth. No contradictions.
 
-En un sistema Spectra existe exactamente una definición de cada concepto, exactamente una versión de cada regla, exactamente un lugar donde mirar cuando hay una duda.
+In a Spectra system there is exactly one definition of each concept, exactly one version of each rule, exactly one place to look when there's a question.
 
-Las contradicciones entre capas no son errores de escritura — son síntomas de que el dominio no está resuelto. Spectra los hace visibles porque todo está referenciado cruzadamente.
+Contradictions between layers are not writing errors — they are symptoms that the domain isn't resolved. Spectra makes them visible because everything is cross-referenced.
 
-Un agente con dos fuentes de verdad contradictorias tomará decisiones arbitrarias. Un agente con una sola fuente de verdad tomará decisiones correctas.
+An agent with two contradictory sources of truth makes arbitrary decisions. An agent with a single source of truth makes correct decisions.
 
-> **Consecuencia práctica**: los IDs únicos (RN-001, INV-003, SK-007) no son burocracia. Son el sistema nervioso que hace trazable cada decisión.
+> **Practical consequence**: unique IDs (RN-001, INV-003, SK-007) are not bureaucracy. They are the nervous system that makes every decision traceable.
 
 ---
 
 ## R · Reconstructable
-### El sistema completo debe poder reconstruirse leyendo solo las specs.
+### The complete system must be reconstructable by reading only the specs.
 
-Este es el test definitivo de una spec Spectra: dale las specs a un agente en un contexto vacío. Sin código existente, sin explicaciones adicionales, sin historial de conversación. ¿Puede reconstruir el sistema idénticamente?
+This is the definitive test of a Spectra spec: give the specs to an agent in an empty context. No existing code, no additional explanations, no conversation history. Can it reconstruct the system identically?
 
-Si sí: las specs son completas.
-Si no: hay conocimiento implícito que todavía vive fuera de las specs.
+If yes: the specs are complete.
+If no: there's implicit knowledge still living outside the specs.
 
-La reconstruibilidad no es un caso de uso exótico. Es el día a día: nuevo agente, nuevo contexto, nueva sesión. Ocurre constantemente.
+Reconstructability is not an exotic use case. It's day-to-day: new agent, new context, new session. It happens constantly.
 
-> **Consecuencia práctica**: escribe las specs como si el lector no tuviera ningún contexto previo. Porque el agente no lo tiene.
+> **Practical consequence**: write specs as if the reader has zero prior context. Because the agent doesn't.
 
 ---
 
 ## A · Agentic
-### Diseñado para ser consumido por IA, no por humanos.
+### Designed to be consumed by AI, not by humans.
 
-Las specs tradicionales están escritas para que un humano las entienda y luego haga algo. Las specs de Spectra están escritas para que una IA las lea y actúe directamente.
+Traditional specs are written for a human to understand and then do something. Spectra specs are written for an AI to read and act directly.
 
-Esto cambia todo: el formato, la precisión requerida, la estructura, los IDs, las referencias cruzadas. Un humano puede inferir, contextualizar, preguntar. Un agente no — necesita que todo esté explícito.
+This changes everything: the format, the required precision, the structure, the IDs, the cross-references. A human can infer, contextualize, ask questions. An agent can't — it needs everything to be explicit.
 
-Un agente que conoce el dominio completo a través de las specs puede tomar decisiones autónomas correctas. Sin specs, adivina. Con specs incompletas, adivina parcialmente. Con specs Spectra, opera.
+An agent that knows the complete domain through the specs can make autonomous correct decisions. Without specs, it guesses. With incomplete specs, it partially guesses. With Spectra specs, it operates.
 
-> **Consecuencia práctica**: si al leer una spec piensas "esto es obvio, no hace falta escribirlo" — escríbelo. Para el agente, nada es obvio.
-
----
-
-## Los 7 principios en una frase
-
-> Las specs son la fuente del sistema, describen el dominio de negocio de forma exhaustiva y contractual, constituyen una única verdad desde la que el sistema es reconstruible, y están diseñadas para ser consumidas directamente por agentes de IA.
+> **Practical consequence**: if reading a spec you think "this is obvious, no need to write it" — write it. For the agent, nothing is obvious.
 
 ---
 
-## Lo que Spectra no es
+## The 7 principles in one sentence
 
-**No es un linter de código.** No analiza tu código ni te dice si está bien escrito.
-
-**No es un generador de código.** Spectra no genera código — da al agente el contexto para que el código que genere sea correcto.
-
-**No es documentación técnica.** Los diagramas de arquitectura, los schemas de base de datos, las decisiones de infraestructura van en otro sitio.
-
-**No es BDD/TDD.** Los criterios de aceptación de Spectra describen comportamiento de negocio, no tests de software. Son la fuente de los tests, no los tests en sí.
-
-**No es un proceso de desarrollo.** Spectra es agnóstico al proceso. Funciona con Agile, con Shape Up, con waterfall, con "vamos a ver qué sale".
+> Specs are the source of the system, describe the business domain exhaustively and contractually, constitute a single truth from which the system is reconstructable, and are designed to be consumed directly by AI agents.
 
 ---
 
-## Lo que Spectra sí es
+## What Spectra is not
 
-Es la infraestructura de conocimiento que un agente necesita para operar solo en un dominio complejo.
+**Not a code linter.** It doesn't analyze your code or tell you if it's well written.
 
-Es el artefacto que hace que "dame este cambio" funcione sin que tengas que explicar el contexto cada vez.
+**Not a code generator.** Spectra doesn't generate code — it gives the agent the context for the code it generates to be correct.
 
-Es la diferencia entre un agente que ejecuta y un agente que entiende.
+**Not technical documentation.** Architecture diagrams, database schemas, infrastructure decisions go elsewhere.
+
+**Not BDD/TDD.** Spectra's acceptance criteria describe business behaviour, not software tests. They are the source of tests, not the tests themselves.
+
+**Not a development process.** Spectra is process-agnostic. It works with Agile, Shape Up, waterfall, or "let's see what happens".
+
+---
+
+## What Spectra is
+
+It's the knowledge infrastructure an agent needs to operate alone in a complex domain.
+
+It's the artifact that makes "implement this change" work without you explaining the context every time.
+
+It's the difference between an agent that executes and an agent that understands.
 
 ---
 

@@ -1,213 +1,220 @@
-# PROMPT UNIVERSAL — Spec-Driven Development para IA Agéntica
+# UNIVERSAL PROMPT — Spec-Driven Development for Agentic AI
 
-> **Instrucciones**: Copia este prompt, rellena las variables entre `{{llaves}}` y pásalo a la IA.
-> Todo lo que está entre `{{...}}` es lo que TÚ defines según tu proyecto.
-
----
-
-## INICIO DEL PROMPT
+> **Instructions**: Copy this prompt, fill in the variables between `{{curly braces}}` and send it to the AI.
+> Everything between `{{...}}` is what YOU define for your project.
 
 ---
 
-Actúa como un **Arquitecto de Especificaciones** experto en Spec-Driven Development (SDD). Tu misión es generar la especificación completa, exhaustiva y consumible por IA agéntica para el siguiente proyecto. **No generes código ni arquitectura técnica**. Solo especificaciones funcionales, reglas, invariantes y definiciones que una IA agéntica pueda usar como fuente de verdad para construir el sistema.
+## START OF PROMPT
 
 ---
 
-### BLOQUE 1 — CONTEXTO DEL PROYECTO
+Act as an expert **Specification Architect** in Spec-Driven Development (SDD). Your mission is to generate the complete, exhaustive, and agentic-AI-consumable specification for the following project. **Do not generate code or technical architecture**. Only functional specifications, rules, invariants, and definitions that an agentic AI can use as a source of truth to build the system.
+
+---
+
+### BLOCK 1 — PROJECT CONTEXT
 
 ```
-Nombre del proyecto:     {{NOMBRE_PROYECTO}}
-Tipo de producto:        {{TIPO_PRODUCTO}}  
-                         (Ej: SaaS, App Móvil, Plataforma Web, API, Marketplace, ERP...)
-Sector / Industria:      {{SECTOR}}
-                         (Ej: Salud, Retail, Finanzas, Educación, Hostelería, Legal...)
-País / Jurisdicción:     {{PAIS_JURISDICCION}}
-                         (Ej: España, México, USA, UE multi-país...)
-Normativa aplicable:     {{NORMATIVA}}
-                         (Ej: "Ley de IVA española, Reglamento Facturación RD 1619/2012, 
-                          RGPD, VeriFactu, Ley Crea y Crece"...)
-Modelo de negocio:       {{MODELO_NEGOCIO}}
-                         (Ej: Suscripción mensual, Freemium, Pago por uso, Licencia...)
-```
-
----
-
-### BLOQUE 2 — DESCRIPCIÓN DEL PRODUCTO
-
-```
-¿Qué hace el producto?
-{{DESCRIPCION_PRODUCTO}}
-(Describe en lenguaje natural qué problema resuelve y para quién.
- Ej: "Plataforma de gestión integral para pymes y autónomos españoles 
- que permite facturación, control de gastos, cálculo de impuestos y 
- presentación de modelos fiscales ante la AEAT.")
-
-¿Quiénes son los usuarios?
-{{USUARIOS}}
-(Lista los tipos de usuario / roles.
- Ej: "Autónomo, Administrador pyme, Contable externo, Empleado, Auditor")
-
-¿Cuáles son los módulos principales?  
-{{MODULOS}}
-(Lista las áreas funcionales.
- Ej: "Facturación, Clientes/Proveedores, Productos/Servicios, Gastos, 
- Tesorería, Impuestos, Contabilidad, Nóminas, Inventario, Reporting")
+Project name:        {{PROJECT_NAME}}
+Product type:        {{PRODUCT_TYPE}}
+                     (e.g. SaaS, Mobile App, Web Platform, API, Marketplace, ERP...)
+Sector / Industry:   {{SECTOR}}
+                     (e.g. Healthcare, Retail, Finance, Education, Hospitality, Legal...)
+Country / Jurisdiction: {{COUNTRY}}
+                     (e.g. Spain, Mexico, USA, EU multi-country...)
+Applicable regulations: {{REGULATIONS}}
+                     (e.g. "Spanish VAT Law, Invoicing Regulation RD 1619/2012,
+                      GDPR, VeriFactu, Crea y Crece Law"...)
+Business model:      {{BUSINESS_MODEL}}
+                     (e.g. Monthly subscription, Freemium, Pay-per-use, License...)
 ```
 
 ---
 
-### BLOQUE 3 — REGLAS Y RESTRICCIONES CONOCIDAS
+### BLOCK 2 — PRODUCT DESCRIPTION
 
 ```
-Reglas de negocio que ya conozco:
-{{REGLAS_CONOCIDAS}}
-(Lista cualquier regla que ya sepas que aplica.
- Ej: "IVA general 21%, reducido 10%, superreducido 4%. 
- Las facturas deben ser secuenciales sin saltos. 
- Las facturas rectificativas deben referenciar la original.
- Retención IRPF estándar profesional al 15%.")
+What does the product do?
+{{PRODUCT_DESCRIPTION}}
+(Describe in natural language what problem it solves and for whom.
+ e.g. "Comprehensive management platform for Spanish SMEs and freelancers
+ that enables invoicing, expense tracking, tax calculation and
+ submission of tax returns to the AEAT.")
 
-Restricciones regulatorias:
-{{RESTRICCIONES_REGULATORIAS}}
-(Ej: "Obligación de factura electrónica desde 2026 Ley Crea y Crece.
- Conservación facturas 4 años mínimo. 
- Comunicación operaciones >3.005,06€ via modelo 347.")
+Who are the users?
+{{USERS}}
+(List user types / roles.
+ e.g. "Freelancer, SME Administrator, External Accountant, Employee, Auditor")
 
-Integraciones externas necesarias:
-{{INTEGRACIONES}}
-(Ej: "AEAT (Sede Electrónica), VIES (validación VAT intracomunitario),
- Bancos (extractos), Pasarela de pago, Correo electrónico")
-```
-
----
-
-### BLOQUE 4 — LO QUE NECESITO QUE GENERES
-
-Genera la especificación completa organizada en las siguientes **12 capas**, cada una en su propio archivo/sección:
-
-#### CAPA 00 — VISIÓN Y CONTEXTO (`00-vision/`)
-- Propósito del producto
-- Problema que resuelve
-- Usuarios objetivo y sus necesidades
-- Alcance funcional (qué incluye y qué NO incluye)
-- Marco regulatorio aplicable (resumen ejecutivo)
-
-#### CAPA 01 — GLOSARIO DE DOMINIO (`01-glosario/`)
-- Diccionario de todos los términos de negocio
-- Cada término con: **Nombre**, **Definición inequívoca**, **Ejemplo**, **Sinónimos a evitar**
-- Organizado por contexto (fiscal, comercial, contable, legal...)
-- Este glosario es el lenguaje canónico: toda la spec usa estos términos
-
-#### CAPA 02 — HISTORIAS DE USUARIO (`02-historias/`)
-- Formato: `COMO [rol] QUIERO [acción] PARA [beneficio]`
-- Agrupadas por módulo funcional
-- Cada historia con: **ID único**, **Prioridad** (Must/Should/Could), **Criterios de aceptación en formato DADO/CUANDO/ENTONCES**
-- Incluir historias para flujos principales Y flujos alternativos/errores
-
-#### CAPA 03 — REGLAS DE NEGOCIO (`03-reglas-negocio/`)
-- Formato: `RN-XXX: [Descripción de la regla]`
-- Cada regla con: **ID**, **Descripción**, **Fuente normativa** (ley, artículo, costumbre del sector), **Ejemplos**, **Excepciones**
-- Agrupar por dominio: Fiscal, Facturación, Comercial, Laboral, Contable...
-- **Incluir TODAS las reglas derivadas de la normativa aplicable**
-
-#### CAPA 04 — INVARIANTES (`04-invariantes/`)
-- Condiciones que SIEMPRE deben ser verdaderas en cualquier estado del sistema
-- Formato: `INV-XXX: [condición booleana en lenguaje natural]`
-- Ejemplos: "El total de una factura siempre = suma de líneas + impuestos - retenciones"
-- Si una invariante se viola, el sistema está en estado corrupto
-
-#### CAPA 05 — CONTRATOS DE OPERACIÓN (`05-contratos/`)
-- Para cada operación importante del sistema:
-  - **Precondiciones**: qué debe ser cierto ANTES de ejecutar
-  - **Postcondiciones**: qué debe ser cierto DESPUÉS de ejecutar
-  - **Errores**: qué pasa si falla
-- Formato: `OPERACIÓN: [nombre]` / `PRE: [condiciones]` / `POST: [condiciones]` / `ERROR: [casos]`
-
-#### CAPA 06 — POLÍTICAS DE DECISIÓN (`06-politicas/`)
-- Reglas de decisión condicionales tipo SI/ENTONCES
-- Tablas de decisión para lógica compleja (ej: qué tipo de IVA aplicar según producto + territorio + cliente)
-- Formato: `POL-XXX: SI [condición] ENTONCES [acción] SI_NO [alternativa]`
-- Incluir árboles de decisión completos para flujos fiscales
-
-#### CAPA 07 — EVENTOS DE DOMINIO (`07-eventos/`)
-- Hechos significativos que ocurren en el sistema
-- Formato: `EVT-XXX: [NombreEvento] → DISPARA: [reacciones]`
-- Qué produce cada evento y qué consecuencias tiene
-- Ejemplo: "FacturaEmitida → registrar en libro IVA + actualizar saldo cliente + generar PDF"
-
-#### CAPA 08 — AGENTES (`08-agentes/`)
-- Actores de IA autónomos que operan sobre el dominio
-- Cada agente con: **Nombre**, **Responsabilidad** (qué gestiona), **Skills que usa**, **Eventos que escucha**, **Eventos que produce**, **Invariantes que debe respetar**
-- Los agentes NO son técnicos: son roles funcionales autónomos
-- Ejemplo: "AgenteFacturación → responsable de crear, validar y emitir facturas"
-
-#### CAPA 09 — SKILLS (`09-skills/`)
-- Capacidades atómicas e invocables
-- Cada skill con: **Nombre**, **Descripción**, **Entrada**, **Salida**, **Reglas de negocio que aplica**, **Invariantes que verifica**
-- Son las "piezas de lego" que los agentes combinan
-- Ejemplo: "calcular_iva → entrada: importe + tipo_producto + territorio → salida: desglose IVA"
-
-#### CAPA 10 — WORKFLOWS (`10-workflows/`)
-- Flujos de trabajo que orquestan agentes y skills
-- Cada workflow con: **Nombre**, **Trigger** (qué lo inicia), **Pasos ordenados**, **Agentes involucrados**, **Skills invocadas por paso**, **Resultado esperado**, **Gestión de errores**
-- Ejemplo: "Workflow Cierre Trimestral → paso 1: AgenteContable.skill:cuadrar_cuentas → paso 2: AgenteFiscal.skill:calcular_modelo_303..."
-
-#### CAPA 11 — CRITERIOS DE ACEPTACIÓN (`11-criterios-aceptacion/`)
-- Tests funcionales expresados en lenguaje natural
-- Formato DADO/CUANDO/ENTONCES
-- Vinculados a: Historias (HU-XXX), Reglas (RN-XXX), Invariantes (INV-XXX)
-- Cubrir: camino feliz, errores esperados, casos límite, combinaciones fiscales
-
-#### ÍNDICE MAESTRO (`SPEC-INDEX.md`)
-- Mapa navegable de toda la especificación
-- Referencias cruzadas entre capas (qué regla afecta a qué historia, qué skill usa qué agente...)
-- Convenciones de nomenclatura y formato
-- Instrucciones para la IA agéntica sobre cómo consumir las specs
-
----
-
-### BLOQUE 5 — INSTRUCCIONES DE FORMATO Y CALIDAD
-
-```
-Formato de salida:        Markdown estructurado, un archivo por capa
-Idioma:                   {{IDIOMA}} (Ej: "Español de España")
-Nivel de detalle:         Exhaustivo — cada regla, cada caso, cada excepción
-Lenguaje:                 Funcional, de negocio. SIN jerga técnica ni de programación
-IDs únicos:               Cada elemento debe tener ID único y trazable
-                          (HU-001, RN-001, INV-001, POL-001, EVT-001, AG-001, SK-001, WF-001)
-Referencias cruzadas:     Cada skill debe referenciar las reglas que aplica.
-                          Cada agente debe referenciar los skills que usa.
-                          Cada workflow debe referenciar agentes y skills.
-                          Cada criterio de aceptación debe referenciar historias y reglas.
-Completitud normativa:    {{COMPLETITUD_NORMATIVA}}
-                          (Ej: "Incluir TODA la normativa fiscal española aplicable 
-                          a pymes y autónomos: IVA, IRPF, IS, facturación electrónica, 
-                          modelos tributarios, SII, VeriFactu, RGPD")
+What are the main modules?
+{{MODULES}}
+(List the functional areas.
+ e.g. "Invoicing, Clients/Suppliers, Products/Services, Expenses,
+ Treasury, Taxes, Accounting, Payroll, Inventory, Reporting")
 ```
 
 ---
 
-### BLOQUE 6 — CONTEXTO ADICIONAL (OPCIONAL)
+### BLOCK 3 — KNOWN RULES AND CONSTRAINTS
 
 ```
-Competidores / Referencias:  {{COMPETIDORES}}
-                              (Ej: "Holded, Quipu, Contasol, Sage, A3")
-                              
-Diferenciación:              {{DIFERENCIACION}}
-                              (Ej: "IA que automatiza la presentación fiscal y 
-                              predice cash flow")
+Business rules I already know:
+{{KNOWN_RULES}}
+(List any rules you already know apply.
+ e.g. "Standard VAT 21%, reduced 10%, super-reduced 4%.
+ Invoices must be sequential with no gaps.
+ Credit notes must reference the original invoice.
+ Standard professional IRPF withholding at 15%.")
 
-Restricciones de alcance:    {{RESTRICCIONES_ALCANCE}}
-                              (Ej: "Solo España peninsular en fase 1. 
-                              IGIC / IPSI Canarias y Ceuta/Melilla en fase 2")
+Regulatory constraints:
+{{REGULATORY_CONSTRAINTS}}
+(e.g. "Mandatory e-invoicing from 2026 under Crea y Crece Law.
+ Invoice retention minimum 4 years.
+ Operations over €3,005.06 must be reported via form 347.")
 
-Información adicional:       {{INFO_ADICIONAL}}
-                              (Cualquier otro dato relevante: documentos de referencia,
-                              procesos actuales manuales que se quieren digitalizar, etc.)
+Required external integrations:
+{{INTEGRATIONS}}
+(e.g. "AEAT (Electronic Office), VIES (intra-EU VAT validation),
+ Banks (statements), Payment gateway, Email")
 ```
 
 ---
 
-## FIN DEL PROMPT
+### BLOCK 4 — WHAT I NEED YOU TO GENERATE
+
+Generate the complete specification organized in the following **13 layers**, each in its own file/section:
+
+#### LAYER 00 — VISION & CONTEXT (`00-vision/`)
+- Product purpose
+- Problem it solves
+- Target users and their needs
+- Functional scope (what's included and what's NOT)
+- Applicable regulatory framework (executive summary)
+
+#### LAYER 01 — DOMAIN GLOSSARY (`01-glossary/`)
+- Dictionary of all business terms
+- Each term with: **Name**, **Unambiguous definition**, **Example**, **Synonyms to avoid**
+- Organized by context (fiscal, commercial, accounting, legal...)
+- This glossary is the canonical language: the entire spec uses these terms
+
+#### LAYER 02 — USER STORIES (`02-stories/`)
+- Format: `AS A [role] I WANT [action] SO THAT [benefit]`
+- Grouped by functional module
+- Each story with: **Unique ID**, **Priority** (Must/Should/Could), **Acceptance criteria in GIVEN/WHEN/THEN format**
+- Include stories for main flows AND alternative/error flows
+
+#### LAYER 03 — BUSINESS RULES (`03-business-rules/`)
+- Format: `BR-XXX: [Rule description]`
+- Each rule with: **ID**, **Description**, **Normative source** (law, article, industry practice), **Examples**, **Exceptions**
+- Group by domain: Fiscal, Invoicing, Commercial, Labour, Accounting...
+- **Include ALL rules derived from applicable regulations**
+
+#### LAYER 04 — INVARIANTS (`04-invariants/`)
+- Conditions that MUST ALWAYS be true at any system state
+- Format: `INV-XXX: [boolean condition in natural language]`
+- Examples: "Invoice total always = sum of lines + taxes - withholdings"
+- If an invariant is violated, the system is in a corrupt state
+
+#### LAYER 05 — OPERATION CONTRACTS (`05-contracts/`)
+- For each important system operation:
+  - **Preconditions**: what must be true BEFORE executing
+  - **Postconditions**: what must be true AFTER executing
+  - **Errors**: what happens if it fails
+- Format: `OPERATION: [name]` / `PRE: [conditions]` / `POST: [conditions]` / `ERROR: [cases]`
+
+#### LAYER 06 — DECISION POLICIES (`06-policies/`)
+- Conditional IF/THEN decision rules
+- Decision tables for complex logic (e.g. which VAT rate to apply based on product + territory + client)
+- Format: `POL-XXX: IF [condition] THEN [action] ELSE [alternative]`
+- Include complete decision trees for fiscal flows
+
+#### LAYER 07 — DOMAIN EVENTS (`07-events/`)
+- Significant facts that occur in the system
+- Format: `EVT-XXX: [EventName] → TRIGGERS: [reactions]`
+- What each event produces and its consequences
+- Example: "InvoiceIssued → record in VAT ledger + update client balance + generate PDF"
+
+#### LAYER 08 — AGENTS (`08-agents/`)
+- Autonomous AI actors operating on the domain
+- Each agent with: **Name**, **Responsibility** (what it manages), **Skills it uses**, **Events it listens to**, **Events it produces**, **Invariants it must respect**
+- Agents are NOT technical: they are autonomous functional roles
+- Example: "InvoicingAgent → responsible for creating, validating and issuing invoices"
+
+#### LAYER 09 — SKILLS (`09-skills/`)
+- Atomic and invocable capabilities
+- Each skill with: **Name**, **Description**, **Input**, **Output**, **Business rules it applies**, **Invariants it verifies**
+- They are the "lego pieces" that agents combine
+- Example: "calculate_vat → input: amount + product_type + territory → output: VAT breakdown"
+
+#### LAYER 10 — WORKFLOWS (`10-workflows/`)
+- Workflows that orchestrate agents and skills
+- Each workflow with: **Name**, **Trigger** (what initiates it), **Ordered steps**, **Agents involved**, **Skills invoked per step**, **Expected result**, **Error handling**
+- Example: "Quarterly Close Workflow → step 1: AccountingAgent.skill:balance_accounts → step 2: TaxAgent.skill:calculate_form_303..."
+
+#### LAYER 11 — ACCEPTANCE CRITERIA (`11-acceptance-criteria/`)
+- Functional tests expressed in natural language
+- GIVEN/WHEN/THEN format
+- Linked to: Stories (US-XXX), Rules (BR-XXX), Invariants (INV-XXX)
+- Cover: happy path, expected errors, edge cases, fiscal combinations
+
+#### LAYER 12 — SPECTRA-TRACE (`12-trace/`)
+- Bidirectional agentic traceability matrix
+- Forward (Spec → Code): functional gap detection
+- Reverse (Code → Spec): technical gap detection
+- Updated by the agent at the end of every iteration
+- See `layers/12-trace.md` for the full contract
+
+#### MASTER INDEX (`SPEC-INDEX.md`)
+- Navigable map of the entire specification
+- Cross-references between layers (which rule affects which story, which skill which agent...)
+- Naming and format conventions
+- Instructions for the agentic AI on how to consume the specs
+
+---
+
+### BLOCK 5 — FORMAT AND QUALITY INSTRUCTIONS
+
+```
+Output format:       Structured Markdown, one file per layer
+Language:            {{LANGUAGE}} (e.g. "English", "Spanish")
+Detail level:        Exhaustive — every rule, every case, every exception
+Language style:      Functional, business-oriented. NO technical or programming jargon
+Unique IDs:          Every element must have a unique traceable ID
+                     (US-001, BR-001, INV-001, POL-001, EVT-001, AG-001, SK-001, WF-001)
+Cross-references:    Each skill must reference the rules it applies.
+                     Each agent must reference the skills it uses.
+                     Each workflow must reference agents and skills.
+                     Each acceptance criterion must reference stories and rules.
+Regulatory coverage: {{REGULATORY_COVERAGE}}
+                     (e.g. "Include ALL applicable Spanish tax regulations
+                     for SMEs and freelancers: VAT, IRPF, IS, e-invoicing,
+                     tax returns, SII, VeriFactu, GDPR")
+```
+
+---
+
+### BLOCK 6 — ADDITIONAL CONTEXT (OPTIONAL)
+
+```
+Competitors / References: {{COMPETITORS}}
+                          (e.g. "Holded, Quipu, Contasol, Sage, A3")
+
+Differentiation:          {{DIFFERENTIATION}}
+                          (e.g. "AI that automates tax filing and
+                          predicts cash flow")
+
+Scope constraints:        {{SCOPE_CONSTRAINTS}}
+                          (e.g. "Spain mainland only in phase 1.
+                          Canary Islands (IGIC) / Ceuta & Melilla (IPSI) in phase 2")
+
+Additional information:   {{ADDITIONAL_INFO}}
+                          (Any other relevant data: reference documents,
+                          current manual processes to digitize, etc.)
+```
+
+---
+
+## END OF PROMPT
 
 ---
