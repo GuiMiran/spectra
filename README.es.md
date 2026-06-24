@@ -75,7 +75,7 @@ Cada capa tiene un formato exacto. Cada elemento tiene un ID único. Todo está 
 ### Via npm (recomendado)
 
 ```bash
-npm install -g @spectra/core
+npm install -g @guimiran/spectra
 spectra init
 ```
 

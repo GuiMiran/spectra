@@ -40,7 +40,7 @@ You define the domain  →  Spectra structures the specs  →  AI builds, mainta
 ### Via npm (recommended)
 
 ```bash
-npm install -g @spectra/core
+npm install -g @guimiran/spectra
 spectra init
 ```
 
