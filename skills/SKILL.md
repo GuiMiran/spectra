@@ -360,4 +360,4 @@ When the agent detects a requirement change:
 *to maintain itself. That recursion is not accidental — it's the point.*
 
 *SPECTRA — Source · Product · Exhaustive · Contractual · Truth · Reconstructable · Agentic*
-*Created by Guido Florentino · MIT License · https://github.com/GuiMiran/spectra*
+*Created by Guido Miranda Mercado · CC BY-NC-ND 4.0 · https://github.com/GuiMiran/spectra*

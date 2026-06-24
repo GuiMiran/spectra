@@ -1,0 +1,29 @@
+# Development files
+*.log
+*.swp
+.DS_Store
+node_modules/
+.git/
+.github/
+.vscode/
+
+# Test files
+tests/
+*.test.js
+coverage/
+
+# Documentation source (keep only compiled docs)
+docs/flow.svg
+
+# Examples (too large for npm package)
+examples/
+
+# Keep these
+!bin/
+!SPECTRA-PROMPT.md
+!MANIFESTO.md
+!README.md
+!README.es.md
+!LICENSE
+!layers/
+!templates/

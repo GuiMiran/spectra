@@ -37,6 +37,20 @@ REQUIRED_LAYERS = [
     "12-trace",
 ]
 
+# Files that are framework documentation, not specs.
+# They may contain example IDs for illustration — excluded from duplicate-ID scanning.
+ID_SCAN_EXCLUDE = {
+    "MANIFESTO.md",
+    "SPECTRA-PROMPT.md",
+    "README.md",
+    "README.es.md",
+    "CONTRIBUTING.md",
+    "GUIA-VARIABLES.md",
+    "vs-openspec.md",
+    "vs-frameworks.md",
+}
+ID_SCAN_EXCLUDE_DIRS = {"layers", "docs", "skills"}
+
 ID_PATTERNS = {
     "US":  r"\bUS-[A-Z]{0,4}-?\d{3}\b",
     "BR":  r"\bBR-[A-Z]{0,4}-?\d{3}\b",
@@ -88,7 +102,17 @@ class SpectraValidator:
     def find_example_dirs(self):
         if not EXAMPLES_DIR.exists():
             return []
-        return [d for d in EXAMPLES_DIR.iterdir() if d.is_dir() and not d.name.startswith(".")]
+        dirs = []
+        for d in EXAMPLES_DIR.iterdir():
+            if not d.is_dir() or d.name.startswith("."):
+                continue
+            # Examples with a .spectra-skip file are pre-standard or showcase formats
+            if (d / ".spectra-skip").exists():
+                skip_reason = (d / ".spectra-skip").read_text(encoding="utf-8").strip()
+                print(f"  ⏭  Skipping {d.name}: {skip_reason}")
+                continue
+            dirs.append(d)
+        return dirs
 
     def find_layer_file(self, example_dir, layer_name):
         """Find a layer file by prefix name (e.g. '00-vision' matches '00-vision.md')"""
@@ -139,6 +163,10 @@ class SpectraValidator:
     # INV-C03: No duplicate IDs across the repo
     def collect_ids(self, file_path):
         content = file_path.read_text(encoding="utf-8", errors="ignore")
+        # Strip fenced code blocks — IDs inside ``` examples are not real spec IDs
+        content = re.sub(r"```.*?```", "", content, flags=re.DOTALL)
+        # Strip inline code spans
+        content = re.sub(r"`[^`]+`", "", content)
         for id_type, pattern in ID_PATTERNS.items():
             found = re.findall(pattern, content)
             for id_val in found:
@@ -240,17 +268,19 @@ class SpectraValidator:
             print(f"\nFound {len(example_dirs)} example(s): {[d.name for d in example_dirs]}\n")
 
         # Collect all IDs first (needed for cross-reference checks)
+        # Only scan actual example spec files — not framework documentation
         for example_dir in example_dirs:
             for layer in REQUIRED_LAYERS:
                 layer_file = self.find_layer_file(example_dir, layer)
                 if layer_file:
                     self.collect_ids(layer_file)
 
-        # Also collect from core framework files
+        # Also collect from root .md files that are NOT framework docs
         for md_file in Path(".").glob("*.md"):
-            self.collect_ids(md_file)
-        for md_file in Path("layers").glob("*.md") if Path("layers").exists() else []:
-            self.collect_ids(md_file)
+            if md_file.name not in ID_SCAN_EXCLUDE:
+                self.collect_ids(md_file)
+        # Explicitly skip layers/ and docs/ — framework documentation, not specs
+        # (layers/ contains the spec format contracts, not real spec definitions)
 
         # Run checks per example
         for example_dir in example_dirs:

@@ -150,7 +150,7 @@ Core framework IDs (no prefix) are reserved for the framework itself.
 
 ## License
 
-By contributing, you agree that your contributions are licensed under MIT —
+By contributing, you agree that your contributions are licensed under CC BY-NC-ND 4.0 —
 the same license as Spectra.
 
 ---
