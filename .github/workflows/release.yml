@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   release:
-    name: Create GitHub Release
+    name: Create GitHub Release and publish to npm
     runs-on: ubuntu-latest
 
     steps:
@@ -26,6 +26,12 @@ jobs:
 
       - name: Run Spectra validator (must pass before release)
         run: python .github/scripts/spectra_validator.py
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Extract version from tag
         id: version
@@ -53,3 +59,14 @@ jobs:
           body_path: release-notes.txt
           draft: false
           prerelease: ${{ contains(steps.version.outputs.VERSION, '-') }}
+
+      - name: Sync package.json version with tag
+        run: npm version ${{ steps.version.outputs.VERSION }} --no-git-tag-version
+
+      - name: Make bin executable
+        run: chmod +x bin/spectra.js
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
