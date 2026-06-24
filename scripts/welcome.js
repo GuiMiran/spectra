@@ -207,7 +207,7 @@ function welcome() {
     `  ${c(GRAY, 'Issues')}  ${c(CYAN, 'https://github.com/GuiMiran/spectra/issues')}`
   );
   print(
-    `  ${c(GRAY, 'License')} MIT  ·  ${c(GRAY, 'v0.1.0')}`
+    `  ${c(GRAY, 'License')} CC BY-NC-ND 4.0  ·  ${c(GRAY, 'v0.1.0')}  ·  ${c(GRAY, '© Guido Miranda Mercado')}`
   );
   print();
   print(

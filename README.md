@@ -4,7 +4,7 @@
 
 **The specification framework designed to be consumed by AI, not humans.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/GuiMiran/spectra/releases)
 
 [🇪🇸 Versión en español](README.es.md)
@@ -264,7 +264,9 @@ Full breakdown → [vs-frameworks.md](vs-frameworks.md)
 
 ## License
 
-MIT — use it, adapt it, improve it.
+CC BY-NC-ND 4.0 — read it, use it, credit it. No derivatives. No commercial use without permission.
+
+Copyright © 2025 Guido Miranda Mercado. All rights reserved.
 
 ---
 

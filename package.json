@@ -19,9 +19,8 @@
   "bugs": {
     "url": "https://github.com/GuiMiran/spectra/issues"
   },
-  "license": "MIT",
-  "author": "Spectra Contributors",
-  "main": "index.js",
+  "license": "CC-BY-NC-ND-4.0",
+  "author": "GuiMiran",
   "bin": {
     "spectra": "./bin/spectra.js"
   },

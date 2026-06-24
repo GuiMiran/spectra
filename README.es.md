@@ -239,7 +239,9 @@ Spectra es la infraestructura de conocimiento que los agentes necesitan para ope
 
 ## Licencia
 
-MIT — úsalo, adáptalo, mejóralo.
+CC BY-NC-ND 4.0 — léelo, úsalo, acredítalo. Sin derivados. Sin uso comercial sin permiso.
+
+Copyright © 2025 Guido Miranda Mercado. Todos los derechos reservados.
 
 ---
 
