@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Run Spectra validator (must pass before release)
+        run: python .github/scripts/spectra_validator.py
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Extract release notes from CHANGELOG
+        id: notes
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          # Try to find section in CHANGELOG.md
+          if [ -f CHANGELOG.md ]; then
+            NOTES=$(awk "/^## \[?${VERSION#v}\]?/{found=1; next} found && /^## /{exit} found{print}" CHANGELOG.md)
+          fi
+          if [ -z "$NOTES" ]; then
+            NOTES="Release $VERSION — see commit history for details."
+          fi
+          # Write to file to handle multi-line
+          echo "$NOTES" > release-notes.txt
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.VERSION }}
+          name: "Spectra ${{ steps.version.outputs.VERSION }}"
+          body_path: release-notes.txt
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.VERSION, '-') }}
