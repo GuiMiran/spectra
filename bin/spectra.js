@@ -54,13 +54,8 @@ function cmdInit() {
 
   layers.forEach(([num, slug, name]) => {
     const file = path.join(spectraDir, `${num}-${slug}.md`);
-    fs.writeFileSync(file,
-      `# LAYER ${num} — ${name.toUpperCase()}\n\n` +
-      `> **Status**: To be completed.\n` +
-      `> Fill this layer using SPECTRA-PROMPT.md as your guide,\n` +
-      `> or send the prompt to an LLM to generate complete specs.\n\n` +
-      `---\n\n_Add your domain-specific content here._\n`
-    );
+    const content = num === '12' ? generateTrace() : generateLayer(num, name);
+    fs.writeFileSync(file, content);
     p(`  ${c(DM, num + ' ·')} ${num === '12' ? bd(MG, name) : c(WH, name)}`);
   });
 
@@ -132,6 +127,106 @@ function cmdHelp() {
   p();
 }
 
+// ── LAYER CONTENT GENERATORS ─────────────────────────────────────────────────
+
+function generateLayer(num, name) {
+  return `# LAYER ${num} — ${name.toUpperCase()}
+
+> **Status**: Pending — fill this layer with your domain knowledge.
+> Send \`SPECTRA-PROMPT.md\` to an LLM to generate all 13 layers at once.
+
+---
+
+<!-- Add your ${name} here. Each element must have a unique ID. -->
+<!-- Example IDs: US-001, BR-001, INV-001, POL-001, EVT-001, SK-001, WF-001 -->
+`;
+}
+
+function generateTrace() {
+  const today = new Date().toISOString().split('T')[0];
+  return `# LAYER 12 — SPECTRA-TRACE
+## Bidirectional Agentic Traceability Matrix
+
+> **Live layer** — updated automatically by the agent at the end of every iteration.
+> Forward: detects functional gaps (spec without code).
+> Reverse: detects technical gaps (code without spec).
+
+---
+
+## Coverage Dashboard
+> Last updated: iter-0 · ${today} · Agent: —
+
+| Metric                  | Value | Trend |
+|-------------------------|-------|-------|
+| Total specs             | 0     | —     |
+| Implemented specs       | 0     | —     |
+| Functional coverage     | 0%    | —     |
+| Artifacts without spec  | 0     | —     |
+| CRITICAL gaps           | 0     | —     |
+| MAJOR gaps              | 0     | —     |
+| MINOR gaps              | 0     | —     |
+| Current iteration       | iter-0| —     |
+
+---
+
+## Forward Matrix — Spec → Code
+> Detects **functional gaps**: specs with no implementation.
+
+| spec_id | type | description | prio | status | artifacts | tests | severity | iter |
+|---------|------|-------------|------|--------|-----------|-------|----------|------|
+| — | — | *No specs registered yet* | — | — | — | — | — | — |
+
+**Status legend**: \`✅ IMPL\` · \`⏳ PARTIAL\` · \`❌ PENDING\` · \`🚫 EXCLUDED\`
+**Severity**: \`CRITICAL\` (invariant/legal) · \`MAJOR\` (MUST BR/US) · \`MINOR\` (SHOULD/COULD)
+
+---
+
+## Reverse Matrix — Code → Spec
+> Detects **technical gaps**: code artifacts with no spec justifying them.
+
+| artifact | type | description | spec_id | status | action | iter_detected |
+|----------|------|-------------|---------|--------|--------|---------------|
+| — | — | *No artifacts registered yet* | — | — | — | — |
+
+**Status legend**: \`✅ TRACED\` · \`⚠️ ORPHAN\` · \`🔍 REVIEW\`
+**Action**: \`KEEP\` · \`SPECIFY\` · \`DELETE\` · \`REFACTOR\`
+
+---
+
+## Gap Report — iter-0
+> No gaps detected yet. Start filling the spec layers and implementing features.
+
+---
+
+## Iteration Log
+
+| iter | date | coverage | impl | critical | major | minor | notes |
+|------|------|----------|------|----------|-------|-------|-------|
+| iter-0 | ${today} | 0% | 0/0 | 0 | 0 | 0 | Initial scaffold |
+
+---
+
+## Agent Protocol
+> Instructions for the agent on how to update this file.
+
+At the end of every iteration:
+1. Count total specs across layers 02–11
+2. For each spec, find its implementing artifacts and link them in the Forward Matrix
+3. Scan all source files for \`// @spectra\` trace comments → populate Reverse Matrix
+4. Recalculate coverage = implemented / total × 100
+5. Classify unimplemented specs by severity (CRITICAL / MAJOR / MINOR)
+6. Update Coverage Dashboard and append a row to Iteration Log
+7. Write Gap Report with actionable next steps
+
+\`\`\`
+coverage = implemented_specs / total_specs × 100
+CRITICAL ← INV not implemented | BR from legal regulation | SK blocking
+MAJOR    ← MUST BR not implemented | MUST US not implemented
+MINOR    ← SHOULD/COULD BR or US | POL edge case
+\`\`\`
+`;
+}
+
 // ── ROUTER ────────────────────────────────────────────────────────────────────
 const command = process.argv[2];
 
@@ -150,5 +245,6 @@ switch (command) {
     break;
   }
   default:
-    cmdHelp();
+    // No command = full welcome screen
+    require(path.join(__dirname, '..', 'scripts', 'welcome.js'));
 }

@@ -1,6 +1,6 @@
 {
   "name": "@guimiran/spectra",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "The specification framework designed to be consumed by AI, not humans",
   "keywords": [
     "spec-driven-development",
