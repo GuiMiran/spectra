@@ -69,10 +69,11 @@ function welcome() {
   print(row());
   print(rule());
   print(row());
-  print(row(b(GREEN, 'spectra init')   + c(GRAY, '    -> scaffold the .spectra/ structure')));
-  print(row(b(GREEN, 'spectra status') + c(GRAY, '  -> show completed vs pending spec layers')));
-  print(row(b(GREEN, 'spectra trace')  + c(GRAY, '   -> generate the action traceability matrix')));
-  print(row(b(GREEN, 'spectra help')   + c(GRAY, '    -> display available commands')));
+  print(row(b(GREEN, 'spectra init')     + c(GRAY, '  -> scaffold the .spectra/ structure')));
+  print(row(b(GREEN, 'spectra status')   + c(GRAY, '  -> show completed vs pending spec layers')));
+  print(row(b(GREEN, 'spectra trace')    + c(GRAY, '  -> generate the action traceability matrix')));
+  print(row(b(GREEN, 'spectra validate') + c(GRAY, '  -> validate spec quality and cross-references')));
+  print(row(b(GREEN, 'spectra help')     + c(GRAY, '  -> display available commands')));
   print(row());
   print(rule());
   print(row());

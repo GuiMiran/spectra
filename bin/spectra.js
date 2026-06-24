@@ -117,30 +117,125 @@ function cmdInit() {
 
 // ── SPECTRA-VALIDATE ──────────────────────────────────────────────────────────
 function cmdValidate() {
-  p();
-  p(bd(YL, '  spectra validate'));
-  p();
-  p(c(DM, '  Validation engine coming in v0.2.0.'));
-  p(c(DM, '  It will check: invariant format, ID uniqueness, cross-reference integrity.'));
-  p();
-  p(`  Follow progress → ${c(CY, 'https://github.com/GuiMiran/spectra/issues')}`);
-  p();
-}
+  const spectraDir = path.join(process.cwd(), '.spectra');
 
-// ── DEFAULT (no command) ──────────────────────────────────────────────────────
-function cmdHelp() {
   p();
-  p(bd(CY, '  SPECTRA') + c(DM, '  ·  Spec-Driven Development for Agentic AI'));
+  p(bd(YL, '  SPECTRA VALIDATE'));
   p();
-  p(c(DM, '  ┌─ Commands ────────────────────────────────────────────────┐'));
-  p(`  │  ${bd(GR, 'spectra init')}        ${c(DM, 'Scaffold 13 layers in .spectra/')}          │`);
-  p(`  │  ${bd(GR, 'spectra validate')}    ${c(DM, 'Validate spec files          (v0.2)')}       │`);
-  p(`  │  ${bd(GR, 'spectra trace')}       ${c(DM, 'Show traceability matrix     (v0.2)')}       │`);
-  p(`  │  ${bd(GR, 'spectra --version')}   ${c(DM, 'Show installed version')}                   │`);
-  p(c(DM, '  └───────────────────────────────────────────────────────────┘'));
+
+  if (!fs.existsSync(spectraDir)) {
+    p(c(YL, '  ⚠  No .spectra/ directory found.'));
+    p(c(DM, '     Run: spectra init'));
+    p();
+    process.exit(1);
+  }
+
+  const HOME_LAYER = {
+    US:  '02-stories.md',
+    BR:  '03-business-rules.md',
+    INV: '04-invariants.md',
+    OP:  '05-contracts.md',
+    POL: '06-policies.md',
+    EVT: '07-events.md',
+    AG:  '08-agents.md',
+    SK:  '09-skills.md',
+    WF:  '10-workflows.md',
+    AC:  '11-acceptance-criteria.md',
+  };
+
+  const STUB_MARKERS = ['To be completed', 'Add your domain', '_Add your'];
+  const isStub = c => STUB_MARKERS.some(m => c.includes(m));
+
+  const errors   = [];
+  const warnings = [];
+
+  // 1 — layer presence
+  LAYERS.forEach(([num, slug, name]) => {
+    if (!fs.existsSync(path.join(spectraDir, `${num}-${slug}.md`)))
+      errors.push(`Missing layer: ${num}-${slug}.md  (${name})`);
+  });
+
+  // 2 — collect IDs per file; check stubs + duplicates in home layers
+  const idsByFile = {};   // filename → Set<id>
+  const defined   = {};   // id → home filename
+
+  LAYERS.slice(0, 12).forEach(([num, slug]) => {
+    const filename = `${num}-${slug}.md`;
+    const file     = path.join(spectraDir, filename);
+    if (!fs.existsSync(file)) return;
+
+    const raw   = fs.readFileSync(file, 'utf8');
+    const clean = raw.replace(/<!--[\s\S]*?-->/g, '').replace(/```[\s\S]*?```/g, '').replace(/`[^`]+`/g, '');
+
+    if (isStub(raw)) warnings.push(`${filename} — stub content, fill this layer`);
+
+    idsByFile[filename] = new Set();
+    const homeType = Object.entries(HOME_LAYER).find(([, v]) => v === filename)?.[0];
+    const countInHome = {};
+
+    Object.entries(ID_PATTERNS).forEach(([type, rx]) => {
+      const matches = clean.match(new RegExp(rx.source, 'g')) || [];
+      matches.forEach(id => {
+        idsByFile[filename].add(id);
+        if (HOME_LAYER[type] === filename) {
+          if (!defined[id]) defined[id] = filename;
+          if (homeType === type) countInHome[id] = (countInHome[id] || 0) + 1;
+        }
+      });
+    });
+
+    Object.entries(countInHome).forEach(([id, n]) => {
+      if (n > 1) errors.push(`Duplicate: ${id} appears ${n} times in ${filename}`);
+    });
+  });
+
+  // 3 — cross-reference integrity
+  LAYERS.slice(0, 12).forEach(([num, slug]) => {
+    const filename = `${num}-${slug}.md`;
+    if (!idsByFile[filename]) return;
+    idsByFile[filename].forEach(id => {
+      const type     = id.match(/^([A-Z]+)-/)?.[1];
+      const homeFile = HOME_LAYER[type];
+      if (!homeFile || homeFile === filename) return;
+      if (!defined[id])
+        errors.push(`Cross-ref: ${id} used in ${filename} but not defined in ${homeFile}`);
+    });
+  });
+
+  // ── print ──────────────────────────────────────────────────────────────────
+  p(c(DM, '  ─────────────────────────────────────────────────────────────'));
+  p(`  ${c(DM, 'Checks')} · layer presence · ID uniqueness · cross-reference integrity · stub content`);
+  p(c(DM, '  ─────────────────────────────────────────────────────────────'));
   p();
-  p(`  ${c(DM, 'Docs')}  ${c(CY, 'https://github.com/GuiMiran/spectra')}`);
+
+  if (!errors.length && !warnings.length) {
+    p(c(GR, '  ✔  All checks passed — specs are valid'));
+    p();
+    return;
+  }
+
+  if (errors.length) {
+    p(bd(RD, `  ❌ Errors (${errors.length})`));
+    p();
+    errors.forEach((msg, i) => p(`  ${c(RD, String(i + 1).padStart(2) + '.')} ${msg}`));
+    p();
+  }
+
+  if (warnings.length) {
+    p(bd(YL, `  ⚠  Warnings (${warnings.length})`));
+    p();
+    warnings.forEach((msg, i) => p(`  ${c(YL, String(i + 1).padStart(2) + '.')} ${msg}`));
+    p();
+  }
+
+  p(c(DM, '  ─────────────────────────────────────────────────────────────'));
+  p(errors.length
+    ? c(RD, '  Fix errors before running spectra trace or publishing.')
+    : c(YL, '  Warnings found — specs work but may need more content.')
+  );
   p();
+
+  if (errors.length) process.exit(1);
 }
 
 // ── SPECTRA-STATUS ────────────────────────────────────────────────────────────
@@ -723,7 +818,7 @@ function cmdHelp() {
   p(`  │  ${bd(GR, 'spectra init')}        ${c(DM, 'Scaffold .spectra/ with 13 layers')}           │`);
   p(`  │  ${bd(GR, 'spectra status')}      ${c(DM, 'Show which layers are filled vs pending')}     │`);
   p(`  │  ${bd(GR, 'spectra trace')}       ${c(DM, 'Scan specs + code → generate 12-trace.md')}   │`);
-  p(`  │  ${bd(GR, 'spectra validate')}    ${c(DM, 'Validate spec quality          (v0.4)')}       │`);
+  p(`  │  ${bd(GR, 'spectra validate')}    ${c(DM, 'Validate spec quality and cross-refs')}        │`);
   p(`  │  ${bd(GR, 'spectra --version')}   ${c(DM, 'Show installed version')}                     │`);
   p(c(DM, '  └───────────────────────────────────────────────────────────┘'));
   p();

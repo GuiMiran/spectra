@@ -61,7 +61,7 @@ jobs:
           prerelease: ${{ contains(steps.version.outputs.VERSION, '-') }}
 
       - name: Sync package.json version with tag
-        run: npm version ${{ steps.version.outputs.VERSION }} --no-git-tag-version
+        run: npm version ${{ steps.version.outputs.VERSION }} --no-git-tag-version --allow-same-version
 
       - name: Make bin executable
         run: chmod +x bin/spectra.js
