@@ -35,6 +35,25 @@ You define the domain  →  Spectra structures the specs  →  AI builds, mainta
 
 ---
 
+## Installation
+
+### Via npm (recommended)
+
+```bash
+npm install -g @spectra/core
+spectra init
+```
+
+### Via Git
+
+```bash
+git clone https://github.com/GuiMiran/spectra.git
+cp -r spectra/.spectra your-project/.spectra
+cp spectra/SPECTRA-PROMPT.md your-project/
+```
+
+---
+
 ## How it works
 
 ![Spectra flow](docs/flow.svg)
@@ -93,11 +112,88 @@ Every layer has an exact format. Every element has a unique ID. Everything is cr
 
 ---
 
-## Quickstart
+## Using with OpenSpec or GitHub Spec Kit
+
+Spectra **complements** OpenSpec and GitHub Spec Kit — they work on different layers:
+
+```
+Spectra (domain)  →  OpenSpec / GitHub Spec Kit (construction)  →  Your code
+```
+
+1. **First**: Use Spectra to define your domain (business rules, invariants, regulations)
+2. **Then**: Use OpenSpec or Spec Kit to implement features with that domain as context
+3. **Result**: Agents build correctly because they know the domain
+
+See detailed comparison in [vs-openspec.md](vs-openspec.md).
+
+---
 
 ### 1. Fill the universal prompt
 
 Open `SPECTRA-PROMPT.md` and fill the variables: project name, sector, regulations, users, modules, known rules, regulatory constraints.
+
+### 2. LLM generates the 13 layers
+
+Send the filled prompt to an LLM (Claude, GPT-4, Gemini). It generates structured specs — not code, but machine-readable business knowledge.
+
+### 3. Agent builds with specs as context
+
+With specs in context, the agent can:
+- Build the app without you explaining every decision
+- Respect invariants when generating code
+- Detect conflicts with business rules
+- Fully reconstruct the system if something breaks
+
+### 4. You evolve specs, AI evolves the system
+
+When a business rule changes, you change the spec. The agent propagates changes correctly because it understands the complete domain.
+
+---
+
+## Making Spectra Visible to Agents
+
+### In VS Code / Copilot
+
+Add to `.instructions.md` in your project:
+
+```markdown
+## Spectra Framework
+
+This project uses Spectra for domain specification:
+- Read specs from .spectra/ before making changes
+- Respect invariants in 04-invariants.md
+- Apply business rules from 03-business-rules.md
+- Update 12-trace.md at the end of each iteration
+```
+
+### As Direct Context
+
+Simply include specs in your project:
+```
+my-project/
+├── .spectra/           ← Agent reads automatically
+│   ├── 00-vision.md
+│   ├── 01-glossary.md
+│   └── ...
+└── src/
+```
+
+### Via MCP (Model Context Protocol)
+
+```json
+{
+  "mcpServers": {
+    "spectra": {
+      "command": "npx",
+      "args": ["@spectra-framework/mcp-server"]
+    }
+  }
+}
+```
+
+See [complete visibility guide](docs/VISIBILIDAD.md).
+
+---
 
 ### 2. Paste into any LLM
 

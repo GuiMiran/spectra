@@ -70,6 +70,25 @@ Cada capa tiene un formato exacto. Cada elemento tiene un ID único. Todo está 
 
 ---
 
+## Instalación
+
+### Via npm (recomendado)
+
+```bash
+npm install -g @spectra/core
+spectra init
+```
+
+### Via Git
+
+```bash
+git clone https://github.com/GuiMiran/spectra.git
+cp -r spectra/.spectra tu-proyecto/.spectra
+cp spectra/SPECTRA-PROMPT.md tu-proyecto/
+```
+
+---
+
 ## Cómo funciona
 
 ### 1. Rellenas el prompt universal
@@ -95,6 +114,51 @@ Con las specs en contexto, el agente puede:
 ### 4. Tú evolucionas las specs, la IA evoluciona el sistema
 
 Cuando cambia una regla de negocio, cambias la spec. El agente propaga el cambio correctamente porque entiende el dominio completo.
+
+---
+
+## Hacer Spectra Visible a Agentes
+
+### En VS Code / Copilot
+
+Agrega a `.instructions.md` en tu proyecto:
+
+```markdown
+## Spectra Framework
+
+Este proyecto usa Spectra para especificación de dominio:
+- Lee specs desde .spectra/ antes de hacer cambios
+- Respeta invariantes en 04-invariants.md
+- Aplica reglas de negocio de 03-business-rules.md  
+- Actualiza 12-trace.md al final de cada iteración
+```
+
+### Como Contexto Directo
+
+Simplemente incluye las specs en tu proyecto:
+```
+mi-proyecto/
+├── .spectra/           ← El agente las lee automáticamente
+│   ├── 00-vision.md
+│   ├── 01-glossary.md
+│   └── ...
+└── src/
+```
+
+### Via MCP (Model Context Protocol)
+
+```json
+{
+  "mcpServers": {
+    "spectra": {
+      "command": "npx",
+      "args": ["@spectra-framework/mcp-server"]
+    }
+  }
+}
+```
+
+Ver [guía completa de visibilidad](docs/VISIBILIDAD.md).
 
 ---
 

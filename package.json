@@ -1,0 +1,49 @@
+{
+  "name": "@spectra/core",
+  "version": "0.1.0",
+  "description": "The specification framework designed to be consumed by AI, not humans",
+  "keywords": [
+    "spec-driven-development",
+    "sdd",
+    "ai-agents",
+    "specifications",
+    "domain-modeling",
+    "business-rules",
+    "agentic-ai"
+  ],
+  "homepage": "https://github.com/GuiMiran/spectra",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GuiMiran/spectra.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GuiMiran/spectra/issues"
+  },
+  "license": "MIT",
+  "author": "Spectra Contributors",
+  "main": "index.js",
+  "bin": {
+    "spectra": "./bin/spectra.js"
+  },
+  "files": [
+    "bin/",
+    "scripts/",
+    "templates/",
+    "layers/",
+    "SPECTRA-PROMPT.md",
+    "MANIFESTO.md",
+    "README.md",
+    "README.es.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "welcome": "node scripts/welcome.js",
+    "postinstall": "node scripts/welcome.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
