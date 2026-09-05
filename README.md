@@ -23,11 +23,11 @@ This is not an AI problem. It's a context problem.
 
 ## The solution
 
-Spectra is a framework for writing specifications that an AI agent can consume directly — without ambiguity, without additional context, without you correcting it at every step.
+Spectra is a framework for writing domain specifications that an AI agent can consume directly. Its layers, identifiers and contracts aim to reduce hidden assumptions and make gaps reviewable.
 
 It's not technical documentation. Not a README. Not code comments.
 
-It's the **domain source of truth**: business rules, invariants, contracts, regulations, decisions — all structured in 13 layers designed for an agent to operate autonomously.
+It's a proposed **domain source of truth**: business rules, invariants, contracts, regulations and decisions structured in 13 layers for consistent agent context.
 
 ```
 You define the domain  →  Spectra structures the specs  →  AI builds, maintains and evolves the system
@@ -48,8 +48,8 @@ spectra init
 
 ```bash
 git clone https://github.com/GuiMiran/spectra.git
-cp -r spectra/.spectra your-project/.spectra
-cp spectra/SPECTRA-PROMPT.md your-project/
+cd your-project
+node ../spectra/bin/spectra.js init
 ```
 
 ---
@@ -68,7 +68,7 @@ cp spectra/SPECTRA-PROMPT.md your-project/
 | **Describes** | How it works | How code evolves | How to build features | What the system IS |
 | **Legal regulations** | Rarely | ❌ | ❌ | ✅ Required |
 | **Boolean invariants** | ❌ | ❌ | ❌ | ✅ |
-| **Full reconstruction** | ❌ | ❌ | ❌ | ✅ |
+| **Explicit reconstruction test** | ❌ | ❌ | ❌ | ✅ |
 | **Bidirectional traceability** | ❌ | ❌ | ❌ | ✅ SPECTRA-TRACE |
 | **Layer** | On top of code | On top of code | On top of code | **Before code** |
 
@@ -107,8 +107,10 @@ Every layer has an exact format. Every element has a unique ID. Everything is cr
 
 **SPECTRA-TRACE** is the key innovation: a bidirectional matrix the agent updates automatically at the end of every iteration.
 
-- **Spec → Code** (forward): detects **functional gaps** — things the business needs that don't exist yet
-- **Code → Spec** (reverse): detects **technical gaps** — orphaned code with no business rule justifying it
+- **Spec → evidence** (forward): reports whether a requirement has both a declared artifact link and an acceptance-criterion link
+- **Code → Spec** (reverse): reports `@spectra` tags that do not resolve to a specification ID
+
+These are static traceability checks. An `@spectra` tag is a declaration, not proof that behaviour is correct; independent tests are still required.
 
 ---
 
@@ -122,7 +124,7 @@ Spectra (domain)  →  OpenSpec / GitHub Spec Kit (construction)  →  Your code
 
 1. **First**: Use Spectra to define your domain (business rules, invariants, regulations)
 2. **Then**: Use OpenSpec or Spec Kit to implement features with that domain as context
-3. **Result**: Agents build correctly because they know the domain
+3. **Result**: Agents receive explicit domain constraints and their output can be evaluated against them
 
 See detailed comparison in [vs-openspec.md](vs-openspec.md).
 
@@ -139,14 +141,14 @@ Send the filled prompt to an LLM (Claude, GPT-4, Gemini). It generates structure
 ### 3. Agent builds with specs as context
 
 With specs in context, the agent can:
-- Build the app without you explaining every decision
-- Respect invariants when generating code
-- Detect conflicts with business rules
-- Fully reconstruct the system if something breaks
+- Receive the same explicit domain constraints in each session
+- Reference invariants and business rules while generating code
+- Expose missing trace or acceptance links for review
+- Produce a candidate that can be evaluated with an independent oracle
 
 ### 4. You evolve specs, AI evolves the system
 
-When a business rule changes, you change the spec. The agent propagates changes correctly because it understands the complete domain.
+When a business rule changes, update the spec first, identify its linked elements and verify the resulting code change independently.
 
 ---
 
@@ -180,16 +182,7 @@ my-project/
 
 ### Via MCP (Model Context Protocol)
 
-```json
-{
-  "mcpServers": {
-    "spectra": {
-      "command": "npx",
-      "args": ["@spectra-framework/mcp-server"]
-    }
-  }
-}
-```
+An MCP server is a future integration. No supported Spectra MCP package is published by this repository today; do not add an MCP configuration until an implementation and installation instructions are released.
 
 See [complete visibility guide](docs/VISIBILIDAD.md).
 
@@ -209,19 +202,13 @@ With specs in context, the agent builds, respects invariants, detects conflicts 
 
 ---
 
-## Real-world example: GastroFlow
+## Examples
 
-The repo includes **GastroFlow** — a complete restaurant management app built 100% with Spectra:
+- [GastroFlow](./examples/gastroflow/) is a legacy, pre-standard showcase. It predates the current 13-layer convention and is intentionally excluded from the validator.
 
-- Full 13-layer specs
-- React 19 + Vite 8 + Tailwind v4
-- Double-entry accounting logic
-- Invoice generation with Spanish tax regulations
-- **Fully reconstructable from specs alone**
+A current-format, synthetic fixture is required before making repeatable reconstruction claims.
 
-> [See GastroFlow →](./examples/gastroflow/)
-
-**The reconstruction test**: give the specs to an agent in an empty context. Ask it to build GastroFlow from scratch. It should produce an identical app without any additional explanation. That's Spectra working.
+The reconstruction hypothesis should be tested by giving the same frozen specification to independent agents and measuring behavioural equivalence with evaluator-owned tests. Structural identity is not required and is not claimed.
 
 ---
 
