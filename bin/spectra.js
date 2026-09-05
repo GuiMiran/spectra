@@ -143,7 +143,7 @@ function cmdValidate() {
     AC:  '11-acceptance-criteria.md',
   };
 
-  const STUB_MARKERS = ['To be completed', 'Add your domain', '_Add your'];
+  const STUB_MARKERS = ['To be completed', 'Add your domain', '_Add your', '**Status**: Pending', '<!-- Add your '];
   const isStub = c => STUB_MARKERS.some(m => c.includes(m));
 
   const errors   = [];
@@ -253,11 +253,12 @@ function cmdStatus() {
     process.exit(1);
   }
 
-  const STUB_MARKERS = ['To be completed', 'Add your domain', '_Add your'];
+  const STUB_MARKERS = ['To be completed', 'Add your domain', '_Add your', '**Status**: Pending', '<!-- Add your '];
   const isStub = (content) => STUB_MARKERS.some(m => content.includes(m));
 
-  let totalIds = 0;
-  let filledLayers = 0;
+  const uniqueSpecIds = new Set();
+  let filledSpecLayers = 0;
+  let traceReady = false;
 
   p(c(DM, '  ─────────────────────────────────────────────────────────────'));
   p(`  ${'Layer'.padEnd(28)} ${'IDs'.padEnd(6)} Status`);
@@ -272,14 +273,21 @@ function cmdStatus() {
     const content = fs.readFileSync(file, 'utf8');
     const stub = isStub(content);
 
-    // Count IDs (skip code blocks)
-    const clean = content.replace(/```[\s\S]*?```/g, '');
-    let ids = 0;
+    // Count definitions, not examples included in authoring hints.
+    const clean = content
+      .replace(/<!--[\s\S]*?-->/g, '')
+      .replace(/```[\s\S]*?```/g, '')
+      .replace(/`[^`]+`/g, '');
+    const layerIds = new Set();
     Object.values(ID_PATTERNS).forEach(rx => {
-      ids += (clean.match(rx) || []).length;
+      (clean.match(rx) || []).forEach(id => layerIds.add(id));
     });
-    totalIds += ids;
-    if (!stub) filledLayers++;
+    const ids = layerIds.size;
+    if (num !== '12') layerIds.forEach(id => uniqueSpecIds.add(id));
+    if (!stub) {
+      if (num === '12') traceReady = true;
+      else filledSpecLayers++;
+    }
 
     const isTrace = num === '12';
     const nameCol = isTrace ? bd(MG, name) : c(WH, name);
@@ -292,13 +300,15 @@ function cmdStatus() {
   p(c(DM, '  ─────────────────────────────────────────────────────────────'));
   p();
 
-  const pct = Math.round((filledLayers / (LAYERS.length - 1)) * 100); // exclude trace
+  const specLayerCount = LAYERS.filter(([num]) => num !== '12').length;
+  const pct = Math.round((filledSpecLayers / specLayerCount) * 100);
   const bar = '█'.repeat(Math.floor(pct / 5)) + '░'.repeat(20 - Math.floor(pct / 5));
-  p(`  Layers filled   ${bd(WH, filledLayers + '/' + (LAYERS.length - 1))}  ${c(filledLayers > 0 ? GR : DM, bar)}  ${bd(CY, pct + '%')}`);
-  p(`  Total IDs       ${bd(WH, String(totalIds))}`);
+  p(`  Spec layers      ${bd(WH, filledSpecLayers + '/' + specLayerCount)}  ${c(filledSpecLayers > 0 ? GR : DM, bar)}  ${bd(CY, pct + '%')}`);
+  p(`  Trace layer      ${traceReady ? c(GR, 'ready') : c(YL, 'pending')}`);
+  p(`  Total spec IDs   ${bd(WH, String(uniqueSpecIds.size))}`);
   p();
 
-  if (filledLayers === 0) {
+  if (filledSpecLayers === 0) {
     p(c(YL, '  Next: fill SPECTRA-PROMPT.md and send it to an LLM to generate your specs.'));
   } else if (pct < 80) {
     p(c(YL, '  Some layers still pending. Run: spectra trace  to build the traceability matrix.'));
@@ -400,7 +410,9 @@ function cmdTrace() {
   });
 
   const specIds = Object.keys(specMap).sort();
-  const total   = specIds.length;
+  const traceableIds = specIds.filter(id => specMap[id].type !== 'AC');
+  const totalDefinitions = specIds.length;
+  const total = traceableIds.length;
 
   // ── Build AC linkage map: spec_id → [AC-XXX] from layer 11 ──────────────
   const acMap = {};
@@ -419,7 +431,7 @@ function cmdTrace() {
     });
   }
 
-  p(`  ${c(DM, 'Found')} ${bd(WH, String(total))} ${c(DM, 'spec IDs across layers 00–11')}`);
+  p(`  ${c(DM, 'Found')} ${bd(WH, String(totalDefinitions))} ${c(DM, 'definitions across layers 00–11')} · ${bd(WH, String(total))} ${c(DM, 'traceable specs')}`);
   p();
 
   // ── Scan source files for @spectra comments ──────────────────────────────
@@ -448,12 +460,16 @@ function cmdTrace() {
   }
   srcDirs.forEach(scanDir);
 
-  const implemented = specIds.filter(id => traced[id]);
-  const coverage    = total > 0 ? Math.round((implemented.length / total) * 100) : 0;
+  const artifactLinked = traceableIds.filter(id => traced[id]);
+  const acceptanceLinked = traceableIds.filter(id => acMap[id]?.length);
+  const evidenceReady = traceableIds.filter(id => traced[id] && acMap[id]?.length);
+  const declaredTraceCoverage = total > 0 ? Math.round((artifactLinked.length / total) * 100) : 0;
+  const coverage = total > 0 ? Math.round((evidenceReady.length / total) * 100) : 0;
+  const isEvidenceReady = id => specMap[id]?.type !== 'AC' && !!traced[id] && !!acMap[id]?.length;
 
   // ── Severity ─────────────────────────────────────────────────────────────
   function severity(id, spec) {
-    if (traced[id]) return '—';
+    if (spec.type === 'AC' || isEvidenceReady(id)) return '—';
     if (spec.type === 'INV')                             return 'CRITICAL';
     if (spec.type === 'SK')                              return 'CRITICAL';
     if (spec.type === 'BR' && spec.priority === 'MUST')  return 'MAJOR';
@@ -462,9 +478,9 @@ function cmdTrace() {
     return 'MINOR';
   }
 
-  const criticalIds = specIds.filter(id => severity(id, specMap[id]) === 'CRITICAL');
-  const majorIds    = specIds.filter(id => severity(id, specMap[id]) === 'MAJOR');
-  const minorIds    = specIds.filter(id => severity(id, specMap[id]) === 'MINOR');
+  const criticalIds = traceableIds.filter(id => severity(id, specMap[id]) === 'CRITICAL');
+  const majorIds    = traceableIds.filter(id => severity(id, specMap[id]) === 'MAJOR');
+  const minorIds    = traceableIds.filter(id => severity(id, specMap[id]) === 'MINOR');
 
   // ── Detect closed items and regressions ──────────────────────────────────
   const closedItems = [];
@@ -472,9 +488,10 @@ function cmdTrace() {
   specIds.forEach(id => {
     const prev = prevFwdStatus[id] || '';
     if (!prev) return;
-    const nowImpl    = !!traced[id];
+    if (specMap[id].type === 'AC') return;
+    const nowImpl    = isEvidenceReady(id);
     const wasPending = prev.includes('PENDING') || prev.includes('PARTIAL');
-    const wasImpl    = prev.includes('IMPL') && !prev.includes('PARTIAL');
+    const wasImpl    = prev.includes('EVIDENCE') || (prev.includes('IMPL') && !prev.includes('PARTIAL'));
     if (wasPending && nowImpl)  closedItems.push(id);
     if (wasImpl    && !nowImpl) regressions.push(id);
   });
@@ -496,15 +513,20 @@ function cmdTrace() {
   md += `# LAYER 12 — SPECTRA-TRACE\n`;
   md += `## Bidirectional Agentic Traceability Matrix\n\n`;
   md += `> **Live layer** — auto-generated by \`spectra trace\` · ${iterLabel} · ${today}\n`;
-  md += `> Forward: detects functional gaps (spec without code).\n`;
-  md += `> Reverse: detects technical gaps (code without spec).\n\n---\n\n`;
+  md += `> Forward: detects declared trace and acceptance-evidence gaps.\n`;
+  md += `> Reverse: detects code tags that do not resolve to a spec.\n`;
+  md += `> An \`@spectra\` tag is a trace claim, not proof that behaviour is correct.\n\n---\n\n`;
   md += `## [1] Coverage Dashboard\n`;
   md += `> Last updated: ${iterLabel} · ${today} · Agent: spectra-cli\n\n`;
   md += `| Metric                     | Value   | Trend     |\n`;
   md += `|----------------------------|---------|----------|\n`;
-  md += `| Total specs                | ${total}        | —         |\n`;
-  md += `| Implemented specs          | ${implemented.length}        | ${trend(implemented.length, pm.impl)}    |\n`;
-  md += `| Functional coverage        | ${coverage}%      | ${trend(coverage, pm.coverage)}  |\n`;
+  md += `| Total definitions          | ${totalDefinitions}        | —         |\n`;
+  md += `| Traceable specs            | ${total}        | —         |\n`;
+  md += `| Artifact-linked specs      | ${artifactLinked.length}        | —         |\n`;
+  md += `| Acceptance-linked specs    | ${acceptanceLinked.length}        | —         |\n`;
+  md += `| Evidence-ready specs       | ${evidenceReady.length}        | ${trend(evidenceReady.length, pm.impl)}    |\n`;
+  md += `| Declared trace coverage    | ${declaredTraceCoverage}%      | —         |\n`;
+  md += `| Evidence-ready coverage    | ${coverage}%      | ${trend(coverage, pm.coverage)}  |\n`;
   md += `| Artifacts without spec     | ${orphans.length}        | ${trend(orphans.length, pm.orphans)}    |\n`;
   md += `| CRITICAL gaps              | ${criticalIds.length}        | ${trend(criticalIds.length, pm.critical)}    |\n`;
   md += `| MAJOR gaps                 | ${majorIds.length}        | ${trend(majorIds.length, pm.major)}    |\n`;
@@ -520,15 +542,21 @@ function cmdTrace() {
     const spec   = specMap[id];
     const arts   = traced[id]   ? traced[id].join(', ')  : '—';
     const tests  = acMap[id]    ? acMap[id].join(', ')   : '—';
-    const status = traced[id]   ? '✅ IMPL'               : '❌ PENDING';
+    const status = spec.type === 'AC'
+      ? '🧪 CRITERION'
+      : isEvidenceReady(id)
+        ? '✅ EVIDENCE'
+        : traced[id]
+          ? '⏳ PARTIAL'
+          : '❌ PENDING';
     const sev    = severity(id, spec);
     md += `| ${id} | ${spec.type} | ${spec.desc.slice(0, 40)} | ${spec.priority} | ${status} | ${arts} | ${tests} | ${sev} | ${iterLabel} | — |\n`;
   });
   if (total === 0) {
     md += `| — | — | *No spec IDs found in layers 00–11* | — | — | — | — | — | — | — |\n`;
   }
-  md += `\n**Status**: \`✅ IMPL\` · \`⏳ PARTIAL\` · \`❌ PENDING\` · \`🚫 EXCLUDED\`  \n`;
-  md += `**Severity**: \`CRITICAL\` (INV/legal BR/SK) · \`MAJOR\` (MUST BR/US/WF) · \`MINOR\` (SHOULD/COULD)\n\n---\n\n`;
+  md += `\n**Status**: \`✅ EVIDENCE\` · \`⏳ PARTIAL\` · \`❌ PENDING\` · \`🧪 CRITERION\` · \`🚫 EXCLUDED\`  \n`;
+  md += `**Severity**: \`CRITICAL\` (INV/SK) · \`MAJOR\` (MUST BR/US/WF) · \`MINOR\` (SHOULD/COULD)\n\n---\n\n`;
 
   // [3] Reverse Matrix
   md += `## [3] Reverse Matrix — Code → Spec\n\n`;
@@ -556,10 +584,11 @@ function cmdTrace() {
     criticalIds.forEach((id, i) => {
       const spec = specMap[id];
       const n    = String(i + 1).padStart(3, '0');
-      md += `GAP-C${n} · ${id} not implemented\n`;
+      md += `GAP-C${n} · ${id} lacks complete evidence\n`;
       md += `  Spec: "${spec.desc}"\n`;
-      md += `  Current state: no implementation found via @spectra comments\n`;
-      md += `  Required action: implement and tag with \`// @spectra ${id}\`\n`;
+      md += `  Artifact link: ${traced[id] ? 'present' : 'missing'}\n`;
+      md += `  Acceptance link: ${acMap[id]?.length ? acMap[id].join(', ') : 'missing'}\n`;
+      md += `  Required action: add the missing link and verify behaviour independently\n`;
       md += `  Impact: ${spec.type === 'INV' ? 'invariant violation risk' : 'blocking skill missing'}\n\n`;
     });
   }
@@ -568,10 +597,11 @@ function cmdTrace() {
     majorIds.forEach((id, i) => {
       const spec = specMap[id];
       const n    = String(i + 1).padStart(3, '0');
-      md += `GAP-M${n} · ${id} not implemented\n`;
+      md += `GAP-M${n} · ${id} lacks complete evidence\n`;
       md += `  Spec: "${spec.desc}"\n`;
-      md += `  Current state: no implementation found via @spectra comments\n`;
-      md += `  Required action: implement and tag with \`// @spectra ${id}\`\n\n`;
+      md += `  Artifact link: ${traced[id] ? 'present' : 'missing'}\n`;
+      md += `  Acceptance link: ${acMap[id]?.length ? acMap[id].join(', ') : 'missing'}\n`;
+      md += `  Required action: add the missing link and verify behaviour independently\n\n`;
     });
   }
   if (minorIds.length > 0) {
@@ -579,13 +609,13 @@ function cmdTrace() {
     minorIds.forEach((id, i) => {
       const spec = specMap[id];
       const n    = String(i + 1).padStart(3, '0');
-      md += `GAP-m${n} · ${id} not implemented\n`;
+      md += `GAP-m${n} · ${id} lacks complete evidence\n`;
       md += `  Spec: "${spec.desc}"\n`;
       md += `  Priority: ${spec.priority}\n\n`;
     });
   }
   if (criticalIds.length === 0 && majorIds.length === 0 && minorIds.length === 0) {
-    md += `> ✅ No functional gaps detected. All specs are implemented.\n\n`;
+    md += `> ✅ No declared evidence gaps detected. All traceable specs have artifact and acceptance links.\n\n`;
   }
   if (orphans.length > 0) {
     md += `### ⚠️ Orphan Artifacts (code without spec)\n\n`;
@@ -607,9 +637,9 @@ function cmdTrace() {
     md += '\n';
   }
   if (regressions.length > 0) {
-    md += `### ⚠️ Regressions (previously IMPL, now PENDING)\n\n`;
+    md += `### ⚠️ Regressions (previously evidence-ready, now incomplete)\n\n`;
     regressions.forEach(id => {
-      md += `- **${id}**: was IMPL in iter-${iterNum - 1}, now PENDING — investigate\n`;
+      md += `- **${id}**: was evidence-ready in iter-${iterNum - 1}, now incomplete — investigate\n`;
     });
     md += '\n';
   }
@@ -619,17 +649,17 @@ function cmdTrace() {
   const regNote = regressions.length > 0
     ? `Regression: ${regressions.slice(0, 2).join(', ')}`
     : `${iterLabel} scan`;
-  const newRow  = `| ${iterLabel} | ${today} | ${implemented.length}/${total} | ${coverage}% | ${criticalIds.length} | ${majorIds.length} | ${orphans.length} | ${regNote} |`;
+  const newRow  = `| ${iterLabel} | ${today} | ${evidenceReady.length}/${total} | ${coverage}% | ${criticalIds.length} | ${majorIds.length} | ${orphans.length} | ${regNote} |`;
   const logBody = prevIterRows.length > 0
     ? prevIterRows.join('\n') + '\n' + newRow
     : newRow;
 
   md += `## [5] Iteration Log\n\n`;
-  md += `| iter   | date       | specs_impl | coverage | critical_gaps | major_gaps | orphans | note |\n`;
+  md += `| iter   | date       | specs_ready | evidence_coverage | critical_gaps | major_gaps | orphans | note |\n`;
   md += `|--------|------------|------------|----------|---------------|------------|---------|------|\n`;
   md += logBody + '\n';
   if (regressions.length > 0) {
-    md += `\n> ⚠️ **Regression**: \`critical_gaps\` increased. Cause: ${regressions.join(', ')} previously IMPL.\n`;
+    md += `\n> ⚠️ **Regression**: evidence became incomplete for ${regressions.join(', ')}.\n`;
   }
   md += `\n---\n\n`;
 
@@ -690,8 +720,9 @@ function cmdTrace() {
   p(c(DM, '  ─────────────────────────────────────────────────────────────'));
   p(`  Iteration         ${bd(CY, iterLabel)}`);
   p(`  Total specs       ${bd(WH, String(total))}`);
-  p(`  Implemented       ${bd(GR, String(implemented.length))}`);
-  p(`  Coverage          ${bd(CY, coverage + '%')}  ${c(coverage > 0 ? GR : DM, bar)}`);
+  p(`  Artifact linked   ${bd(WH, String(artifactLinked.length))}`);
+  p(`  Evidence ready    ${bd(GR, String(evidenceReady.length))}`);
+  p(`  Evidence coverage ${bd(CY, coverage + '%')}  ${c(coverage > 0 ? GR : DM, bar)}`);
   p(`  CRITICAL gaps     ${bd(criticalIds.length > 0 ? RD : GR, String(criticalIds.length))}`);
   p(`  MAJOR gaps        ${bd(majorIds.length    > 0 ? YL : GR, String(majorIds.length))}`);
   p(`  Orphan artifacts  ${bd(orphans.length     > 0 ? YL : GR, String(orphans.length))}`);
