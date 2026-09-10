@@ -21,6 +21,16 @@ templates/
 └── layer-12-trace.template.md
 ```
 
+## Evidencia y planificacion segura
+
+- `evidence.json` registra resultados de comprobaciones ya ejecutadas.
+- `agent-task.json` define objetivo, criterios y limites de lectura.
+- `agent-context.json` contiene solo los fragmentos revisados que el
+  planificador puede inspeccionar.
+
+Estos tres contratos son opt-in y no se copian automaticamente con
+`spectra init`.
+
 ## Uso
 
 Cuando ejecutas `spectra init`, estos templates se copian a `.spectra/` en tu proyecto.

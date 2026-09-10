@@ -10,6 +10,8 @@ humans and autonomous agents. Treat this file as the repository entry point.
 | Understand the product | `README.md`, `MANIFESTO.md`, `skills/SKILL.md` | Domain docs and prompts | `npm test` |
 | Change a CLI command | `bin/spectra.js` | `lib/`, `test/`, relevant docs | `npm test` and `npm run test:syntax` |
 | Change the evolution loop | `docs/architecture/controlled-evolution.md`, `docs/architecture/decisions/0001-controlled-evolution-superagents.md`, `lib/evolution/index.js` | `lib/evolution/`, `evals/`, `test/`, config template | `npm test` |
+| Change recorded evidence or `spectra verify` | `docs/architecture/decisions/0002-evidence-and-read-only-planning.md`, `lib/verification/index.js` | `lib/verification/`, CLI adapter, templates, tests | `npm test` and `npm run test:syntax` |
+| Change read-only agent planning | `docs/architecture/decisions/0002-evidence-and-read-only-planning.md`, `lib/agent-runtime/index.js` | `lib/agent-runtime/`, CLI adapter, templates, tests | `npm test` and `npm run test:syntax` |
 | Add an evolution capability | `lib/evolution/contracts.js`, `lib/evolution/components.js`, `templates/evolution.config.json` | A bounded component, contract, test, and ADR when the decision is durable | `npm test` |
 | Change agent-facing specification guidance | `skills/SKILL.md`, `SPECTRA-PROMPT.md`, `layers/12-trace.md` | Prompt, skill, layer reference, example | `spectra init`, `spectra validate`, `spectra trace` in a temporary project |
 | Add user documentation | `docs/README.md` | The appropriate `docs/` subsection and its index | Check all relative links |
@@ -21,6 +23,7 @@ humans and autonomous agents. Treat this file as the repository entry point.
 ```text
 bin/        Stable CLI entry point. Keep it thin: parse arguments and delegate.
 lib/        Dependency-free runtime modules. `lib/evolution/` owns the controlled-evolution domain.
+            `lib/verification/` owns recorded evidence; `lib/agent-runtime/` owns bounded read-only planning.
 test/       Deterministic unit and integration tests for public behaviour.
 evals/      Versioned evaluation scenarios and fixtures; not production runtime state.
 templates/  Files copied into a consumer project; maintain backward-compatible schemas.

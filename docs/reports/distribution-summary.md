@@ -196,7 +196,7 @@ Ver guía completa: [docs/guides/agent-visibility.md](docs/guides/agent-visibili
 - [Repositorio GitHub](https://github.com/GuiMiran/spectra)
 - [Manifesto](MANIFESTO.md) - Los 7 principios
 - [Prompt Universal](SPECTRA-PROMPT.md) - Template para generar specs
-- [Ejemplo: GastroFlow](examples/gastroflow/) - Caso real completo
+- [Demo y resultados: GastroFlow](https://github.com/GuiMiran/GastroFlow) - Implementación externa del catálogo SDD de Spectra
 - [vs OpenSpec](../reference/openspec-comparison.md) - Comparación y complementariedad
 - [Guía de Visibilidad](docs/guides/agent-visibility.md) - Cómo hacerlo visible
 - [Integración OpenSpec](docs/guides/openspec-integration.md) - Úsalos juntos

@@ -152,6 +152,30 @@ When a business rule changes, update the spec first, identify its linked element
 
 ---
 
+## Recorded evidence and read-only planning
+
+SPECTRA-TRACE records declared links. Independent test results can now be
+recorded separately and checked as a fail-closed acceptance gate:
+
+```bash
+spectra verify
+spectra verify --require AC-001,AC-002
+```
+
+The experimental planning boundary validates an allow-listed task and context:
+
+```bash
+spectra agent plan --task task.json --context context.json --provider dry-run
+```
+
+The bundled `dry-run` and `null` providers do not call an AI model. They have
+no network, credential, shell, or source-write capability, and every plan
+requires human approval. See the
+[evidence and read-only planning guide](docs/guides/evidence-and-read-only-planning.md)
+and [ADR-0002](docs/architecture/decisions/0002-evidence-and-read-only-planning.md).
+
+---
+
 ## Controlled Agent Evolution (MVP)
 
 Spectra can now turn measured trace, coverage-map, and Allure gaps into a
@@ -236,9 +260,9 @@ With specs in context, the agent builds, respects invariants, detects conflicts 
 
 ---
 
-## Examples
+## Demo and results
 
-- [GastroFlow](./examples/gastroflow/) is a legacy, pre-standard showcase. It predates the current 13-layer convention and is intentionally excluded from the validator.
+- [GastroFlow](https://github.com/GuiMiran/GastroFlow) is the external implementation demo for Spectra's Spec Driven Development catalogue. Its source code, specifications, tests, and setup instructions live in their own repository.
 
 A current-format, synthetic fixture is required before making repeatable reconstruction claims.
 
@@ -260,7 +284,6 @@ spectra/
 ├── layers/
 │   └── 12-trace.md               ← SPECTRA-TRACE · bidirectional matrix
 ├── examples/
-│   ├── gastroflow/               ← complete real-world example
 │   └── EJEMPLO-RELLENADO-SAAS-GESTION.md
 ├── lib/                          ← runtime modules
 └── test/                         ← deterministic behavioural evidence

@@ -178,3 +178,8 @@ and pass the same independent evaluator and mutation guard.
 
 See [ADR-0001](decisions/0001-controlled-evolution-superagents.md) for the decision
 record and rejected alternatives.
+
+Recorded test evidence and the bounded read-only planning runtime are separate
+from this self-contained evolution loop. See
+[ADR-0002](decisions/0002-evidence-and-read-only-planning.md); neither subsystem
+enables a model, MCP, source writes, or command execution.

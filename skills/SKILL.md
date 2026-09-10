@@ -351,7 +351,7 @@ When the agent detects a requirement change:
 - Repository: https://github.com/GuiMiran/spectra
 - Universal Prompt: https://github.com/GuiMiran/spectra/blob/main/SPECTRA-PROMPT.md
 - Manifesto (7 principles): https://github.com/GuiMiran/spectra/blob/main/MANIFESTO.md
-- Real example (GastroFlow): https://github.com/GuiMiran/spectra/tree/main/examples/gastroflow
+- External implementation demo (GastroFlow): https://github.com/GuiMiran/GastroFlow
 - vs other frameworks: https://github.com/GuiMiran/spectra/blob/main/docs/reference/framework-comparison.md
 
 ---

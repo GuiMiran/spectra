@@ -53,21 +53,11 @@ Actúas como experto en Spec-Driven Development usando Spectra.
 
 ### 3. Como MCP Server
 
-Exponer Spectra via Model Context Protocol:
-
-```json
-{
-  "mcpServers": {
-    "spectra": {
-      "command": "npx",
-      "args": ["@spectra/mcp-server"],
-      "env": {
-        "SPECTRA_DIR": ".spectra"
-      }
-    }
-  }
-}
-```
+Este repositorio no publica actualmente un servidor MCP. No configures
+`@spectra/mcp-server`: ese paquete no forma parte de SPECTRA. Una integración
+futura debería comenzar con herramientas de solo lectura para consultar specs,
+trazas y evidencia, y requerirá una decisión de arquitectura y límites de
+permisos separados.
 
 ### 4. En Instrucciones Globales de Copilot
 
@@ -87,23 +77,20 @@ Para proyectos con directorio `.spectra/`:
 ### Instalación via npm (recomendado)
 
 ```bash
-# Instalar globalmente
-npm install -g @spectra/core
+# Instalar la CLI dentro del proyecto
+npm install --save-dev @guimiran/spectra
 
 # Inicializar en tu proyecto
-cd mi-proyecto
-spectra init
+npx spectra init
 ```
 
 ### Instalación via Git
 
 ```bash
-# Clonar el repo
-git clone https://github.com/GuiMiran/spectra.git
-
-# Copiar templates a tu proyecto
-cp -r spectra/.spectra mi-proyecto/.spectra
-cp spectra/SPECTRA-PROMPT.md mi-proyecto/
+cd directorio-que-contiene-tus-repos
+git clone https://github.com/GuiMiran/spectra.git spectra
+cd mi-proyecto
+node ../spectra/bin/spectra.js init
 ```
 
 ### Como Submodulo
@@ -134,7 +121,8 @@ npm publish --access public
 
 Entonces usuarios pueden:
 ```bash
-npm install -g @spectra/core
+npm install --save-dev @guimiran/spectra
+npx spectra init
 ```
 
 ### Documentación Online
@@ -171,7 +159,7 @@ Opciones:
 ### Ejemplos Destacados
 
 Crear showcase con:
-- GastroFlow (ya existe)
+- [GastroFlow](https://github.com/GuiMiran/GastroFlow) (demo externa disponible)
 - Healthcare app con regulaciones HIPAA
 - FinTech con cumplimiento bancario
 - E-commerce con normativa GDPR

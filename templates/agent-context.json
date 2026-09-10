@@ -1,0 +1,14 @@
+{
+  "files": [
+    {
+      "path": "test/example.spec.ts",
+      "content": "// Paste only the reviewed test excerpt here."
+    }
+  ],
+  "specifications": [
+    {
+      "id": "AC-001",
+      "content": "Paste only the relevant acceptance criterion here."
+    }
+  ]
+}

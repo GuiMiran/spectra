@@ -11,6 +11,8 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 
 ## Guides
 
+- [Evidence and read-only planning](guides/evidence-and-read-only-planning.md) - record executed evidence and prepare a bounded agent-planning artifact.
+
 - [Quickstart](guides/quickstart.md) — create a complete `/specs` folder from scratch.
 - [Agent visibility](guides/agent-visibility.md) — expose Spectra instructions to agent runtimes.
 - [OpenSpec integration](guides/openspec-integration.md)
@@ -22,6 +24,7 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 
 - [Framework comparison](reference/framework-comparison.md)
 - [OpenSpec comparison](reference/openspec-comparison.md)
+- [GastroFlow demo and results](https://github.com/GuiMiran/GastroFlow)
 - [Distribution summary](reports/distribution-summary.md)
 - [Spectra report](reports/spectra-report.md)
 
