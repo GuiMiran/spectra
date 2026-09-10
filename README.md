@@ -152,6 +152,34 @@ When a business rule changes, update the spec first, identify its linked element
 
 ---
 
+## Controlled Agent Evolution (MVP)
+
+Spectra can now turn measured trace, coverage-map, and Allure gaps into a
+versioned organization of specialist agents:
+
+```bash
+spectra evolve --init-config
+spectra trace
+spectra evolve --objective "Close critical evidence gaps" --iterations 3
+spectra evolution-status
+```
+
+The loop is `Objective → Meta-Intelligence → Architect → Agent Factory →
+Orchestrator → structured sandbox → Evaluator → Root-Cause Analysis → Evolution
+Engine → Registry`. Every candidate is evaluated against the active baseline and
+is promoted only when it improves the configured metrics and passes all safety
+gates.
+
+The MVP evolves declarative agent definitions only. It cannot change source
+code, limits, credentials, evaluation rules, or controls. MCP, PR creation, and
+re-execution are explicit extension stages but remain disabled until separately
+reviewed adapters and approval boundaries are provided.
+
+See [Controlled Evolution](docs/CONTROLLED-EVOLUTION.md) and
+[ADR-0001](docs/adr/0001-controlled-evolution-superagents.md).
+
+---
+
 ## Making Spectra Visible to Agents
 
 ### In VS Code / Copilot
