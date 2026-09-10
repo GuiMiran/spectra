@@ -140,8 +140,8 @@ código fuente, límites, credenciales, reglas de evaluación ni controles. MCP,
 creación de PR y re-ejecución son etapas de extensión explícitas, pero permanecen
 desactivadas hasta disponer de adaptadores revisados y aprobación externa.
 
-Consulta [Controlled Evolution](docs/CONTROLLED-EVOLUTION.md) y
-[ADR-0001](docs/adr/0001-controlled-evolution-superagents.md).
+Consulta [Controlled Evolution](docs/architecture/controlled-evolution.md) y
+[ADR-0001](docs/architecture/decisions/0001-controlled-evolution-superagents.md).
 
 ---
 
@@ -186,7 +186,7 @@ mi-proyecto/
 }
 ```
 
-Ver [guía completa de visibilidad](docs/VISIBILIDAD.md).
+Ver [guía completa de visibilidad](docs/guides/agent-visibility.md).
 
 ---
 

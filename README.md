@@ -56,7 +56,7 @@ node ../spectra/bin/spectra.js init
 
 ## How it works
 
-![Spectra flow](docs/flow.svg)
+![Spectra flow](docs/assets/flow.svg)
 
 ---
 
@@ -175,8 +175,8 @@ code, limits, credentials, evaluation rules, or controls. MCP, PR creation, and
 re-execution are explicit extension stages but remain disabled until separately
 reviewed adapters and approval boundaries are provided.
 
-See [Controlled Evolution](docs/CONTROLLED-EVOLUTION.md) and
-[ADR-0001](docs/adr/0001-controlled-evolution-superagents.md).
+See [Controlled Evolution](docs/architecture/controlled-evolution.md) and
+[ADR-0001](docs/architecture/decisions/0001-controlled-evolution-superagents.md).
 
 ---
 
@@ -212,7 +212,13 @@ my-project/
 
 An MCP server is a future integration. No supported Spectra MCP package is published by this repository today; do not add an MCP configuration until an implementation and installation instructions are released.
 
-See [complete visibility guide](docs/VISIBILIDAD.md).
+See [complete visibility guide](docs/guides/agent-visibility.md).
+
+## Repository navigation for agents
+
+[`AGENTS.md`](AGENTS.md) is the entry point for agents and maintainers. It maps
+tasks to their owning code, contracts, tests, and verification commands so a
+fresh agent can work without guessing where knowledge belongs.
 
 ---
 

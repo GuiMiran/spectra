@@ -29,7 +29,7 @@
     "lib/",
     "scripts/",
     "templates/",
-    "docs/CONTROLLED-EVOLUTION.md",
+    "docs/architecture/controlled-evolution.md",
     "layers/",
     "SPECTRA-PROMPT.md",
     "MANIFESTO.md",

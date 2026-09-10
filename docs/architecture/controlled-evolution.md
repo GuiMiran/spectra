@@ -176,5 +176,5 @@ replaced through `MotherEvolutionLoop` constructor options:
 Alternative model-backed components must return the same serializable contracts
 and pass the same independent evaluator and mutation guard.
 
-See [ADR-0001](adr/0001-controlled-evolution-superagents.md) for the decision
+See [ADR-0001](decisions/0001-controlled-evolution-superagents.md) for the decision
 record and rejected alternatives.
