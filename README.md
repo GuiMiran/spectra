@@ -126,7 +126,7 @@ Spectra (domain)  →  OpenSpec / GitHub Spec Kit (construction)  →  Your code
 2. **Then**: Use OpenSpec or Spec Kit to implement features with that domain as context
 3. **Result**: Agents receive explicit domain constraints and their output can be evaluated against them
 
-See detailed comparison in [vs-openspec.md](vs-openspec.md).
+See detailed comparison in [OpenSpec comparison](docs/reference/openspec-comparison.md).
 
 ---
 
@@ -252,18 +252,18 @@ The reconstruction hypothesis should be tested by giving the same frozen specifi
 spectra/
 ├── README.md                     ← you are here
 ├── README.es.md                  ← Spanish version
+├── AGENTS.md                     ← navigation and change contract for agents
 ├── MANIFESTO.md                  ← the 7 principles of SPECTRA
 ├── SPECTRA-PROMPT.md             ← universal prompt (fill and use)
-├── GUIA-VARIABLES.md             ← variable guide
-├── docs/
-│   └── flow.svg                  ← architecture diagram
+├── docs/                         ← architecture, guides, reference, reports
+├── harness/                      ← repository SPECTRA matrix and verifier
 ├── layers/
 │   └── 12-trace.md               ← SPECTRA-TRACE · bidirectional matrix
 ├── examples/
 │   ├── gastroflow/               ← complete real-world example
 │   └── EJEMPLO-RELLENADO-SAAS-GESTION.md
-├── vs-openspec.md                ← Spectra vs OpenSpec + GitHub Spec Kit
-└── vs-frameworks.md              ← Spectra vs RTM, BDD, ADR, Backstage, SBOM, OTel
+├── lib/                          ← runtime modules
+└── test/                         ← deterministic behavioural evidence
 ```
 
 ---
@@ -279,7 +279,11 @@ spectra/
 | RTM/DOORS | Traceability | ❌ | Reference | ❌ | Partial | ❌ |
 | ADR/MADR | Decisions | Partial | ❌ | ❌ | ❌ | ❌ |
 
-Full breakdown → [vs-frameworks.md](vs-frameworks.md)
+Full breakdown → [framework comparison](docs/reference/framework-comparison.md)
+
+The repository-level matrix and verification harness are in
+[`harness/`](harness/). Run `npm run verify` to validate its paths, root policy,
+documentation links, syntax, and test suite.
 
 ---
 

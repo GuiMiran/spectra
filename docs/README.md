@@ -16,6 +16,14 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 - [OpenSpec integration](guides/openspec-integration.md)
 - [npm availability](guides/npm-availability.md)
 - [Publishing](guides/publishing.md)
+- [Variable reference](guides/variable-reference.md)
+
+## Reference and reports
+
+- [Framework comparison](reference/framework-comparison.md)
+- [OpenSpec comparison](reference/openspec-comparison.md)
+- [Distribution summary](reports/distribution-summary.md)
+- [Spectra report](reports/spectra-report.md)
 
 ## Prompts and templates
 
@@ -29,3 +37,4 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 - [Spanish business catalogue](website/catalogo-sdd-negocios-espana.html)
 
 The builder-agent profile lives in [`../agents/spectra.chatAgent`](../agents/spectra.chatAgent).
+The repository-level SPECTRA matrix and verification harness live in [`../harness/`](../harness/).

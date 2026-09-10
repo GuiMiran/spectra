@@ -29,8 +29,14 @@
     "lib/",
     "scripts/",
     "templates/",
-    "docs/architecture/controlled-evolution.md",
+    "agents/",
+    "docs/",
+    "evals/",
+    "harness/",
     "layers/",
+    "skills/",
+    "test/",
+    "AGENTS.md",
     "SPECTRA-PROMPT.md",
     "MANIFESTO.md",
     "README.md",
@@ -40,6 +46,7 @@
   "scripts": {
     "test": "node --test",
     "test:syntax": "node --check bin/spectra.js && node --check lib/evolution/index.js",
+    "verify": "node scripts/verify-repository.js && npm run test:syntax && npm test",
     "welcome": "node scripts/welcome.js",
     "postinstall": "node scripts/welcome.js"
   },

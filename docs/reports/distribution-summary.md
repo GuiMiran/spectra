@@ -197,7 +197,7 @@ Ver guía completa: [docs/guides/agent-visibility.md](docs/guides/agent-visibili
 - [Manifesto](MANIFESTO.md) - Los 7 principios
 - [Prompt Universal](SPECTRA-PROMPT.md) - Template para generar specs
 - [Ejemplo: GastroFlow](examples/gastroflow/) - Caso real completo
-- [vs OpenSpec](vs-openspec.md) - Comparación y complementariedad
+- [vs OpenSpec](../reference/openspec-comparison.md) - Comparación y complementariedad
 - [Guía de Visibilidad](docs/guides/agent-visibility.md) - Cómo hacerlo visible
 - [Integración OpenSpec](docs/guides/openspec-integration.md) - Úsalos juntos
 - [Publicar npm](docs/guides/publishing.md) - Cómo publicar el paquete

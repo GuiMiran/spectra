@@ -13,6 +13,7 @@ humans and autonomous agents. Treat this file as the repository entry point.
 | Add an evolution capability | `lib/evolution/contracts.js`, `lib/evolution/components.js`, `templates/evolution.config.json` | A bounded component, contract, test, and ADR when the decision is durable | `npm test` |
 | Change agent-facing specification guidance | `skills/SKILL.md`, `SPECTRA-PROMPT.md`, `layers/12-trace.md` | Prompt, skill, layer reference, example | `spectra init`, `spectra validate`, `spectra trace` in a temporary project |
 | Add user documentation | `docs/README.md` | The appropriate `docs/` subsection and its index | Check all relative links |
+| Audit repository structure or traceability | `harness/spectra-matrix.json`, `harness/README.md` | Matrix, harness, affected owner and evidence | `npm run verify` |
 | Publish a release | `docs/guides/publishing.md`, `package.json` | Release metadata and release docs | `npm pack --dry-run` |
 
 ## Directory contracts
@@ -24,6 +25,7 @@ test/       Deterministic unit and integration tests for public behaviour.
 evals/      Versioned evaluation scenarios and fixtures; not production runtime state.
 templates/  Files copied into a consumer project; maintain backward-compatible schemas.
 layers/     Canonical SPECTRA layer reference material.
+harness/    Repository-level SPECTRA matrix and deterministic verification harness.
 skills/     Agent skill contract for external agent runtimes.
 agents/     Ready-to-use agent profile definitions.
 docs/       Human and agent documentation, indexed by `docs/README.md`.
@@ -55,5 +57,5 @@ An agent rebuilding SPECTRA from scratch should read, in order:
 2. this file for ownership and constraints;
 3. `skills/SKILL.md`, `SPECTRA-PROMPT.md`, and `layers/12-trace.md` for the specification model;
 4. `docs/architecture/` and `lib/evolution/` for the controlled-evolution model;
-5. `test/` and `evals/` for executable evidence;
+5. `harness/spectra-matrix.json`, `test/`, and `evals/` for executable evidence;
 6. `templates/` and `examples/` for consumer-facing artefacts.
