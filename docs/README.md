@@ -25,6 +25,10 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 - [Distribution summary](reports/distribution-summary.md)
 - [Spectra report](reports/spectra-report.md)
 
+## Planning
+
+- [Product backlog](planning/product-backlog.md) — evidence-first roadmap for the product and delivery pipeline.
+
 ## Prompts and templates
 
 - [Universal prompt](prompts/universal.md) — generate SPECTRA specifications for any domain.
