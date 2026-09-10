@@ -117,6 +117,32 @@ Cuando cambia una regla de negocio, cambias la spec. El agente propaga el cambio
 
 ---
 
+## Evidencia registrada y planificación de solo lectura
+
+SPECTRA-TRACE registra enlaces declarados. Los resultados independientes de
+pruebas se pueden registrar por separado y comprobar con un gate que falla
+cerrado:
+
+```bash
+spectra verify
+spectra verify --require AC-001,AC-002
+```
+
+La frontera experimental de planificación valida una tarea y un contexto
+limitados mediante listas permitidas:
+
+```bash
+spectra agent plan --task task.json --context context.json --provider dry-run
+```
+
+Los proveedores incluidos `dry-run` y `null` no llaman a un modelo de IA. No
+tienen acceso a red, credenciales, shell ni escritura de código, y cada plan
+requiere aprobación humana. Consulta la
+[guía de evidencia y planificación](docs/guides/evidence-and-read-only-planning.md)
+y [ADR-0002](docs/architecture/decisions/0002-evidence-and-read-only-planning.md).
+
+---
+
 ## Evolución controlada de agentes (MVP)
 
 Spectra puede convertir gaps medidos de SPECTRA-TRACE, coverage-map y Allure en
@@ -190,17 +216,11 @@ Ver [guía completa de visibilidad](docs/guides/agent-visibility.md).
 
 ---
 
-## Caso de uso real: GastroFlow
+## Demo y resultados: GastroFlow
 
-El repo incluye **GastroFlow** — una app completa de gestión de restaurante construida 100% con Spectra:
+**GastroFlow** es la demo externa de implementación del catálogo Spec Driven Development de Spectra. El código, las especificaciones, las pruebas y las instrucciones de instalación se mantienen en su propio repositorio:
 
-- 12 capas de specs completas
-- App React 19 + Vite 8 + Tailwind v4
-- Lógica contable con doble partida
-- Facturación con IVA y normativa española
-- Reconstruible desde cero leyendo solo las specs
-
-> [Ver GastroFlow →](./examples/gastroflow/)
+> [Ver GastroFlow y sus resultados →](https://github.com/GuiMiran/GastroFlow)
 
 ---
 
@@ -228,8 +248,7 @@ spectra/
 │   ├── 11-criterios-aceptacion.md
 │   └── 12-trace.md               ← SPECTRA-TRACE · matriz bidireccional viva
 ├── examples/
-│   ├── gastroflow/               ← caso de uso completo
-│   └── saas-gestion/             ← ejemplo rellenado
+│   └── EJEMPLO-RELLENADO-SAAS-GESTION.md ← ejemplo rellenado
 ├── docs/reference/               ← comparativas y material de referencia
 └── harness/                      ← matriz SPECTRA y verificación del repositorio
 ```

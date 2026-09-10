@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "run": {
+    "command": "npm run <targeted-check>",
+    "commit": "replace-with-commit-or-build-identifier",
+    "executedAt": "2026-01-01T00:00:00.000Z"
+  },
+  "results": [
+    {
+      "id": "AC-001",
+      "status": "passed",
+      "test": "A named independent test or test suite",
+      "command": "npm run <targeted-check>",
+      "artifacts": [
+        "test/example.spec.ts"
+      ]
+    }
+  ]
+}

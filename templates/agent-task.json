@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "evidence-audit",
+  "objective": "Review the supplied acceptance evidence and propose the smallest safe next action.",
+  "successCriteria": [
+    {
+      "id": "AC-001",
+      "description": "The plan cites the acceptance criterion and requires independent verification."
+    }
+  ],
+  "constraints": [
+    "Read-only planning only.",
+    "Do not propose source writes, commands, network access, credentials, or deployment."
+  ],
+  "scope": {
+    "allowedFiles": [
+      "test/example.spec.ts"
+    ],
+    "allowedSpecIds": [
+      "AC-001"
+    ]
+  }
+}

@@ -849,6 +849,28 @@ function cliOption(name, fallback = null) {
   return args[index + 1];
 }
 
+function cliOptionValues(name) {
+  const args = process.argv.slice(3);
+  const values = [];
+  for (let index = 0; index < args.length; index += 1) {
+    if (args[index] !== name) continue;
+    const value = args[index + 1];
+    if (!value || value.startsWith('--')) {
+      throw new Error(`${name} requires a value.`);
+    }
+    values.push(value);
+    index += 1;
+  }
+  return values;
+}
+
+function cliIdList(name) {
+  return cliOptionValues(name)
+    .flatMap(value => value.split(','))
+    .map(value => value.trim())
+    .filter(Boolean);
+}
+
 function initEvolutionConfig() {
   const spectraDir = path.join(process.cwd(), '.spectra');
   const destination = path.join(spectraDir, 'evolution.config.json');
@@ -937,6 +959,160 @@ function cmdEvolutionStatus() {
 }
 
 // ── DEFAULT HELP ──────────────────────────────────────────────────────────────
+function readJsonOption(name) {
+  const option = cliOption(name);
+  if (!option || option === true) throw new Error(`${name} requires a JSON file path.`);
+  const file = path.resolve(process.cwd(), option);
+  try {
+    return { file, value: JSON.parse(fs.readFileSync(file, 'utf8')) };
+  } catch (error) {
+    throw new Error(`Cannot read ${name} from ${file}: ${error.message}`);
+  }
+}
+
+function writeReadOnlyPlanArtifact(option, artifact) {
+  if (!option) return null;
+  if (option === true) throw new Error('--output requires a file path.');
+  const writeRoot = path.resolve(process.cwd(), '.spectra', 'agent-runs');
+  const file = path.resolve(process.cwd(), option);
+  const relative = path.relative(writeRoot, file);
+  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error('--output must be a file below .spectra/agent-runs/.');
+  }
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, `${JSON.stringify(artifact, null, 2)}\n`, 'utf8');
+  return file;
+}
+
+function cmdAgent() {
+  const action = process.argv[3];
+  const asJson = cliOption('--json', false) === true;
+  try {
+    if (action !== 'plan') throw new Error('Use: spectra agent plan --task <task.json> --context <context.json> [--provider dry-run|null].');
+    const providerName = cliOption('--provider', 'dry-run');
+    if (providerName === true || !['dry-run', 'null'].includes(providerName)) {
+      throw new Error('--provider must be dry-run or null. Model-backed providers are not enabled.');
+    }
+    const taskInput = readJsonOption('--task');
+    const contextInput = readJsonOption('--context');
+    const { DryRunPlannerProvider, NullPlannerProvider, ReadOnlyPlanningRuntime } = require('../lib/agent-runtime');
+    const provider = providerName === 'dry-run' ? new DryRunPlannerProvider() : new NullPlannerProvider();
+    const result = new ReadOnlyPlanningRuntime({ provider }).plan(taskInput.value, contextInput.value);
+    const artifact = {
+      schemaVersion: 1,
+      kind: 'spectra-read-only-plan',
+      taskFile: taskInput.file,
+      contextFile: contextInput.file,
+      task: result.task,
+      context: result.context,
+      plan: result.plan,
+      run: result.run,
+    };
+    const artifactFile = writeReadOnlyPlanArtifact(cliOption('--output'), artifact);
+    const report = {
+      success: result.plan.state === 'proposed',
+      mode: 'read-only-planning',
+      provider: result.run.provenance.provider,
+      effects: result.effects,
+      taskId: result.task.id,
+      planId: result.plan.id,
+      state: result.plan.state,
+      requiresHumanApproval: result.plan.requiresHumanApproval,
+      artifactFile,
+      result: artifact,
+    };
+
+    if (asJson) {
+      p(JSON.stringify(report, null, 2));
+    } else {
+      p();
+      p(bd(CY, '  SPECTRA AGENT PLAN'));
+      p();
+      p(`  Task             ${bd(WH, result.task.id)}`);
+      p(`  Provider         ${bd(WH, result.run.provenance.provider.id)} (${result.run.provenance.provider.mode}; no model invoked)`);
+      p(`  State            ${result.plan.state === 'proposed' ? c(GR, result.plan.state) : c(YL, result.plan.state)}`);
+      p(`  Source writes    ${c(GR, '0')}`);
+      p(`  Network calls    ${c(GR, '0')}`);
+      p(`  Human approval   ${c(YL, 'required')}`);
+      if (artifactFile) p(`  Run artifact     ${c(DM, path.relative(process.cwd(), artifactFile))}`);
+      p();
+      p(c(DM, '  This is a bounded planning artifact, not an AI model call or source-code change.'));
+      p();
+    }
+
+    if (result.plan.state !== 'proposed') process.exitCode = 1;
+  } catch (error) {
+    if (asJson) p(JSON.stringify({ success: false, error: error.message }, null, 2));
+    else p(c(RD, `  ${error.message}`));
+    process.exitCode = 1;
+  }
+}
+
+function cmdVerify() {
+  const asJson = cliOption('--json', false) === true;
+  try {
+    const evidenceOption = cliOption('--evidence', '.spectra/evidence.json');
+    if (evidenceOption === true) throw new Error('--evidence requires a path.');
+
+    const { readAcceptanceCriteriaIds, verifyEvidenceFile } = require('../lib/verification');
+    const explicitIds = cliIdList('--require');
+    const defaultRequirements = explicitIds.length === 0
+      ? readAcceptanceCriteriaIds(process.cwd())
+      : null;
+    const requiredIds = explicitIds.length > 0 ? explicitIds : defaultRequirements.ids;
+    const result = verifyEvidenceFile(path.resolve(process.cwd(), evidenceOption), requiredIds);
+    const success = result.state === 'valid'
+      && result.valid
+      && result.passed.length === requiredIds.length
+      && result.failed.length === 0
+      && result.skipped.length === 0
+      && result.missing.length === 0;
+    const report = {
+      success,
+      mode: 'recorded-evidence-only',
+      requiredSource: explicitIds.length > 0 ? 'explicit' : defaultRequirements.file,
+      evidenceFile: result.file,
+      state: result.state,
+      required: requiredIds,
+      passed: result.passed,
+      failed: result.failed,
+      skipped: result.skipped,
+      missing: result.missing,
+      counts: result.counts,
+      errors: result.errors,
+    };
+
+    if (asJson) {
+      p(JSON.stringify(report, null, 2));
+    } else {
+      p();
+      p(bd(CY, '  SPECTRA VERIFY'));
+      p();
+      p(`  Evidence file    ${c(DM, path.relative(process.cwd(), result.file))}`);
+      p(`  Required IDs     ${bd(WH, String(requiredIds.length))} (${explicitIds.length ? 'explicit scope' : 'acceptance layer'})`);
+      p(`  Passed           ${bd(result.passed.length === requiredIds.length ? GR : YL, String(result.passed.length))}`);
+      p(`  Failed           ${bd(result.failed.length ? RD : GR, String(result.failed.length))}`);
+      p(`  Skipped          ${bd(result.skipped.length ? YL : GR, String(result.skipped.length))}`);
+      p(`  Missing          ${bd(result.missing.length ? RD : GR, String(result.missing.length))}`);
+      p();
+      if (success) {
+        p(c(GR, '  Recorded evidence is complete for the requested IDs.'));
+      } else {
+        p(c(RD, '  Evidence is incomplete, failed, skipped, missing, or invalid.'));
+        result.errors.forEach(error => p(`  ${c(RD, 'â€¢')} ${error.code}: ${error.message}`));
+      }
+      p(c(DM, '  Note: verify validates recorded evidence; it does not execute project commands.'));
+      p();
+    }
+
+    if (!success) process.exitCode = 1;
+  } catch (error) {
+    if (asJson) p(JSON.stringify({ success: false, error: error.message }, null, 2));
+    else p(c(RD, `  ${error.message}`));
+    process.exitCode = 1;
+  }
+}
+
 function cmdHelp() {
   p();
   p(bd(CY, '  SPECTRA') + c(DM, '  ·  Spec-Driven Development for Agentic AI'));
@@ -946,6 +1122,8 @@ function cmdHelp() {
   p(`  │  ${bd(GR, 'spectra status')}      ${c(DM, 'Show which layers are filled vs pending')}     │`);
   p(`  │  ${bd(GR, 'spectra trace')}       ${c(DM, 'Scan specs + code → generate 12-trace.md')}   │`);
   p(`  │  ${bd(GR, 'spectra validate')}    ${c(DM, 'Validate spec quality and cross-refs')}        │`);
+  p(`  │  ${bd(GR, 'spectra verify')}      ${c(DM, 'Check recorded acceptance evidence')}          │`);
+  p(`  │  ${bd(GR, 'spectra agent plan')}  ${c(DM, 'Create a bounded read-only plan')}             │`);
   p(`  │  ${bd(GR, 'spectra evolve')}      ${c(DM, 'Run controlled agent evolution against gaps')} │`);
   p(`  │  ${bd(GR, 'spectra evolution-status')} ${c(DM, 'Show active versions and audit health')}   │`);
   p(`  │  ${bd(GR, 'spectra --version')}   ${c(DM, 'Show installed version')}                     │`);
@@ -977,6 +1155,12 @@ switch (command) {
     break;
   case 'validate':
     cmdValidate();
+    break;
+  case 'verify':
+    cmdVerify();
+    break;
+  case 'agent':
+    cmdAgent();
     break;
   case 'evolve':
     cmdEvolve();
