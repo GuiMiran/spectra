@@ -56,7 +56,7 @@ node ../spectra/bin/spectra.js init
 
 ## How it works
 
-![Spectra flow](docs/flow.svg)
+![Spectra flow](docs/assets/flow.svg)
 
 ---
 
@@ -126,7 +126,7 @@ Spectra (domain)  →  OpenSpec / GitHub Spec Kit (construction)  →  Your code
 2. **Then**: Use OpenSpec or Spec Kit to implement features with that domain as context
 3. **Result**: Agents receive explicit domain constraints and their output can be evaluated against them
 
-See detailed comparison in [vs-openspec.md](vs-openspec.md).
+See detailed comparison in [OpenSpec comparison](docs/reference/openspec-comparison.md).
 
 ---
 
@@ -149,6 +149,34 @@ With specs in context, the agent can:
 ### 4. You evolve specs, AI evolves the system
 
 When a business rule changes, update the spec first, identify its linked elements and verify the resulting code change independently.
+
+---
+
+## Controlled Agent Evolution (MVP)
+
+Spectra can now turn measured trace, coverage-map, and Allure gaps into a
+versioned organization of specialist agents:
+
+```bash
+spectra evolve --init-config
+spectra trace
+spectra evolve --objective "Close critical evidence gaps" --iterations 3
+spectra evolution-status
+```
+
+The loop is `Objective → Meta-Intelligence → Architect → Agent Factory →
+Orchestrator → structured sandbox → Evaluator → Root-Cause Analysis → Evolution
+Engine → Registry`. Every candidate is evaluated against the active baseline and
+is promoted only when it improves the configured metrics and passes all safety
+gates.
+
+The MVP evolves declarative agent definitions only. It cannot change source
+code, limits, credentials, evaluation rules, or controls. MCP, PR creation, and
+re-execution are explicit extension stages but remain disabled until separately
+reviewed adapters and approval boundaries are provided.
+
+See [Controlled Evolution](docs/architecture/controlled-evolution.md) and
+[ADR-0001](docs/architecture/decisions/0001-controlled-evolution-superagents.md).
 
 ---
 
@@ -184,7 +212,13 @@ my-project/
 
 An MCP server is a future integration. No supported Spectra MCP package is published by this repository today; do not add an MCP configuration until an implementation and installation instructions are released.
 
-See [complete visibility guide](docs/VISIBILIDAD.md).
+See [complete visibility guide](docs/guides/agent-visibility.md).
+
+## Repository navigation for agents
+
+[`AGENTS.md`](AGENTS.md) is the entry point for agents and maintainers. It maps
+tasks to their owning code, contracts, tests, and verification commands so a
+fresh agent can work without guessing where knowledge belongs.
 
 ---
 
@@ -218,18 +252,18 @@ The reconstruction hypothesis should be tested by giving the same frozen specifi
 spectra/
 ├── README.md                     ← you are here
 ├── README.es.md                  ← Spanish version
+├── AGENTS.md                     ← navigation and change contract for agents
 ├── MANIFESTO.md                  ← the 7 principles of SPECTRA
 ├── SPECTRA-PROMPT.md             ← universal prompt (fill and use)
-├── GUIA-VARIABLES.md             ← variable guide
-├── docs/
-│   └── flow.svg                  ← architecture diagram
+├── docs/                         ← architecture, guides, reference, reports
+├── harness/                      ← repository SPECTRA matrix and verifier
 ├── layers/
 │   └── 12-trace.md               ← SPECTRA-TRACE · bidirectional matrix
 ├── examples/
 │   ├── gastroflow/               ← complete real-world example
 │   └── EJEMPLO-RELLENADO-SAAS-GESTION.md
-├── vs-openspec.md                ← Spectra vs OpenSpec + GitHub Spec Kit
-└── vs-frameworks.md              ← Spectra vs RTM, BDD, ADR, Backstage, SBOM, OTel
+├── lib/                          ← runtime modules
+└── test/                         ← deterministic behavioural evidence
 ```
 
 ---
@@ -245,7 +279,11 @@ spectra/
 | RTM/DOORS | Traceability | ❌ | Reference | ❌ | Partial | ❌ |
 | ADR/MADR | Decisions | Partial | ❌ | ❌ | ❌ | ❌ |
 
-Full breakdown → [vs-frameworks.md](vs-frameworks.md)
+Full breakdown → [framework comparison](docs/reference/framework-comparison.md)
+
+The repository-level matrix and verification harness are in
+[`harness/`](harness/). Run `npm run verify` to validate its paths, root policy,
+documentation links, syntax, and test suite.
 
 ---
 

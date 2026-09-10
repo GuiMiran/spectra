@@ -292,4 +292,4 @@ Alternativa:
 
 - [Spectra Framework](https://github.com/GuiMiran/spectra)
 - [OpenSpec](https://github.com/openspec-framework/openspec)
-- [Comparación completa](../vs-openspec.md)
+- [Comparación completa](../reference/openspec-comparison.md)

@@ -117,6 +117,34 @@ Cuando cambia una regla de negocio, cambias la spec. El agente propaga el cambio
 
 ---
 
+## Evolución controlada de agentes (MVP)
+
+Spectra puede convertir gaps medidos de SPECTRA-TRACE, coverage-map y Allure en
+una organización versionada de agentes especializados:
+
+```bash
+spectra evolve --init-config
+spectra trace
+spectra evolve --objective "Cerrar los gaps críticos de evidencia" --iterations 3
+spectra evolution-status
+```
+
+El ciclo es `Objetivo → Meta-Intelligence → Architect → Agent Factory →
+Orchestrator → sandbox estructurado → Evaluator → Root-Cause Analysis →
+Evolution Engine → Registry`. Cada candidato se compara con el baseline activo y
+solo se promociona si mejora las métricas configuradas y supera todas las
+validaciones de seguridad.
+
+El MVP solo evoluciona definiciones declarativas de agentes. No puede cambiar
+código fuente, límites, credenciales, reglas de evaluación ni controles. MCP,
+creación de PR y re-ejecución son etapas de extensión explícitas, pero permanecen
+desactivadas hasta disponer de adaptadores revisados y aprobación externa.
+
+Consulta [Controlled Evolution](docs/architecture/controlled-evolution.md) y
+[ADR-0001](docs/architecture/decisions/0001-controlled-evolution-superagents.md).
+
+---
+
 ## Hacer Spectra Visible a Agentes
 
 ### En VS Code / Copilot
@@ -158,7 +186,7 @@ mi-proyecto/
 }
 ```
 
-Ver [guía completa de visibilidad](docs/VISIBILIDAD.md).
+Ver [guía completa de visibilidad](docs/guides/agent-visibility.md).
 
 ---
 
@@ -183,7 +211,8 @@ spectra/
 ├── README.md                     ← estás aquí
 ├── MANIFESTO.md                  ← los 7 principios de SPECTRA
 ├── SPECTRA-PROMPT.md             ← el prompt universal (rellena y usa)
-├── GUIA-VARIABLES.md             ← qué poner en cada variable
+├── AGENTS.md                     ← contrato de navegación para agentes
+├── docs/guides/variable-reference.md ← qué poner en cada variable
 ├── layers/
 │   ├── 00-vision.md
 │   ├── 01-glosario.md
@@ -201,8 +230,8 @@ spectra/
 ├── examples/
 │   ├── gastroflow/               ← caso de uso completo
 │   └── saas-gestion/             ← ejemplo rellenado
-├── vs-openspec.md                ← Spectra vs OpenSpec y GitHub Spec Kit
-└── vs-frameworks.md              ← Spectra vs RTM, BDD, ADR, Backstage, SBOM, OTel
+├── docs/reference/               ← comparativas y material de referencia
+└── harness/                      ← matriz SPECTRA y verificación del repositorio
 ```
 
 ---
@@ -217,7 +246,7 @@ git clone https://github.com/tuusuario/spectra
 # spectra/SPECTRA-PROMPT.md
 
 # 3. Rellena las variables con la guía
-# spectra/GUIA-VARIABLES.md
+# spectra/docs/guides/variable-reference.md
 
 # 4. Pega el prompt en Claude, GPT-4o o Gemini
 

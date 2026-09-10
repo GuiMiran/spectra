@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPECTRA — Catálogo de negocios España</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f8f8f6;color:#1a1a1a;min-height:100vh}
+.layout{display:flex;height:100vh;overflow:hidden}
+
+/* LEFT: CATALOG */
+.catalog{width:420px;flex-shrink:0;border-right:1px solid #e5e5e0;overflow-y:auto;padding:20px}
+h1{font-size:18px;font-weight:700;margin-bottom:2px;letter-spacing:-0.3px}
+.subtitle{font-size:12px;color:#888;margin-bottom:14px}
+.stats{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.stat{background:#fff;border:1px solid #e5e5e0;border-radius:8px;padding:7px 12px;font-size:12px;color:#666}
+.stat b{display:block;font-size:16px;font-weight:600;color:#1a1a1a}
+input[type=search]{width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:13px;background:#fff;color:#1a1a1a;margin-bottom:10px;outline:none}
+input[type=search]:focus{border-color:#6c63ff}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.pill{padding:4px 10px;border-radius:999px;border:1px solid #ddd;font-size:11px;cursor:pointer;background:#fff;color:#555;transition:all .15s}
+.pill:hover{border-color:#6c63ff;color:#6c63ff}
+.pill.on{background:#eeecff;color:#534AB7;border-color:#AFA9EC}
+.grid{display:flex;flex-direction:column;gap:8px}
+.card{background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:14px;cursor:pointer;transition:all .15s}
+.card:hover{border-color:#6c63ff;box-shadow:0 2px 8px rgba(108,99,255,0.08)}
+.card.active{border-color:#6c63ff;border-width:2px;background:#fafaff}
+.card.done{border-left:3px solid #1D9E75}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px}
+.card-name{font-size:13px;font-weight:600;color:#1a1a1a;flex:1;margin-right:8px}
+.badge{font-size:10px;padding:2px 7px;border-radius:999px;white-space:nowrap;font-weight:500}
+.b-low{background:#eaf3de;color:#3B6D11}
+.b-med{background:#faeeda;color:#854F0B}
+.b-hi{background:#faece7;color:#993C1D}
+.b-done{background:#e1f5ee;color:#0F6E56}
+.sector-tag{font-size:11px;color:#888;margin-bottom:6px}
+.modules{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:10px}
+.mod{font-size:10px;padding:2px 6px;background:#f3f3f0;color:#555;border-radius:4px}
+.cta{width:100%;padding:7px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;border:none}
+.cta-generate{background:#6c63ff;color:#fff}
+.cta-generate:hover{background:#534AB7}
+.cta-generate:disabled{background:#c5c2f0;cursor:not-allowed}
+.cta-copy{background:#f3f3f0;color:#333;border:1px solid #ddd;margin-top:4px}
+.cta-copy:hover{background:#e8e8e5}
+.empty{text-align:center;padding:40px;color:#999;font-size:14px}
+
+/* RIGHT: GENERATOR PANEL */
+.panel{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#fff}
+.panel-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#aaa;gap:12px}
+.panel-empty svg{width:48px;height:48px;stroke:#ddd;fill:none;stroke-width:1.5}
+.panel-empty p{font-size:14px}
+.panel-header{padding:16px 20px;border-bottom:1px solid #e5e5e0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.panel-title{font-size:15px;font-weight:600}
+.panel-sector{font-size:12px;color:#888;margin-top:2px}
+.panel-actions{display:flex;gap:8px}
+.btn-dl{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;border:1px solid #ddd;background:#fff;cursor:pointer;transition:all .15s}
+.btn-dl:hover{background:#f3f3f0;border-color:#6c63ff;color:#6c63ff}
+.btn-dl:disabled{opacity:0.4;cursor:not-allowed}
+.panel-content{flex:1;overflow-y:auto;padding:20px}
+.spec-output{font-family:'Courier New',monospace;font-size:13px;line-height:1.7;white-space:pre-wrap;color:#1a1a1a}
+.spec-output h1,.spec-output h2,.spec-output h3{font-family:system-ui,sans-serif}
+.generating{display:flex;align-items:center;gap:10px;color:#6c63ff;font-size:13px;padding:20px 0}
+.dot{width:8px;height:8px;border-radius:50%;background:#6c63ff;animation:pulse 1s infinite}
+.dot:nth-child(2){animation-delay:.2s}
+.dot:nth-child(3){animation-delay:.4s}
+@keyframes pulse{0%,60%,100%{opacity:1;transform:scale(1)}30%{opacity:.4;transform:scale(.7)}}
+.progress-bar{height:3px;background:#eeecff;border-radius:999px;overflow:hidden;margin-bottom:16px}
+.progress-fill{height:100%;background:#6c63ff;border-radius:999px;transition:width .3s;width:0%}
+.layer-badge{display:inline-block;background:#eeecff;color:#534AB7;font-size:10px;font-weight:600;padding:2px 8px;border-radius:999px;margin-bottom:8px}
+
+/* Markdown-rendered output */
+.md h1{font-size:20px;font-weight:700;margin:20px 0 10px;color:#1a1a1a;border-bottom:2px solid #6c63ff;padding-bottom:6px}
+.md h2{font-size:16px;font-weight:600;margin:18px 0 8px;color:#1a1a1a}
+.md h3{font-size:14px;font-weight:600;margin:14px 0 6px;color:#333}
+.md p{margin:6px 0;line-height:1.6;font-size:13px}
+.md ul,.md ol{margin:6px 0 6px 20px;font-size:13px;line-height:1.6}
+.md code{background:#f3f3f0;border-radius:4px;padding:1px 5px;font-family:monospace;font-size:12px}
+.md pre{background:#f3f3f0;border-radius:8px;padding:12px;overflow-x:auto;margin:8px 0}
+.md pre code{background:none;padding:0;font-size:12px}
+.md table{border-collapse:collapse;width:100%;font-size:12px;margin:8px 0}
+.md td,.md th{border:1px solid #e5e5e0;padding:6px 10px;text-align:left}
+.md th{background:#f8f8f6;font-weight:600}
+.md blockquote{border-left:3px solid #6c63ff;padding:8px 14px;background:#fafaff;margin:8px 0;font-size:13px;color:#555}
+.md hr{border:none;border-top:1px solid #e5e5e0;margin:16px 0}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- LEFT CATALOG -->
+<div class="catalog">
+  <h1>SPECTRA · Catálogo España</h1>
+  <p class="subtitle">45 negocios · Genera specs con IA en un clic</p>
+  <div class="stats" id="stats"></div>
+  <input type="search" placeholder="Buscar negocio o sector..." id="search" oninput="render()">
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="panel" id="panel">
+  <div class="panel-empty" id="panel-empty">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    <p>Selecciona un negocio y pulsa<br><strong>Generar specs con IA</strong></p>
+  </div>
+  <div id="panel-active" style="display:none;flex:1;flex-direction:column;overflow:hidden">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title" id="panel-title">—</div>
+        <div class="panel-sector" id="panel-sector">—</div>
+      </div>
+      <div class="panel-actions">
+        <button class="btn-dl" id="btn-copy" onclick="copySpec()" disabled>Copiar</button>
+        <button class="btn-dl" id="btn-dl" onclick="downloadSpec()" disabled>Descargar .md</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div class="panel-content" id="panel-content"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const NEGOCIOS = [
+  {nombre:"Colmado / tienda de barrio",sector:"Alimentación",complejidad:"baja",hecho:true,modulos:["POS","Stock","Proveedores","Delivery"]},
+  {nombre:"Carnicería / charcutería",sector:"Alimentación",complejidad:"baja",modulos:["POS peso","Stock por peso","Etiquetado","Proveedores"]},
+  {nombre:"Panadería / pastelería",sector:"Alimentación",complejidad:"baja",modulos:["POS","Producción diaria","Stock","Pedidos anticipados"]},
+  {nombre:"Frutería / verdulería",sector:"Alimentación",complejidad:"baja",modulos:["POS peso","Stock perecedero","Caducidades","Proveedores"]},
+  {nombre:"Pescadería",sector:"Alimentación",complejidad:"baja",modulos:["POS peso","Trazabilidad lotes","Caducidades","Proveedores"]},
+  {nombre:"Supermercado pequeño",sector:"Alimentación",complejidad:"media",modulos:["POS","Stock multi-ref.","Proveedores","Ofertas","Empleados"]},
+  {nombre:"Bazar / todo a un euro",sector:"Retail",complejidad:"baja",modulos:["POS","Stock","Proveedores importación","Inventario"]},
+  {nombre:"Bar / cafetería",sector:"Hostelería",complejidad:"media",hecho:true,modulos:["Comandas","Mesas","Caja","Proveedores","Facturación"]},
+  {nombre:"Restaurante",sector:"Hostelería",complejidad:"media",modulos:["Carta digital","Reservas","Comandas","Cocina","Facturación"]},
+  {nombre:"Pizzería / comida rápida",sector:"Hostelería",complejidad:"baja",modulos:["POS","Delivery","Producción","Caja"]},
+  {nombre:"Kebab / comida étnica",sector:"Hostelería",complejidad:"baja",modulos:["POS","Delivery propio","Comandas","Caja"]},
+  {nombre:"Heladería / churrería",sector:"Hostelería",complejidad:"baja",modulos:["POS","Stock ingredientes","Producción","Caja"]},
+  {nombre:"Catering / eventos",sector:"Hostelería",complejidad:"media",modulos:["Presupuestos","Reservas","Producción","Facturación"]},
+  {nombre:"Farmacia individual",sector:"Salud",complejidad:"alta",hecho:true,modulos:["POS","Recetas","Stock","SSSS","Facturación"]},
+  {nombre:"Cadena de farmacias",sector:"Salud",complejidad:"alta",hecho:true,modulos:["Multi-sede","POS","Recetas","Stock","SSSS","Analítica"]},
+  {nombre:"Peluquería / barbería",sector:"Salud y belleza",complejidad:"baja",modulos:["Citas","Clientes","Servicios","Caja","Empleados"]},
+  {nombre:"Centro de estética / spa",sector:"Salud y belleza",complejidad:"baja",modulos:["Citas","Bonos","Stock productos","Facturación"]},
+  {nombre:"Clínica dental",sector:"Salud",complejidad:"alta",modulos:["Historia clínica","Citas","Presupuestos","Facturación","Mutuas"]},
+  {nombre:"Óptica",sector:"Salud",complejidad:"media",modulos:["Historia visual","Pedidos monturas","POS","Garantías","Facturación"]},
+  {nombre:"Fisioterapia / clínica",sector:"Salud",complejidad:"media",modulos:["Historia clínica","Citas","Sesiones","Facturación","Mutuas"]},
+  {nombre:"Veterinaria",sector:"Salud",complejidad:"media",modulos:["Historia animal","Citas","Stock medicamentos","Facturación"]},
+  {nombre:"Peluquería canina",sector:"Salud y belleza",complejidad:"baja",modulos:["Citas","Ficha animal","Servicios","Caja"]},
+  {nombre:"Boutique de ropa",sector:"Moda y retail",complejidad:"media",modulos:["POS","Stock talla/color","Devoluciones","Proveedores","Temporadas"]},
+  {nombre:"Zapatería",sector:"Moda y retail",complejidad:"media",modulos:["POS","Stock talla","Pedidos proveedor","Devoluciones"]},
+  {nombre:"Joyería / bisutería",sector:"Moda y retail",complejidad:"media",modulos:["POS","Inventario referencia","Tasaciones","Reparaciones"]},
+  {nombre:"Papelería / librería",sector:"Moda y retail",complejidad:"baja",modulos:["POS","Stock","Pedidos editorial","Fotocopias/servicios"]},
+  {nombre:"Ferretería",sector:"Moda y retail",complejidad:"media",modulos:["POS","Stock multi-ref.","Proveedores","Presupuestos obra"]},
+  {nombre:"Floristería",sector:"Moda y retail",complejidad:"baja",modulos:["POS","Pedidos anticipados","Delivery","Stock perecedero"]},
+  {nombre:"Librería especializada",sector:"Moda y retail",complejidad:"baja",modulos:["POS","Stock ISBN","Pedidos distribuidora","Reservas"]},
+  {nombre:"Taller mecánico",sector:"Automoción",complejidad:"media",modulos:["Órdenes trabajo","Recambios","Presupuestos","Facturación","CRM vehículo"]},
+  {nombre:"Taller de motos",sector:"Automoción",complejidad:"media",modulos:["Órdenes trabajo","Recambios","Presupuestos","Facturación"]},
+  {nombre:"Lavadero / autolavado",sector:"Automoción",complejidad:"baja",modulos:["Turnos","Servicios","Bonos cliente","Caja"]},
+  {nombre:"Gestoría / asesoría",sector:"Servicios profesionales",complejidad:"media",modulos:["CRM clientes","Expedientes","Tareas","Facturación","Calendario"]},
+  {nombre:"Inmobiliaria",sector:"Servicios profesionales",complejidad:"media",modulos:["CRM propiedades","CRM clientes","Visitas","Comisiones","Facturación"]},
+  {nombre:"Academia de idiomas",sector:"Educación",complejidad:"baja",modulos:["Alumnos","Grupos/niveles","Asistencia","Pagos","Horarios"]},
+  {nombre:"Autoescuela",sector:"Educación",complejidad:"media",modulos:["Alumnos","Clases prácticas","Exámenes DGT","Pagos","Facturación"]},
+  {nombre:"Guardería / ludoteca",sector:"Educación",complejidad:"media",modulos:["Alumnos","Asistencia","Comunicación padres","Facturación"]},
+  {nombre:"Academia de música / danza",sector:"Educación",complejidad:"baja",modulos:["Alumnos","Grupos","Asistencia","Pagos","Recitales"]},
+  {nombre:"Gimnasio / centro deportivo",sector:"Ocio y deporte",complejidad:"media",modulos:["Socios","Cuotas","Clases","Control acceso","Facturación"]},
+  {nombre:"Escape room",sector:"Ocio y deporte",complejidad:"baja",modulos:["Reservas online","Grupos","Caja","Estadísticas partidas"]},
+  {nombre:"Centro de yoga / pilates",sector:"Ocio y deporte",complejidad:"baja",modulos:["Clases","Bonos","Reservas","Pagos","Asistencia"]},
+  {nombre:"Lavandería / tintorería",sector:"Servicios hogar",complejidad:"baja",modulos:["Órdenes","Seguimiento prendas","Caja","Avisos cliente"]},
+  {nombre:"Cerrajería / instalaciones",sector:"Servicios hogar",complejidad:"baja",modulos:["Presupuestos","Órdenes trabajo","Facturación","CRM clientes"]},
+  {nombre:"Clínica de estética / derma",sector:"Salud y belleza",complejidad:"alta",modulos:["Historia clínica","Citas","Sesiones","Consentimientos","Facturación"]},
+  {nombre:"Estanco",sector:"Retail",complejidad:"baja",modulos:["POS","Stock tabaco","Control lotería","Caja"]},
+];
+
+const SECTORES = [...new Set(NEGOCIOS.map(n=>n.sector))].sort();
+let activeSector = null;
+let currentNegocio = null;
+let generatedSpec = '';
+let generating = false;
+
+// ── RENDER CATALOG ──────────────────────────────────────────
+function render(){
+  const q = document.getElementById('search').value.toLowerCase();
+  const filtered = NEGOCIOS.filter(n=>{
+    const matchS = !activeSector || n.sector===activeSector;
+    const matchQ = !q || n.nombre.toLowerCase().includes(q) || n.sector.toLowerCase().includes(q);
+    return matchS && matchQ;
+  });
+  const hechos = filtered.filter(n=>n.hecho).length;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><b>${filtered.length}</b>negocios</div>
+    <div class="stat"><b>${hechos}</b>ya generados</div>
+    <div class="stat"><b>${filtered.length-hechos}</b>por generar</div>`;
+  const compLabel = {baja:"Baja",media:"Media",alta:"Alta"};
+  const compClass = {baja:"b-low",media:"b-med",alta:"b-hi"};
+  document.getElementById('grid').innerHTML = filtered.length ? filtered.map(n=>`
+    <div class="card${n.hecho?' done':''}${currentNegocio?.nombre===n.nombre?' active':''}" id="card-${n.nombre.replace(/\s/g,'_')}">
+      <div class="card-top">
+        <div class="card-name">${n.nombre}</div>
+        <span class="badge ${n.hecho?'b-done':compClass[n.complejidad]}">${n.hecho?'Pre-generado':compLabel[n.complejidad]}</span>
+      </div>
+      <div class="sector-tag">${n.sector}</div>
+      <div class="modules">${n.modulos.map(m=>`<span class="mod">${m}</span>`).join('')}</div>
+      <button class="cta cta-generate" onclick="selectNegocio('${encodeURIComponent(n.nombre)}')" ${generating?'disabled':''}>
+        ${n.hecho ? 'Ver specs →' : 'Generar specs con IA →'}
+      </button>
+    </div>`).join('') : '<div class="empty">Sin resultados</div>';
+}
+
+function setFilter(s){
+  activeSector = activeSector===s ? null : s;
+  document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('on', p.dataset.s===activeSector));
+  render();
+}
+
+// ── PRE-GENERATED SPECS ──────────────────────────────────────
+const PREGENERATED = {
+  "Colmado / tienda de barrio": `# Colmado / tienda de barrio — SPECTRA Spec
+
+## Capa 00 · Visión y Contexto
+**Propósito**: Sistema de gestión integral para colmados y tiendas de alimentación familiares en España. Centraliza POS, stock, pedidos a proveedor y delivery online en una sola app accesible desde tablet o móvil.
+
+**Problema que resuelve**: El propietario no sabe cuánto ha vendido hasta que cuenta la caja. El stock se controla a ojo, los pedidos al mayorista se hacen de memoria y los pedidos de delivery llegan por canales distintos sin registro.
+
+**Usuarios**: Propietario/encargado (acceso total), Dependiente (POS + cobro), Repartidor (solo pedidos asignados).
+
+**Marco regulatorio**: Ley 37/1992 IVA · RD 1619/2012 Facturación · RGPD · Ley 28/2005 tabaco · Prohibición venta alcohol/tabaco a menores.
+
+---
+
+## Capa 01 · Glosario de Dominio
+- **PVP**: Precio de Venta al Público con IVA incluido. Nunca se muestra sin IVA al cliente.
+- **Ticket**: Documento fiscal emitido en cada venta. Obligatorio desde 2023 con IVA desglosado por tipo.
+- **Fondo de caja**: Importe inicial en caja al abrir el turno. Base para el arqueo final.
+- **Descuadre**: Diferencia entre el total esperado en caja y el dinero real contado al cierre.
+- **Stock mínimo**: Umbral configurable por producto. Al alcanzarlo se genera alerta y se añade al pedido sugerido.
+- **FIFO**: First In First Out. El lote más antiguo se consume primero. Obligatorio para productos con caducidad.
+- **Albarán**: Documento de entrega del proveedor. Se registra al recibir mercancía y se concilia con el pedido.
+- **Merma**: Pérdida de stock por caducidad, rotura o error. Requiere ajuste manual con motivo registrado.
+
+---
+
+## Capa 03 · Reglas de Negocio
+- **RN-001**: Todo ticket debe incluir base imponible e IVA desglosado por tipo (4%, 10%, 21%). Fuente: RD 1619/2012 Art. 7.
+- **RN-002**: Los tickets se numeran secuencialmente sin saltos. La numeración no se reinicia a mitad de ejercicio. Fuente: RD 1619/2012 Art. 6.
+- **RN-003**: IVA alimentación básica (pan, leche, huevos, fruta, verdura, legumbres, cereales, queso, aceite, pasta): 4%. Fuente: Ley 37/1992 Art. 91.
+- **RN-004**: IVA alimentación no básica (conservas, zumos, agua embotellada, snacks, carne, pescado, bebidas sin alcohol): 10%.
+- **RN-005**: IVA bebidas alcohólicas, tabaco, perfumería, limpieza, bazar: 21%.
+- **RN-006**: Venta de alcohol y tabaco a menores de 18 años: PROHIBIDA. El sistema muestra aviso de verificación de edad. La confirmación queda registrada en el log de la venta. Fuente: Ley 28/2005.
+- **RN-007**: El stock se descuenta automáticamente al cerrar cada venta. No puede quedar en negativo.
+- **RN-008**: Los pedidos a proveedor requieren aprobación del propietario antes de enviarse. Los auxiliares solo pueden proponer.
+
+---
+
+## Capa 04 · Invariantes
+- **INV-001**: El total de un ticket siempre = suma de líneas con IVA incluido. Nunca se almacena un total inconsistente.
+- **INV-002**: El stock de cualquier producto nunca puede ser negativo.
+- **INV-003**: Un ticket anulado queda registrado con motivo y usuario. Nunca se elimina físicamente.
+- **INV-004**: La numeración de tickets es secuencial sin saltos dentro del mismo ejercicio fiscal.
+- **INV-005**: Un turno de caja no puede cerrarse sin registrar el fondo inicial de apertura.
+
+---
+
+## Capa 06 · Políticas de Decisión
+**Tabla: Tipo de IVA por categoría**
+| Categoría | IVA |
+|-----------|-----|
+| Pan, leche, huevos, fruta, verdura, legumbre, cereal, queso, aceite, pasta | 4% |
+| Carne, pescado, conservas, agua, zumos, snacks, bebidas sin alcohol | 10% |
+| Bebidas alcohólicas, tabaco, perfumería, limpieza, bazar | 21% |
+
+**Tabla: ¿Puede completarse la venta?**
+| Condición | Resultado |
+|-----------|-----------|
+| Stock suficiente + edad confirmada si aplica | COMPLETAR |
+| Stock insuficiente | BLOQUEAR + aviso |
+| Alcohol/tabaco sin confirmar edad | BLOQUEAR hasta confirmar |
+| Caja no abierta (sin fondo) | BLOQUEAR toda venta |
+
+---
+
+## Capa 10 · Workflow Principal — Venta en mostrador
+1. Dependiente abre turno introduciendo fondo de caja
+2. Escanea productos con lector de código de barras o busca por nombre
+3. Si alcohol/tabaco: aviso verificación edad → dependiente confirma → queda en log
+4. Sistema muestra subtotal con IVA desglosado en tiempo real
+5. Cliente elige forma de pago (efectivo / tarjeta / mixto)
+6. Si efectivo: dependiente introduce importe → sistema calcula cambio
+7. Dependiente cierra venta → sistema descuenta stock (FIFO)
+8. Sistema genera e imprime ticket numerado con IVA desglosado
+9. Si stock de algún producto cae bajo mínimo → alerta al propietario
+
+---
+
+## Capa 11 · Criterios de Aceptación
+- **AC-001**: DADO un producto de fruta con PVP 2€ / CUANDO se añade al ticket / ENTONCES la base es 1,92€ y la cuota IVA 4% es 0,08€
+- **AC-002**: DADO una venta de cerveza / CUANDO el dependiente no ha confirmado la edad / ENTONCES el sistema bloquea el cierre de venta
+- **AC-003**: DADO un producto con stock 0 / CUANDO se intenta añadir al ticket / ENTONCES el sistema muestra "Sin stock" y bloquea la línea
+- **AC-004**: DADO el cierre de turno / CUANDO el dependiente cuenta 150€ y el sistema espera 152€ / ENTONCES el descuadre registrado es -2€ con nota obligatoria
+- **AC-005**: DADO un ticket anulado / CUANDO el propietario lo anula con motivo / ENTONCES el ticket permanece en el histórico con estado "anulado" y el stock se repone`,
+
+  "Bar / cafetería": `# Bar / cafetería — SPECTRA Spec
+
+## Capa 00 · Visión y Contexto
+**Propósito**: Sistema de gestión para bares y cafeterías españolas. Gestiona comandas por mesa, pantalla de cocina, caja y cierre diario con facturación IVA correcta.
+
+**Problema**: Los camareros anotan en papel, los errores de comanda son diarios y al cierre no cuadran los números.
+
+**Usuarios**: Camarero (POS + comandas), Cocinero (pantalla cocina, solo lectura), Encargado (caja + informes + anulaciones), Propietario (acceso total).
+
+**Marco regulatorio**: Ley 37/1992 IVA · RD 1619/2012 Facturación · IVA hostelería 10% general · IVA bebidas alcohólicas 21%.
+
+---
+
+## Capa 01 · Glosario de Dominio
+- **Comanda**: Pedido de una mesa. Contiene líneas de producto con cantidad y observaciones.
+- **Mesa**: Unidad física de servicio. Tiene número, capacidad y estado (libre/ocupada/pendiente de cobro).
+- **Ticket de mesa**: Documento fiscal generado al cobrar. Incluye todas las consumiciones de la mesa.
+- **Pantalla de cocina (KDS)**: Display en cocina que muestra las comandas en tiempo real. Solo lectura.
+- **Turno**: Período de trabajo de un camarero. Tiene apertura, ventas asociadas y cierre.
+- **Invitación**: Línea de comanda marcada como cortesía. No suma al total pero queda registrada.
+- **Descuadre**: Diferencia entre ventas registradas y dinero en caja al cierre.
+
+---
+
+## Capa 03 · Reglas de Negocio
+- **RN-001**: IVA comida en hostelería: 10%. IVA bebidas alcohólicas: 21%. IVA bebidas sin alcohol (refrescos, agua, café): 10%. Fuente: Ley 37/1992.
+- **RN-002**: Una mesa no puede tener dos comandas abiertas simultáneamente.
+- **RN-003**: Solo el encargado o propietario puede anular una línea de comanda ya enviada a cocina.
+- **RN-004**: Las invitaciones (cortesías) deben registrarse con motivo y usuario que las autoriza.
+- **RN-005**: El ticket debe emitirse en el momento del cobro. No se puede cobrar sin generar ticket.
+- **RN-006**: La factura completa (con datos del cliente) se emite solo a petición expresa y requiere NIF del cliente.
+- **RN-007**: El cierre de caja requiere: fondo inicial registrado + todas las mesas cerradas + recuento manual confirmado.
+
+---
+
+## Capa 04 · Invariantes
+- **INV-001**: Una mesa en estado "libre" no puede tener comandas abiertas.
+- **INV-002**: El total de un ticket = suma de líneas con IVA. Nunca inconsistente.
+- **INV-003**: Una comanda enviada a cocina no puede modificarse — solo añadir líneas nuevas o anular con autorización.
+- **INV-004**: El stock de bebidas se descuenta al cerrar la mesa, no al crear la comanda.
+- **INV-005**: Ningún ticket puede eliminarse — solo anularse con registro del motivo.
+
+---
+
+## Capa 06 · Políticas de Decisión
+**Tabla: IVA por tipo de producto en hostelería**
+| Tipo | IVA |
+|------|-----|
+| Comida (platos, tapas, bocadillos, menú) | 10% |
+| Bebidas sin alcohol (agua, refresco, café, zumo) | 10% |
+| Bebidas alcohólicas (cerveza, vino, copa, combinado) | 21% |
+| Tabaco (si se vende) | 21% |
+
+**Tabla: ¿Quién puede hacer qué?**
+| Acción | Camarero | Cocinero | Encargado | Propietario |
+|--------|----------|----------|-----------|-------------|
+| Crear comanda | ✓ | ✗ | ✓ | ✓ |
+| Anular línea enviada | ✗ | ✗ | ✓ | ✓ |
+| Cobrar mesa | ✓ | ✗ | ✓ | ✓ |
+| Ver informe de caja | ✗ | ✗ | ✓ | ✓ |
+| Marcar invitación | ✗ | ✗ | ✓ | ✓ |
+
+---
+
+## Capa 10 · Workflow Principal — Servicio de mesa
+1. Camarero selecciona mesa libre → mesa pasa a "ocupada"
+2. Camarero añade productos a la comanda (búsqueda por nombre o categoría)
+3. Camarero envía comanda → aparece en pantalla de cocina con timestamp
+4. Cocina prepara y marca ítem como "listo"
+5. Camarero ve ítems listos en su dispositivo
+6. Cliente pide la cuenta → camarero genera pre-cuenta (no fiscal)
+7. Cliente confirma → camarero selecciona forma de pago
+8. Sistema genera ticket fiscal con IVA desglosado → imprime
+9. Mesa vuelve a estado "libre" → stock decrementado
+
+---
+
+## Capa 11 · Criterios de Aceptación
+- **AC-001**: DADO una comanda con 2 cervezas (3€ c/u) y 1 ración de jamón (12€) / CUANDO se cobra / ENTONCES el ticket muestra: base 10% = 12€, IVA 10% = 1,20€, base 21% = 6€, IVA 21% = 1,26€, total = 20,46€
+- **AC-002**: DADO una comanda enviada a cocina / CUANDO el camarero intenta borrar una línea / ENTONCES el sistema bloquea y pide autorización del encargado
+- **AC-003**: DADO una mesa libre / CUANDO se intenta cobrar / ENTONCES el sistema bloquea con mensaje "Mesa sin comanda abierta"
+- **AC-004**: DADO el cierre de turno con una mesa aún abierta / CUANDO el encargado intenta cerrar caja / ENTONCES el sistema advierte de la mesa pendiente y bloquea el cierre
+- **AC-005**: DADO una invitación marcada por el encargado / CUANDO se genera el ticket / ENTONCES la invitación aparece a 0€ con nota "Invitación" pero el producto queda registrado en el consumo`,
+
+  "Farmacia individual": `# Farmacia individual — SPECTRA Spec
+
+## Capa 00 · Visión y Contexto
+**Propósito**: Sistema de gestión para farmacias comunitarias en España. Gestiona dispensación (con y sin receta), stock, facturación al SNS y trazabilidad de medicamentos.
+
+**Usuarios**: Farmacéutico Titular (responsable legal, acceso total), Auxiliar de Farmacia (POS + dispensación), Administrativo (facturación, solo lectura stock).
+
+**Marco regulatorio**: Ley 29/2006 garantías medicamentos · RD 1345/2007 autorización medicamentos · RD 1675/2012 receta médica · Directiva 2011/62/UE falsificados (serialización) · RGPD categoría especial (datos salud) · Normativa autonómica.
+
+---
+
+## Capa 01 · Glosario de Dominio
+- **CNP**: Código Nacional de Producto. Identificador único de cada medicamento en España.
+- **EFP**: Especialidad Farmacéutica Publicitaria. Se vende sin receta.
+- **Receta**: Prescripción médica que autoriza la dispensación de un medicamento con receta.
+- **Dispensación**: Acto de entregar un medicamento al paciente. Queda registrada obligatoriamente.
+- **PVP**: Precio de Venta al Público fijado por el Ministerio de Sanidad para medicamentos financiados.
+- **Copago**: Importe que paga el paciente según su condición (activo/pensionista/renta).
+- **SNS**: Sistema Nacional de Salud. Financia los medicamentos de la prestación farmacéutica.
+- **Lote**: Unidad de trazabilidad. Cada lote tiene número, caducidad y cantidad.
+
+---
+
+## Capa 03 · Reglas de Negocio
+- **RN-001**: Medicamentos clasificados "con receta" JAMÁS pueden dispensarse sin receta válida. Sin excepción. Fuente: Ley 29/2006 Art. 77.
+- **RN-002**: IVA medicamentos de uso humano: 4%. Productos sanitarios/prótesis/gafas: 10%. Parafarmacia/cosmética: 21%. Fuente: Ley 37/1992 Art. 91.
+- **RN-003**: Los medicamentos financiados tienen PVP máximo fijado por BOE. No se puede vender por encima.
+- **RN-004**: Estupefacientes: requieren receta oficial en papel de 2 hojas. Cada dispensación se registra en el libro oficial con: fecha, paciente (nombre+DNI), médico, cantidad.
+- **RN-005**: Caducidad mínima en recepción: 6 meses desde fecha de entrada. Lotes con menos generan alerta de rechazo.
+- **RN-006**: FIFO obligatorio: el lote más antiguo se consume primero.
+- **RN-007**: Serialización obligatoria: medicamentos de lista serializable requieren verificación del código DataMatrix en el SEVEM antes de dispensar. Fuente: Directiva 2011/62/UE.
+
+---
+
+## Capa 04 · Invariantes
+- **INV-001**: Un medicamento con receta NUNCA puede dispensarse sin receta válida en el sistema. Violarlo es ilegal.
+- **INV-002**: El stock de cualquier referencia nunca puede ser negativo.
+- **INV-003**: Cada dispensación queda registrada con: producto, lote, cantidad, paciente (si aplica), usuario que dispensó, timestamp.
+- **INV-004**: Un lote caducado no puede dispensarse — el sistema lo bloquea automáticamente.
+- **INV-005**: El copago del paciente nunca puede ser mayor que el PVP del medicamento.
+
+---
+
+## Capa 06 · Políticas de Decisión
+**Tabla: ¿Puede dispensarse el medicamento?**
+| Tipo dispensación | Receta válida | Stock | Resultado |
+|-------------------|--------------|-------|-----------|
+| EFP (sin receta) | No aplica | Sí | DISPENSAR |
+| EFP (sin receta) | No aplica | No | BLOQUEAR |
+| Con receta | Sí, válida | Sí | DISPENSAR |
+| Con receta | No/caducada | Cualquiera | BLOQUEAR SIEMPRE |
+| Estupefaciente | Papel oficial | Sí | DISPENSAR + registro |
+| Estupefaciente | Electrónica | Cualquiera | BLOQUEAR SIEMPRE |
+
+**Tabla: Copago SNS (simplificado)**
+| Condición | % Copago | Tope/envase |
+|-----------|----------|-------------|
+| Activo renta < 18.000€ | 40% | 4,24€ |
+| Activo renta > 100.000€ | 60% | 4,24€ |
+| Pensionista renta < 18.000€ | 10% | 1,42€ |
+| Parado larga duración | 0% | 0€ |
+
+---
+
+## Capa 10 · Workflow Principal — Venta con receta electrónica
+1. Cliente presenta TSI (tarjeta sanitaria)
+2. Auxiliar consulta recetas activas del paciente en el sistema de la CCAA
+3. Sistema muestra recetas pendientes y medicamentos prescritos
+4. Auxiliar selecciona receta a dispensar
+5. Sistema verifica: receta válida, no caducada, no dispensada ya
+6. Sistema verifica stock disponible
+7. Si medicamento serializado: escanea DataMatrix → verifica en SEVEM → marca como dispensado
+8. Sistema calcula copago según condición del paciente registrada en CCAA
+9. Auxiliar dispensa, cobra el copago, imprime resguardo
+10. Sistema cierra receta en el sistema de la CCAA
+11. Dispensación queda registrada para liquidación mensual al SNS
+
+---
+
+## Capa 11 · Criterios de Aceptación
+- **AC-001**: DADO un medicamento con receta / CUANDO el auxiliar intenta dispensarlo sin receta en el sistema / ENTONCES el sistema bloquea con "Receta obligatoria — no se puede dispensar"
+- **AC-002**: DADO un lote caducado ayer / CUANDO se intenta dispensar / ENTONCES el sistema bloquea automáticamente y alerta al farmacéutico
+- **AC-003**: DADO un pensionista con renta < 18.000€ comprando medicamento de 20€ PVP / CUANDO se calcula el copago / ENTONCES el copago es 1,42€ (tope aplicado: 10% = 2€ > tope 1,42€)
+- **AC-004**: DADO un estupefaciente con receta electrónica / CUANDO el auxiliar intenta dispensarlo / ENTONCES el sistema bloquea: "Estupefacientes requieren receta oficial en papel"
+- **AC-005**: DADO una alerta de retirada de mercado de AEMPS para un CNP / CUANDO el sistema la recibe / ENTONCES bloquea todos los lotes afectados y genera alerta urgente al farmacéutico titular`,
+
+  "Cadena de farmacias": `# Cadena de farmacias — SPECTRA Spec
+
+## Capa 00 · Visión y Contexto
+**Propósito**: Plataforma SaaS multi-sede para cadenas de 3-30 farmacias en España. Centraliza stock en tiempo real, POS, recetas electrónicas por CCAA y reporting consolidado de la cadena.
+
+**Problema**: Las cadenas operan con sistemas desconectados por sede. Sin visibilidad centralizada, hay roturas de stock, caducidades no detectadas y liquidaciones SSSS manuales.
+
+**Usuarios**: Director de Cadena (visión 360° todas sedes), Farmacéutico Titular por sede (responsable legal, acceso a su sede), Auxiliar (POS + dispensación), Responsable Almacén Central, Contabilidad.
+
+**Marco regulatorio**: Todo lo de Farmacia individual + Directiva 2011/62/UE serialización + normativa autonómica receta electrónica (HORUS Madrid, CatSalut Cataluña, RECETA XXI Andalucía, ABUCASIS Valencia).
+
+---
+
+## Capa 04 · Invariantes (adicionales a Farmacia individual)
+- **INV-006**: Un traslado de stock entre sedes solo actualiza el destino cuando se confirma la recepción en destino. Nunca antes.
+- **INV-007**: El farmacéutico titular es responsable legal de TODOS los actos de dispensación en su sede. Toda dispensación lleva trazabilidad del usuario que la realizó.
+- **INV-008**: Los datos de salud de pacientes son categoría especial RGPD. Solo el farmacéutico titular puede acceder al historial completo de un paciente.
+
+---
+
+## Capa 06 · Políticas de Decisión
+**Tabla: ¿Quién aprueba pedidos a proveedor?**
+| Importe | Sede normal | Almacén central |
+|---------|-------------|-----------------|
+| Cualquier importe | Farmacéutico Titular | Responsable Almacén |
+| > 5.000€ (configurable) | Farm. Titular + Director Cadena | Responsable Almacén |
+
+**Tabla: Alertas de caducidad**
+| Días hasta caducidad | Alerta | Destinatario | Acción sugerida |
+|---------------------|--------|--------------|-----------------|
+| 90 días | Informativa | Farmacéutico Titular | Revisar rotación |
+| 30 días | Urgente | Farm. Titular + Director | Devolución o traslado |
+| 0 días | Crítica + bloqueo | Farm. Titular + Director | Retirada inmediata |
+
+---
+
+## Capa 10 · Workflow — Alerta de retirada de mercado AEMPS
+1. Sistema recibe alerta AEMPS (integración automática en tiempo real)
+2. Sistema localiza todos los lotes del CNP afectado en TODAS las sedes
+3. Sistema bloquea los lotes: estado → "retirado" (no dispensables)
+4. Sistema genera alerta urgente a todos los Farmacéuticos Titulares afectados
+5. Sistema genera informe de lotes afectados por sede con cantidades
+6. Farmacéutico confirma localización y retirada física
+7. Sistema registra confirmación y genera documentación para AEMPS
+8. Director de Cadena ve el estado de la retirada en tiempo real en todas las sedes`
+};
+
+// ── OPEN PANEL ──────────────────────────────────────────────
+function selectNegocio(enc){
+  const nombre = decodeURIComponent(enc);
+  currentNegocio = NEGOCIOS.find(n=>n.nombre===nombre);
+  if(!currentNegocio) return;
+  document.getElementById('panel-empty').style.display='none';
+  const pa = document.getElementById('panel-active');
+  pa.style.display='flex';
+  document.getElementById('panel-title').textContent = currentNegocio.nombre;
+  document.getElementById('panel-sector').textContent = currentNegocio.sector + ' · Complejidad ' + currentNegocio.complejidad;
+  document.getElementById('btn-dl').disabled = true;
+  document.getElementById('btn-copy').disabled = true;
+  generatedSpec = '';
+  render();
+
+  // Si tiene spec pre-generada, la carga al instante
+  if(PREGENERATED[currentNegocio.nombre]){
+    generatedSpec = PREGENERATED[currentNegocio.nombre];
+    setProgress(100);
+    renderMarkdown(generatedSpec);
+    document.getElementById('btn-dl').disabled = false;
+    document.getElementById('btn-copy').disabled = false;
+    setTimeout(()=>setProgress(0), 600);
+  } else {
+    generateSpec();
+  }
+}
+
+// ── BUILD PROMPT ─────────────────────────────────────────────
+function buildPrompt(n){
+  return `Eres un Arquitecto de Especificaciones experto en Spec-Driven Development (SDD) para el framework SPECTRA.
+
+Genera el EJEMPLO-RELLENADO completo en formato SPECTRA para el siguiente negocio de España.
+
+NEGOCIO: ${n.nombre}
+SECTOR: ${n.sector}
+COMPLEJIDAD: ${n.complejidad}
+MÓDULOS PRINCIPALES: ${n.modulos.join(', ')}
+PAÍS: España — normativa española vigente
+IDIOMA: Español de España
+
+Genera las siguientes capas en formato Markdown bien estructurado:
+
+# ${n.nombre} — SPECTRA Spec
+
+## Capa 00 · Visión y Contexto
+Propósito, problema que resuelve, usuarios objetivo, alcance, marco regulatorio aplicable.
+
+## Capa 01 · Glosario de Dominio
+Términos clave del sector con definición inequívoca. Mínimo 8 términos.
+
+## Capa 02 · Historias de Usuario
+Formato: COMO [rol] QUIERO [acción] PARA [beneficio]. Mínimo 6 historias con criterios de aceptación.
+
+## Capa 03 · Reglas de Negocio
+Formato RN-XXX con fuente normativa española. Mínimo 8 reglas incluyendo IVA, facturación y normativa sectorial.
+
+## Capa 04 · Invariantes
+Condiciones siempre verdaderas. Formato INV-XXX. Mínimo 5 invariantes.
+
+## Capa 05 · Contratos de Operación
+PRE/POST/ERROR para las 3 operaciones más críticas del negocio.
+
+## Capa 06 · Políticas de Decisión
+Tablas de decisión para la lógica más compleja (precios, permisos, IVA por tipo de producto).
+
+## Capa 07 · Eventos de Dominio
+Formato EVT-XXX → DISPARA: [reacciones]. Mínimo 4 eventos.
+
+## Capa 09 · Skills Clave
+Las 4 skills más importantes con entrada, salida y reglas que aplica.
+
+## Capa 10 · Workflow Principal
+El flujo de trabajo más importante del negocio, paso a paso.
+
+## Capa 11 · Criterios de Aceptación
+5 criterios en formato DADO/CUANDO/ENTONCES cubriendo camino feliz y casos límite.
+
+Sé exhaustivo, usa lenguaje de negocio (no técnico), incluye normativa española real.`;
+}
+
+// ── GENERATE WITH API ────────────────────────────────────────
+async function generateSpec(){
+  if(!currentNegocio || generating) return;
+  generating = true;
+  generatedSpec = '';
+  render();
+
+  const content = document.getElementById('panel-content');
+  content.innerHTML = `<div class="generating"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span>Generando specs para <strong>${currentNegocio.nombre}</strong>…</span></div>`;
+  setProgress(5);
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
+        messages: [{role:'user', content: buildPrompt(currentNegocio)}]
+      })
+    });
+
+    setProgress(30);
+
+    if(!res.ok){
+      const err = await res.json().catch(()=>({}));
+      content.innerHTML = `<div style="color:#f43f5e;padding:20px;font-size:14px">Error ${res.status}: ${err.error?.message || 'Error de conexión. Comprueba tu clave de API.'}</div>`;
+      generating = false; render(); return;
+    }
+
+    const data = await res.json();
+    setProgress(90);
+    const text = data.content?.find(b=>b.type==='text')?.text || '';
+    generatedSpec = text;
+    setProgress(100);
+    renderMarkdown(text);
+
+    document.getElementById('btn-dl').disabled = false;
+    document.getElementById('btn-copy').disabled = false;
+
+  } catch(e) {
+    content.innerHTML = `<div style="color:#f43f5e;padding:20px;font-size:14px">Sin conexión. Comprueba el internet e inténtalo de nuevo.</div>`;
+  }
+
+  generating = false;
+  render();
+  setTimeout(()=>setProgress(0), 800);
+}
+
+// ── RENDER MARKDOWN ──────────────────────────────────────────
+function renderMarkdown(md){
+  let html = md
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/^---$/gm, '<hr>')
+    .replace(/^\> (.+)$/gm, '<blockquote>$1</blockquote>')
+    .replace(/^\- (.+)$/gm, '<li>$1</li>')
+    .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
+    .replace(/(<li>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`)
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(?!<[a-z])/gm, '');
+
+  document.getElementById('panel-content').innerHTML = `<div class="md"><p>${html}</p></div>`;
+}
+
+// ── UTILS ────────────────────────────────────────────────────
+function setProgress(pct){
+  document.getElementById('progress').style.width = pct + '%';
+}
+
+function downloadSpec(){
+  if(!generatedSpec || !currentNegocio) return;
+  const slug = currentNegocio.nombre.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  const blob = new Blob([generatedSpec], {type:'text/markdown'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `SPECTRA-${slug}.md`;
+  a.click();
+}
+
+function copySpec(){
+  if(!generatedSpec) return;
+  navigator.clipboard.writeText(generatedSpec).then(()=>{
+    const btn = document.getElementById('btn-copy');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copiado';
+    setTimeout(()=>btn.textContent=orig, 2000);
+  });
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+document.getElementById('filters').innerHTML = SECTORES.map(s=>
+  `<span class="pill" data-s="${s}" onclick="setFilter('${s}')">${s}</span>`
+).join('');
+render();
+</script>
+</body>
+</html>

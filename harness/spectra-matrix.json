@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Repository-level SPECTRA matrix: requirements, owned artefacts, independent evidence, and verification commands.",
+  "entries": [
+    {
+      "id": "SPEC-001",
+      "requirement": "A fresh agent can discover the domain-first specification model and canonical terminology.",
+      "owner": "skills/",
+      "artifacts": ["AGENTS.md", "skills/SKILL.md", "SPECTRA-PROMPT.md", "layers/12-trace.md"],
+      "evidence": ["README.md", "docs/guides/quickstart.md"],
+      "verify": ["npm run verify"]
+    },
+    {
+      "id": "TRACE-001",
+      "requirement": "The CLI emits a bidirectional SPECTRA trace and distinguishes declarations from behavioural evidence.",
+      "owner": "bin/",
+      "artifacts": ["bin/spectra.js", "layers/12-trace.md"],
+      "evidence": ["test/evolution.unit.test.js", "docs/architecture/controlled-evolution.md"],
+      "verify": ["npm test"]
+    },
+    {
+      "id": "EVO-001",
+      "requirement": "Controlled evolution promotes declarative agent versions only after independent measurement against a baseline.",
+      "owner": "lib/evolution/",
+      "artifacts": ["lib/evolution/engine.js", "lib/evolution/components.js", "lib/evolution/registry.js", "templates/evolution.config.json"],
+      "evidence": ["test/evolution.integration.test.js", "evals/controlled-evolution.json", "docs/architecture/controlled-evolution.md"],
+      "verify": ["npm test"]
+    },
+    {
+      "id": "SAFE-001",
+      "requirement": "Evolution cannot enable external effects or mutate protected governance controls.",
+      "owner": "lib/evolution/",
+      "artifacts": ["lib/evolution/contracts.js", "lib/evolution/config.js"],
+      "evidence": ["test/evolution.unit.test.js", "docs/architecture/decisions/0001-controlled-evolution-superagents.md"],
+      "verify": ["npm test"]
+    },
+    {
+      "id": "HARN-001",
+      "requirement": "The repository stays navigable: its root remains minimal and documented local links and matrix artefacts resolve.",
+      "owner": "harness/",
+      "artifacts": ["AGENTS.md", "harness/spectra-matrix.json", "scripts/verify-repository.js"],
+      "evidence": ["test/repository-navigation.test.js", "test/repository-harness.test.js"],
+      "verify": ["npm run verify"]
+    }
+  ]
+}

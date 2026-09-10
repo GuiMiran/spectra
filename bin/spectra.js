@@ -840,6 +840,102 @@ MINOR    ← SHOULD/COULD BR or US | POL edge case
 `;
 }
 
+// ── SPECTRA EVOLUTION ────────────────────────────────────────────────────────
+function cliOption(name, fallback = null) {
+  const args = process.argv.slice(3);
+  const index = args.indexOf(name);
+  if (index === -1) return fallback;
+  if (index === args.length - 1 || args[index + 1].startsWith('--')) return true;
+  return args[index + 1];
+}
+
+function initEvolutionConfig() {
+  const spectraDir = path.join(process.cwd(), '.spectra');
+  const destination = path.join(spectraDir, 'evolution.config.json');
+  const source = path.join(__dirname, '..', 'templates', 'evolution.config.json');
+  fs.mkdirSync(spectraDir, { recursive: true });
+  if (fs.existsSync(destination)) throw new Error('.spectra/evolution.config.json already exists.');
+  fs.copyFileSync(source, destination);
+  return destination;
+}
+
+function cmdEvolve() {
+  const asJson = cliOption('--json', false) === true;
+  try {
+    if (cliOption('--init-config', false) === true) {
+      const destination = initEvolutionConfig();
+      if (asJson) p(JSON.stringify({ created: destination }, null, 2));
+      else p(c(GR, `  ✔  Created ${path.relative(process.cwd(), destination)}`));
+      return;
+    }
+    const objective = cliOption('--objective');
+    if (!objective || objective === true) throw new Error('Use --objective "..." to define the evolution goal.');
+    const rawIterations = cliOption('--iterations', '1');
+    const iterations = Number.parseInt(rawIterations, 10);
+    if (!Number.isInteger(iterations) || iterations < 1) throw new Error('--iterations must be a positive integer.');
+    const configPath = cliOption('--config');
+    const { MotherEvolutionLoop } = require('../lib/evolution');
+    const loop = new MotherEvolutionLoop(process.cwd(), {
+      configPath: configPath && configPath !== true ? configPath : undefined,
+    });
+    const result = loop.run({ objective, iterations });
+    if (asJson) {
+      p(JSON.stringify(result, null, 2));
+      return;
+    }
+    const outcomes = result.iterations.flatMap(iteration => iteration.outcomes);
+    const promoted = outcomes.filter(outcome => outcome.action === 'promote');
+    const rejected = outcomes.filter(outcome => outcome.action === 'reject');
+    p();
+    p(bd(MG, '  SPECTRA EVOLUTION'));
+    p();
+    p(`  Run              ${bd(CY, result.runId)}`);
+    p(`  Objective        ${c(WH, result.objective.statement)}`);
+    p(`  Measured gaps    ${bd(WH, String(result.coverageMap.gaps.length))}`);
+    p(`  Specialists      ${bd(WH, String(result.architecture.blueprints.length))}`);
+    p(`  Promoted         ${bd(GR, String(promoted.length))}`);
+    p(`  Rejected         ${bd(rejected.length ? YL : GR, String(rejected.length))}`);
+    p(`  Audit chain      ${result.registry.audit.valid ? c(GR, 'valid') : c(RD, 'invalid')}`);
+    p(`  Run artifact     ${c(DM, path.relative(process.cwd(), result.runArtifact))}`);
+    p();
+    outcomes.forEach(outcome => {
+      const color = outcome.action === 'promote' ? GR : outcome.action === 'reject' ? YL : DM;
+      p(`  ${c(color, outcome.action.toUpperCase().padEnd(7))} ${outcome.agentId}${outcome.version ? `@${outcome.version}` : ''} · ${outcome.baselineScore ?? '—'} → ${outcome.score ?? '—'}`);
+    });
+    p();
+    p(c(DM, '  External MCP, PR, and re-execution stages remain disabled in the safe MVP.'));
+    p();
+  } catch (error) {
+    if (asJson) p(JSON.stringify({ error: error.message }, null, 2));
+    else p(c(RD, `  ✖  ${error.message}`));
+    process.exitCode = 1;
+  }
+}
+
+function cmdEvolutionStatus() {
+  const asJson = cliOption('--json', false) === true;
+  const registryFile = path.join(process.cwd(), '.spectra', 'evolution', 'registry.json');
+  if (!fs.existsSync(registryFile)) {
+    if (asJson) p(JSON.stringify({ initialized: false, active: [] }, null, 2));
+    else p(c(YL, '  No evolution registry found. Run spectra evolve first.'));
+    return;
+  }
+  const { AgentRegistry } = require('../lib/evolution');
+  const summary = new AgentRegistry(process.cwd()).summary();
+  if (asJson) {
+    p(JSON.stringify({ initialized: true, ...summary }, null, 2));
+    return;
+  }
+  p();
+  p(bd(MG, '  SPECTRA EVOLUTION STATUS'));
+  p();
+  p(`  Active agents     ${bd(WH, String(summary.active.length))}`);
+  p(`  Version records   ${bd(WH, String(summary.totalVersions))}`);
+  p(`  Audit chain       ${summary.audit.valid ? c(GR, 'valid') : c(RD, 'invalid')} (${summary.audit.events} events)`);
+  summary.active.forEach(agent => p(`  ${c(GR, 'ACTIVE')} ${agent.id}@${agent.version} · ${agent.capability} · score ${agent.score ?? '—'}`));
+  p();
+}
+
 // ── DEFAULT HELP ──────────────────────────────────────────────────────────────
 function cmdHelp() {
   p();
@@ -850,6 +946,8 @@ function cmdHelp() {
   p(`  │  ${bd(GR, 'spectra status')}      ${c(DM, 'Show which layers are filled vs pending')}     │`);
   p(`  │  ${bd(GR, 'spectra trace')}       ${c(DM, 'Scan specs + code → generate 12-trace.md')}   │`);
   p(`  │  ${bd(GR, 'spectra validate')}    ${c(DM, 'Validate spec quality and cross-refs')}        │`);
+  p(`  │  ${bd(GR, 'spectra evolve')}      ${c(DM, 'Run controlled agent evolution against gaps')} │`);
+  p(`  │  ${bd(GR, 'spectra evolution-status')} ${c(DM, 'Show active versions and audit health')}   │`);
   p(`  │  ${bd(GR, 'spectra --version')}   ${c(DM, 'Show installed version')}                     │`);
   p(c(DM, '  └───────────────────────────────────────────────────────────┘'));
   p();
@@ -879,6 +977,12 @@ switch (command) {
     break;
   case 'validate':
     cmdValidate();
+    break;
+  case 'evolve':
+    cmdEvolve();
+    break;
+  case 'evolution-status':
+    cmdEvolutionStatus();
     break;
   case 'help':
   case '--help':

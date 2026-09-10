@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SPECTRA — Spec-Driven Development framework for agentic AI. Generate complete specs for any business in one click.">
+<meta property="og:title" content="SPECTRA — Spec-Driven Development for Agentic AI">
+<meta property="og:description" content="The specification framework designed to be consumed by AI, not humans. Generate 13 spec layers for any business in one click.">
+<meta property="og:url" content="https://guimiran.github.io/spectra">
+<title>SPECTRA — Spec-Driven Development for Agentic AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0f;
+  --bg2:#111118;
+  --bg3:#1a1a24;
+  --bg4:#222230;
+  --accent:#6c63ff;
+  --accent2:#a78bfa;
+  --accent3:#c4b5fd;
+  --green:#10d987;
+  --amber:#f59e0b;
+  --red:#f43f5e;
+  --text:#f0f0f8;
+  --muted:#8888aa;
+  --border:rgba(255,255,255,0.06);
+  --font:'DM Sans',sans-serif;
+  --mono:'DM Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.logo-text{font-size:16px;font-weight:700;letter-spacing:-0.5px;color:var(--text)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{padding:8px 18px;border-radius:8px;background:var(--accent);color:#fff;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s}
+.nav-cta:hover{background:#534AB7}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(108,99,255,0.12) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;border:1px solid rgba(108,99,255,0.3);background:rgba(108,99,255,0.08);font-size:12px;font-weight:600;color:var(--accent2);margin-bottom:28px;letter-spacing:0.5px}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.4}}
+h1{font-size:clamp(38px,6vw,72px);font-weight:800;line-height:1.08;letter-spacing:-2px;margin-bottom:24px;max-width:800px}
+h1 .grad{background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(16px,2vw,20px);color:var(--muted);max-width:560px;margin-bottom:44px;line-height:1.7}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:60px}
+.btn-main{padding:14px 28px;border-radius:12px;background:var(--accent);color:#fff;font-size:15px;font-weight:600;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-main:hover{background:#534AB7;transform:translateY(-1px)}
+.btn-outline{padding:14px 28px;border-radius:12px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:15px;font-weight:600;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-outline:hover{border-color:var(--accent);transform:translateY(-1px)}
+.hero-flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--muted)}
+.flow-step{padding:6px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:12px;font-weight:500}
+.flow-arrow{color:var(--muted)}
+
+/* QUOTE */
+.quote-section{padding:60px 40px;text-align:center}
+.quote{font-size:clamp(18px,2.5vw,26px);font-weight:500;color:var(--text);max-width:720px;margin:0 auto;line-height:1.5;font-style:italic;opacity:0.85}
+.quote-author{margin-top:16px;font-size:13px;color:var(--muted)}
+
+/* HOW IT WORKS */
+.section{padding:80px 40px;max-width:1100px;margin:0 auto}
+.section-label{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent2);text-transform:uppercase;margin-bottom:12px}
+.section-title{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-1px;margin-bottom:16px}
+.section-sub{font-size:16px;color:var(--muted);max-width:560px;line-height:1.7}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:48px}
+.step{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;position:relative;overflow:hidden;transition:border-color .2s}
+.step:hover{border-color:rgba(108,99,255,0.3)}
+.step-num{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:1px;margin-bottom:12px}
+.step-title{font-size:15px;font-weight:600;margin-bottom:8px}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.6}
+.step-icon{position:absolute;bottom:16px;right:16px;width:32px;height:32px;border-radius:8px;background:rgba(108,99,255,0.1);display:flex;align-items:center;justify-content:center}
+.step-icon svg{width:16px;height:16px;stroke:var(--accent2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* CATALOG */
+.catalog-section{padding:80px 0;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.catalog-inner{max-width:1100px;margin:0 auto;padding:0 40px}
+.catalog-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:gap}
+.catalog-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:20px}
+.search-wrap{position:relative}
+.search-wrap input{padding:9px 14px 9px 36px;background:var(--bg);border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--text);font-family:var(--font);outline:none;width:240px;transition:border-color .2s}
+.search-wrap input:focus{border-color:rgba(108,99,255,0.4)}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.pill{padding:5px 12px;border-radius:999px;border:1px solid var(--border);font-size:11px;font-weight:500;cursor:pointer;background:var(--bg);color:var(--muted);transition:all .15s}
+.pill:hover{border-color:var(--accent);color:var(--accent2)}
+.pill.on{background:rgba(108,99,255,0.12);color:var(--accent2);border-color:rgba(108,99,255,0.4)}
+.stats-row{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.stat-chip{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;color:var(--muted)}
+.stat-chip b{color:var(--text);font-size:16px;display:block}
+.biz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.biz-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:18px;transition:all .18s;cursor:default}
+.biz-card:hover{border-color:rgba(108,99,255,0.25);transform:translateY(-1px)}
+.biz-card.featured{border-left:3px solid var(--green)}
+.biz-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px}
+.biz-name{font-size:14px;font-weight:600;flex:1;margin-right:10px}
+.biz-badge{font-size:10px;padding:3px 8px;border-radius:999px;font-weight:600;white-space:nowrap}
+.b-low{background:rgba(16,217,135,0.12);color:var(--green)}
+.b-med{background:rgba(245,158,11,0.12);color:var(--amber)}
+.b-hi{background:rgba(244,63,94,0.12);color:var(--red)}
+.b-done{background:rgba(108,99,255,0.12);color:var(--accent2)}
+.biz-sector{font-size:11px;color:var(--muted);margin-bottom:10px}
+.biz-mods{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px}
+.mod{font-size:10px;padding:2px 7px;background:var(--bg3);color:var(--muted);border-radius:4px}
+.biz-btn{width:100%;padding:8px;border-radius:9px;font-size:12px;font-weight:600;border:none;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.biz-btn-primary{background:var(--accent);color:#fff}
+.biz-btn-primary:hover{background:#534AB7}
+.biz-btn-secondary{background:var(--bg3);color:var(--text);border:1px solid var(--border);margin-top:6px}
+.biz-btn-secondary:hover{border-color:var(--accent);color:var(--accent2)}
+.biz-btn:disabled{opacity:0.4;cursor:not-allowed}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);grid-column:1/-1}
+
+/* PANEL / MODAL */
+.panel-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.panel-overlay.open{display:flex}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:20px;width:100%;max-width:760px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+.panel-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.panel-title{font-size:16px;font-weight:600}
+.panel-sector{font-size:12px;color:var(--muted);margin-top:2px}
+.panel-actions{display:flex;gap:8px;align-items:center}
+.panel-btn{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;transition:all .15s;font-family:var(--font)}
+.panel-btn:hover{border-color:var(--accent);color:var(--accent2)}
+.panel-btn:disabled{opacity:0.4;cursor:not-allowed}
+.panel-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--bg);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .15s}
+.panel-close:hover{color:var(--text)}
+.progress{height:2px;background:var(--bg3);flex-shrink:0}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s;width:0}
+.panel-body{flex:1;overflow-y:auto;padding:24px}
+.generating{display:flex;align-items:center;gap:12px;color:var(--accent2);font-size:14px;padding:40px 0}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:bounce-dot 1s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes bounce-dot{0%,60%,100%{transform:translateY(0);opacity:1}30%{transform:translateY(-6px);opacity:0.4}}
+.md-output h1{font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--text);border-bottom:1px solid var(--border);padding-bottom:8px}
+.md-output h2{font-size:17px;font-weight:600;margin:20px 0 8px;color:var(--accent2)}
+.md-output h3{font-size:14px;font-weight:600;margin:14px 0 6px;color:var(--text)}
+.md-output p{margin:6px 0;line-height:1.7;font-size:14px;color:rgba(240,240,248,0.85)}
+.md-output ul,.md-output ol{margin:6px 0 6px 20px;font-size:14px;line-height:1.7;color:rgba(240,240,248,0.85)}
+.md-output code{background:var(--bg3);border-radius:4px;padding:1px 6px;font-family:var(--mono);font-size:12px;color:var(--accent3)}
+.md-output pre{background:var(--bg3);border-radius:10px;padding:14px;overflow-x:auto;margin:10px 0;border:1px solid var(--border)}
+.md-output pre code{background:none;padding:0;font-size:12px}
+.md-output table{border-collapse:collapse;width:100%;font-size:13px;margin:10px 0}
+.md-output td,.md-output th{border:1px solid var(--border);padding:8px 12px;text-align:left}
+.md-output th{background:var(--bg3);font-weight:600;color:var(--accent2)}
+.md-output blockquote{border-left:3px solid var(--accent);padding:10px 16px;background:rgba(108,99,255,0.06);margin:10px 0;border-radius:0 8px 8px 0;font-size:13px;color:var(--muted)}
+.md-output hr{border:none;border-top:1px solid var(--border);margin:18px 0}
+.md-output strong{color:var(--text);font-weight:600}
+
+/* LAYERS */
+.layers-section{padding:80px 40px;max-width:1100px;margin:0 auto}
+.layers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:40px}
+.layer-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px}
+.layer-num{font-size:11px;font-weight:700;color:var(--accent);font-family:var(--mono);margin-bottom:6px}
+.layer-name{font-size:13px;font-weight:600;margin-bottom:4px}
+.layer-desc{font-size:11px;color:var(--muted);line-height:1.5}
+
+/* FOOTER */
+footer{padding:48px 40px;border-top:1px solid var(--border);text-align:center}
+.footer-logo{font-size:20px;font-weight:700;letter-spacing:-0.5px;margin-bottom:8px}
+.footer-sub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.footer-links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.footer-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{margin-top:32px;font-size:12px;color:rgba(136,136,170,0.5)}
+
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .nav-links{display:none}
+  .hero{padding:100px 20px 60px}
+  .section,.layers-section{padding:60px 20px}
+  .catalog-inner{padding:0 20px}
+  .catalog-header{flex-direction:column;align-items:flex-start}
+  footer{padding:40px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <span class="logo-text">SPECTRA</span>
+  </a>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#catalog">Catalogue</a>
+    <a href="#layers">13 Layers</a>
+    <a href="https://github.com/GuiMiran/spectra" target="_blank">GitHub</a>
+    <a class="nav-cta" href="https://github.com/GuiMiran/spectra" target="_blank">Get started →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    Open source · Spec-Driven Development
+  </div>
+  <h1>The spec framework<br>built for <span class="grad">agentic AI</span></h1>
+  <p class="hero-sub">AI doesn't fail because it's incapable.<br>It fails because it doesn't know what you know.<br>SPECTRA fixes that.</p>
+  <div class="hero-ctas">
+    <a class="btn-main" href="#catalog">Browse catalogue →</a>
+    <a class="btn-outline" href="https://github.com/GuiMiran/spectra" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+      View on GitHub
+    </a>
+  </div>
+  <div class="hero-flow">
+    <span class="flow-step">Fill template</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">LLM generates 13 spec files</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Agent builds autonomously</span>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-section">
+  <p class="quote">"The specification framework designed to be consumed by AI, not humans."</p>
+  <p class="quote-author">github.com/GuiMiran/spectra</p>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-label">How it works</div>
+  <h2 class="section-title">Three steps to an autonomous agent</h2>
+  <p class="section-sub">SPECTRA converts business knowledge into structured specs that an agentic AI can consume directly — without guessing your rules.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">STEP 01</div>
+      <div class="step-title">Fill the template</div>
+      <div class="step-desc">Pick your business from the catalogue or fill SPECTRA-PROMPT.md with your domain knowledge — regulations, rules, flows, entities.</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+    </div>
+    <div class="step">
+      <div class="step-num">STEP 02</div>
+      <div class="step-title">LLM generates specs</div>
+      <div class="step-desc">Send the prompt to Claude, GPT-4o or Gemini. It generates all 13 spec files — glossary, business rules, invariants, workflows, acceptance criteria.</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+    </div>
+    <div class="step">
+      <div class="step-num">STEP 03</div>
+      <div class="step-title">Agent builds</div>
+      <div class="step-desc">Drop the /specs folder in your repo. The builder agent (Claude Code, Copilot, Cursor) reads the specs and builds the system autonomously.</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+    </div>
+    <div class="step">
+      <div class="step-num">RESULT</div>
+      <div class="step-title">No business questions</div>
+      <div class="step-desc">The agent knows every rule, invariant and workflow before writing a single line. It builds correctly the first time.</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATALOG -->
+<section class="catalog-section" id="catalog">
+  <div class="catalog-inner">
+    <div class="section-label">Business catalogue</div>
+    <h2 class="section-title" style="margin-bottom:8px">45 business types ready to generate</h2>
+    <p class="section-sub" style="margin-bottom:24px">Pick a business, generate the SPECTRA master prompt in one click. Paste it into any LLM. Get 13 spec files ready for your agent.</p>
+    <div class="catalog-controls">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="search" placeholder="Search businesses..." oninput="render()">
+      </div>
+      <div class="filters" id="filters"></div>
+    </div>
+    <div class="stats-row" id="stats"></div>
+    <div class="biz-grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- 13 LAYERS -->
+<section class="layers-section" id="layers">
+  <div class="section-label">The 13 layers</div>
+  <h2 class="section-title">Complete spec coverage</h2>
+  <p class="section-sub">Each layer serves a specific purpose. Together they give the agent everything it needs to build and maintain the system autonomously.</p>
+  <div class="layers-grid">
+    <div class="layer-card"><div class="layer-num">00</div><div class="layer-name">Vision & Context</div><div class="layer-desc">Purpose, users, scope, regulatory framework</div></div>
+    <div class="layer-card"><div class="layer-num">01</div><div class="layer-name">Domain Glossary</div><div class="layer-desc">Canonical language — no ambiguity</div></div>
+    <div class="layer-card"><div class="layer-num">02</div><div class="layer-name">User Stories</div><div class="layer-desc">AS A / I WANT / SO THAT + GIVEN/WHEN/THEN</div></div>
+    <div class="layer-card"><div class="layer-num">03</div><div class="layer-name">Business Rules</div><div class="layer-desc">Every rule with its legal source</div></div>
+    <div class="layer-card"><div class="layer-num">04</div><div class="layer-name">Invariants</div><div class="layer-desc">Conditions that can NEVER be violated</div></div>
+    <div class="layer-card"><div class="layer-num">05</div><div class="layer-name">Op Contracts</div><div class="layer-desc">PRE / POST / ERROR per operation</div></div>
+    <div class="layer-card"><div class="layer-num">06</div><div class="layer-name">Decision Policies</div><div class="layer-desc">Decision tables for complex logic</div></div>
+    <div class="layer-card"><div class="layer-num">07</div><div class="layer-name">Domain Events</div><div class="layer-desc">Facts and their chain reactions</div></div>
+    <div class="layer-card"><div class="layer-num">08</div><div class="layer-name">Agents</div><div class="layer-desc">Autonomous functional actors</div></div>
+    <div class="layer-card"><div class="layer-num">09</div><div class="layer-name">Skills</div><div class="layer-desc">Atomic invocable capabilities</div></div>
+    <div class="layer-card"><div class="layer-num">10</div><div class="layer-name">Workflows</div><div class="layer-desc">End-to-end orchestrated flows</div></div>
+    <div class="layer-card"><div class="layer-num">11</div><div class="layer-name">Acceptance Criteria</div><div class="layer-desc">Functional tests in plain language</div></div>
+    <div class="layer-card"><div class="layer-num">12</div><div class="layer-name">SPECTRA-TRACE</div><div class="layer-desc">Bidirectional traceability matrix</div></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">SPECTRA</div>
+  <p class="footer-sub">Source · Product · Exhaustive · Contractual · Truth · Reconstructable · Agentic</p>
+  <div class="footer-links">
+    <a href="https://github.com/GuiMiran/spectra" target="_blank">GitHub</a>
+    <a href="https://github.com/GuiMiran/spectra/blob/main/SPECTRA-PROMPT.md" target="_blank">SPECTRA-PROMPT.md</a>
+    <a href="https://github.com/GuiMiran/spectra/blob/main/docs/guides/quickstart.md" target="_blank">Quickstart</a>
+    <a href="https://github.com/GuiMiran/spectra/blob/main/MANIFESTO.md" target="_blank">Manifesto</a>
+    <a href="https://github.com/GuiMiran/guido-sdd-migration-effort-scale" target="_blank">GUIDO Scale</a>
+  </div>
+  <p class="footer-copy">MIT License · github.com/GuiMiran/spectra</p>
+</footer>
+
+<!-- PANEL MODAL -->
+<div class="panel-overlay" id="panel-overlay" onclick="closePanel(event)">
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title" id="panel-title">—</div>
+        <div class="panel-sector" id="panel-sector">—</div>
+      </div>
+      <div class="panel-actions">
+        <button class="panel-btn" id="btn-copy" onclick="copyPrompt()" disabled>Copy prompt</button>
+        <button class="panel-btn" id="btn-dl" onclick="downloadPrompt()" disabled>Download .md</button>
+        <button class="panel-close" onclick="closePanel(null)">×</button>
+      </div>
+    </div>
+    <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="panel-body" id="panel-body"></div>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  {nombre:"Colmado / tienda de barrio",sector:"Alimentación",complejidad:"baja",modulos:["POS","Stock","Proveedores","Delivery"],rules:"IVA alimentación básica 4% (pan, leche, huevos, fruta, verdura, legumbres, aceite, pasta). IVA alimentación no básica 10% (conservas, agua, snacks, carne, pescado). IVA bebidas alcohólicas y tabaco 21%. Venta de alcohol/tabaco a menores de 18 años prohibida (Ley 28/2005). Tickets con IVA desglosado obligatorio (RD 1619/2012). Numeración de tickets secuencial sin saltos. Stock nunca negativo. Fondo de caja requerido para abrir turno."},
+  {nombre:"Carnicería / charcutería",sector:"Alimentación",complejidad:"baja",modulos:["POS peso","Stock por peso","Etiquetado","Proveedores"],rules:"Venta por peso — precios en €/kg. IVA carne 10% (reducido). Trazabilidad de lotes obligatoria. Etiquetado con alérgenos (Reglamento UE 1169/2011). Control de temperatura de conservación. FIFO obligatorio para productos perecederos."},
+  {nombre:"Panadería / pastelería",sector:"Alimentación",complejidad:"baja",modulos:["POS","Producción diaria","Stock","Pedidos anticipados"],rules:"IVA pan y bollería básica 4%. IVA pastelería elaborada 10%. Producción diaria planificada por demanda histórica. Control de caducidad de materias primas. Pedidos anticipados de tartas y encargos con señal."},
+  {nombre:"Frutería / verdulería",sector:"Alimentación",complejidad:"baja",modulos:["POS peso","Stock perecedero","Caducidades","Proveedores"],rules:"Venta por peso — €/kg. IVA fruta y verdura 4%. FIFO obligatorio. Alerta de caducidad en productos perecederos. Stock mínimo configurable por producto. Recepción diaria de proveedor."},
+  {nombre:"Pescadería",sector:"Alimentación",complejidad:"baja",modulos:["POS peso","Trazabilidad lotes","Caducidades","Proveedores"],rules:"IVA pescado y marisco 10%. Trazabilidad de lotes obligatoria (Reglamento CE 178/2002). Temperatura de conservación: 0-4°C. Etiquetado con zona de captura y método de producción. FIFO estricto."},
+  {nombre:"Supermercado pequeño",sector:"Alimentación",complejidad:"media",modulos:["POS","Stock multi-ref.","Proveedores","Ofertas","Empleados"],rules:"IVA mixto según categoría de producto. Gestión de múltiples referencias (500+ SKUs). Ofertas con fecha de inicio y fin. Control de acceso por empleado. Arqueo de caja por turno."},
+  {nombre:"Bazar / todo a un euro",sector:"Retail",complejidad:"baja",modulos:["POS","Stock","Proveedores importación","Inventario"],rules:"IVA bazar y menaje 21%. Importación de proveedor mayorista (generalmente asiático). Inventario periódico. Precios fijos o redondeados."},
+  {nombre:"Bar / cafetería",sector:"Hostelería",complejidad:"media",modulos:["Comandas","Mesas","Caja","Proveedores","Facturación"],rules:"IVA hostelería comida 10%. IVA bebidas alcohólicas 21%. IVA bebidas sin alcohol 10%. Una mesa no puede tener dos comandas abiertas. Solo el encargado puede anular comandas enviadas a cocina. Invitaciones (cortesías) requieren registro con motivo. Ticket obligatorio al cobrar."},
+  {nombre:"Restaurante",sector:"Hostelería",complejidad:"media",modulos:["Carta digital","Reservas","Comandas","Cocina","Facturación"],rules:"IVA comida 10%, bebidas alcohólicas 21%. Gestión de reservas con límite de comensales por mesa. Carta digital actualizable en tiempo real. Pantalla de cocina (KDS). Factura con datos del cliente a petición expresa."},
+  {nombre:"Pizzería / comida rápida",sector:"Hostelería",complejidad:"baja",modulos:["POS","Delivery","Producción","Caja"],rules:"IVA comida para llevar 10%. Gestión de pedidos mostrador y delivery en una sola pantalla. Tiempo estimado de entrega calculado por carga. Repartidor asignado por zona."},
+  {nombre:"Kebab / comida étnica",sector:"Hostelería",complejidad:"baja",modulos:["POS","Delivery propio","Comandas","Caja"],rules:"IVA comida 10%. Delivery propio sin plataformas externas. Gestión de alérgenos obligatoria. Control de temperatura de conservación de carnes."},
+  {nombre:"Heladería / churrería",sector:"Hostelería",complejidad:"baja",modulos:["POS","Stock ingredientes","Producción","Caja"],rules:"IVA helados y churros 10%. Control de ingredientes para producción diaria. Gestión estacional de carta."},
+  {nombre:"Catering / eventos",sector:"Hostelería",complejidad:"media",modulos:["Presupuestos","Reservas","Producción","Facturación"],rules:"IVA catering 10%. Presupuestos con señal de reserva. Factura pro forma antes del evento. Factura definitiva tras el evento. Gestión de menús especiales (alergias, vegetariano)."},
+  {nombre:"Farmacia individual",sector:"Salud",complejidad:"alta",modulos:["POS","Recetas","Stock","SSSS","Facturación"],rules:"Medicamentos con receta JAMÁS sin receta válida (Ley 29/2006 Art.77). IVA medicamentos 4%, productos sanitarios 10%, parafarmacia 21%. PVP máximo fijado por BOE. Estupefacientes: libro oficial de registro obligatorio. FIFO obligatorio. Caducidad mínima en recepción: 6 meses. Serialización DataMatrix obligatoria (Directiva 2011/62/UE). Copago SNS según condición del paciente."},
+  {nombre:"Cadena de farmacias",sector:"Salud",complejidad:"alta",modulos:["Multi-sede","POS","Recetas","Stock","SSSS","Analítica"],rules:"Todo lo de farmacia individual más: traslados inter-sede requieren confirmación en destino antes de descontar origen. Farmacéutico titular responsable legal de su sede. Datos de pacientes son categoría especial RGPD. Alertas de retirada AEMPS en todas las sedes simultáneamente."},
+  {nombre:"Peluquería / barbería",sector:"Salud y belleza",complejidad:"baja",modulos:["Citas","Clientes","Servicios","Caja","Empleados"],rules:"IVA peluquería 21% (servicio). Agenda de citas sin solapamientos por profesional. Recordatorio automático al cliente. Cancelación con antelación mínima configurable. Historial de servicios por cliente."},
+  {nombre:"Centro de estética / spa",sector:"Salud y belleza",complejidad:"baja",modulos:["Citas","Bonos","Stock productos","Facturación"],rules:"IVA estética 21%. Bonos de sesiones con fecha de caducidad. Stock de productos de uso en cabina. Consentimiento informado para tratamientos invasivos."},
+  {nombre:"Clínica dental",sector:"Salud",complejidad:"alta",modulos:["Historia clínica","Citas","Presupuestos","Facturación","Mutuas"],rules:"IVA odontología exento (Ley 37/1992 Art.20). Historia clínica obligatoria (Ley 41/2002). Presupuesto firmado por el paciente antes de iniciar tratamiento. Facturación a mutuas privadas con tarifas acordadas. Consentimiento informado obligatorio por acto médico. RGPD categoría especial (datos de salud)."},
+  {nombre:"Óptica",sector:"Salud",complejidad:"media",modulos:["Historia visual","Pedidos monturas","POS","Garantías","Facturación"],rules:"IVA gafas graduadas 10%, gafas de sol 21%. Historia visual por cliente. Pedido a laboratorio con graduación. Garantía legal 2 años. Trazabilidad de monturas por referencia."},
+  {nombre:"Fisioterapia / clínica",sector:"Salud",complejidad:"media",modulos:["Historia clínica","Citas","Sesiones","Facturación","Mutuas"],rules:"IVA fisioterapia exento si prescripción médica, 21% si no. Historia clínica obligatoria. Sesiones con duración predefinida. Facturación a mutuas con parte de asistencia."},
+  {nombre:"Veterinaria",sector:"Salud",complejidad:"media",modulos:["Historia animal","Citas","Stock medicamentos","Facturación"],rules:"IVA veterinaria 21% (servicios), medicamentos veterinarios 10%. Historia clínica por animal. Receta veterinaria para medicamentos de prescripción. Trazabilidad de lotes de medicamentos."},
+  {nombre:"Peluquería canina",sector:"Salud y belleza",complejidad:"baja",modulos:["Citas","Ficha animal","Servicios","Caja"],rules:"IVA 21%. Ficha por animal con raza, tamaño y observaciones del propietario. Citas sin solapamiento por bañera/mesa de trabajo."},
+  {nombre:"Boutique de ropa",sector:"Moda y retail",complejidad:"media",modulos:["POS","Stock talla/color","Devoluciones","Proveedores","Temporadas"],rules:"IVA ropa 21%. Stock por combinación talla/color. Devoluciones hasta 30 días con ticket. Temporadas con gestión de rebajas y descuentos. Recibo de devolución genera vale de compra o devolución en el mismo método de pago."},
+  {nombre:"Zapatería",sector:"Moda y retail",complejidad:"media",modulos:["POS","Stock talla","Pedidos proveedor","Devoluciones"],rules:"IVA calzado 21%. Stock por talla y modelo. Pedido a proveedor con gestión de tallas mínimas por modelo. Garantía legal 2 años contra defectos de fabricación."},
+  {nombre:"Joyería / bisutería",sector:"Moda y retail",complejidad:"media",modulos:["POS","Inventario referencia","Tasaciones","Reparaciones"],rules:"IVA joyería 21%. Inventario por referencia única (número de pieza). Tasaciones con precio de mercado actualizable. Reparaciones con presupuesto previo y orden de trabajo. Seguro de las piezas en depósito."},
+  {nombre:"Papelería / librería",sector:"Moda y retail",complejidad:"baja",modulos:["POS","Stock","Pedidos editorial","Fotocopias/servicios"],rules:"IVA libros 4%, material escolar 21%. Pedido a distribuidora editorial con ISBN. Fotocopias y servicios de impresión: IVA 21%. Gestión de reservas de libros no disponibles."},
+  {nombre:"Ferretería",sector:"Moda y retail",complejidad:"media",modulos:["POS","Stock multi-ref.","Proveedores","Presupuestos obra"],rules:"IVA ferretería general 21%. Stock de alta rotación con múltiples proveedores. Presupuestos para obra con validez configurable. Venta a profesionales con posibilidad de factura con datos de empresa."},
+  {nombre:"Floristería",sector:"Moda y retail",complejidad:"baja",modulos:["POS","Pedidos anticipados","Delivery","Stock perecedero"],rules:"IVA flores 21%. Stock perecedero con caducidad por género. Pedidos anticipados con señal para eventos (bodas, funerales). Delivery con horario de entrega. Ticket con IVA desglosado obligatorio."},
+  {nombre:"Librería especializada",sector:"Moda y retail",complejidad:"baja",modulos:["POS","Stock ISBN","Pedidos distribuidora","Reservas"],rules:"IVA libros 4%, otros productos 21%. Búsqueda por ISBN, título, autor. Reserva de libro no disponible con aviso al cliente. Pedido automático a distribuidora cuando se agota."},
+  {nombre:"Taller mecánico",sector:"Automoción",complejidad:"media",modulos:["Órdenes trabajo","Recambios","Presupuestos","Facturación","CRM vehículo"],rules:"IVA servicios taller 21%. Presupuesto firmado antes de iniciar trabajo (RDL 1/2007). Orden de trabajo con horas y materiales. Historial del vehículo por matrícula. Garantía de reparación mínima 3 meses. Factura con desglose mano de obra y materiales."},
+  {nombre:"Taller de motos",sector:"Automoción",complejidad:"media",modulos:["Órdenes trabajo","Recambios","Presupuestos","Facturación"],rules:"Igual que taller mecánico. IVA 21%. Revisiones ITV como servicio específico. Recambios con trazabilidad de proveedor."},
+  {nombre:"Lavadero / autolavado",sector:"Automoción",complejidad:"baja",modulos:["Turnos","Servicios","Bonos cliente","Caja"],rules:"IVA lavado 21%. Gestión de turnos en tiempo real. Bonos de lavado prepago con caducidad. Caja diaria con desglose por servicio."},
+  {nombre:"Gestoría / asesoría",sector:"Servicios profesionales",complejidad:"media",modulos:["CRM clientes","Expedientes","Tareas","Facturación","Calendario"],rules:"IVA asesoría 21%. Retención IRPF 15% en facturas a empresas (7% nuevos autónomos primeros 3 años). Calendario fiscal con alertas de vencimientos. Expedientes por cliente con documentos adjuntos. Facturación recurrente mensual."},
+  {nombre:"Inmobiliaria",sector:"Servicios profesionales",complejidad:"media",modulos:["CRM propiedades","CRM clientes","Visitas","Comisiones","Facturación"],rules:"IVA comisión inmobiliaria 21%. Comisión habitual: 3-5% del precio de venta o 1 mes de alquiler. Documentación legal de cada propiedad. Agenda de visitas por agente. Contrato de encargo de venta."},
+  {nombre:"Academia de idiomas",sector:"Educación",complejidad:"baja",modulos:["Alumnos","Grupos/niveles","Asistencia","Pagos","Horarios"],rules:"IVA academias de idiomas 21% (si no son regladas). Matrícula anual + mensualidad. Control de asistencia por alumno. Alerta de impago. Grupos con nivel y número máximo de alumnos."},
+  {nombre:"Autoescuela",sector:"Educación",complejidad:"media",modulos:["Alumnos","Clases prácticas","Exámenes DGT","Pagos","Facturación"],rules:"IVA autoescuela 21%. Registro de clases prácticas por alumno y vehículo (Reglamento DGT). Gestión de citas de examen en DGT. Pago por clases o bono. Historial de intentos de examen."},
+  {nombre:"Guardería / ludoteca",sector:"Educación",complejidad:"media",modulos:["Alumnos","Asistencia","Comunicación padres","Facturación"],rules:"IVA guardería exento si autorización administrativa (Ley 37/1992 Art.20). Registro de asistencia diaria. Comunicación con tutores. Recibo mensual. Autorización de recogida por personas distintas a los padres."},
+  {nombre:"Academia de música / danza",sector:"Educación",complejidad:"baja",modulos:["Alumnos","Grupos","Asistencia","Pagos","Recitales"],rules:"IVA academias privadas 21%. Grupos por instrumento/disciplina y nivel. Control de asistencia. Gestión de recitales y audiciones con inscripción."},
+  {nombre:"Gimnasio / centro deportivo",sector:"Ocio y deporte",complejidad:"media",modulos:["Socios","Cuotas","Clases","Control acceso","Facturación"],rules:"IVA gimnasio 21%. Cuota mensual domiciliada. Control de acceso por socio. Reserva de clases con aforo máximo. Alta y baja de socios con preaviso. Congelación de cuota por baja médica."},
+  {nombre:"Escape room",sector:"Ocio y deporte",complejidad:"baja",modulos:["Reservas online","Grupos","Caja","Estadísticas partidas"],rules:"IVA ocio 21%. Reserva online con pago de señal o total. Grupos de mínimo y máximo de personas por sala. No se puede iniciar partida sin reserva confirmada y pagada."},
+  {nombre:"Centro de yoga / pilates",sector:"Ocio y deporte",complejidad:"baja",modulos:["Clases","Bonos","Reservas","Pagos","Asistencia"],rules:"IVA 21%. Bonos de sesiones con caducidad. Reserva de plaza en clase con aforo máximo. Cancelación con antelación mínima para recuperar sesión del bono."},
+  {nombre:"Lavandería / tintorería",sector:"Servicios hogar",complejidad:"baja",modulos:["Órdenes","Seguimiento prendas","Caja","Avisos cliente"],rules:"IVA lavandería 21%. Orden de recogida con descripción de prendas. SMS/aviso al cliente cuando la ropa está lista. Aviso de recogida pendiente a los 7 días. Responsabilidad por prendas: máximo valor declarado o precio del servicio ×10."},
+  {nombre:"Cerrajería / instalaciones",sector:"Servicios hogar",complejidad:"baja",modulos:["Presupuestos","Órdenes trabajo","Facturación","CRM clientes"],rules:"IVA 21%. Presupuesto previo obligatorio para trabajos no urgentes. Tarifa de urgencia fuera de horario con recargo. Factura desde el móvil in situ. Historial de trabajos por dirección."},
+  {nombre:"Clínica de estética / derma",sector:"Salud y belleza",complejidad:"alta",modulos:["Historia clínica","Citas","Sesiones","Consentimientos","Facturación"],rules:"IVA 21% (si no es acto médico prescrito). Historia clínica obligatoria. Consentimiento informado obligatorio por tratamiento. Registro fotográfico antes/después con consentimiento del paciente. RGPD datos de salud categoría especial."},
+  {nombre:"Estanco",sector:"Retail",complejidad:"baja",modulos:["POS","Stock tabaco","Control lotería","Caja"],rules:"IVA tabaco 21%. PVP tabaco fijado por fabricante (precio único). Venta de tabaco a menores de 18 años prohibida (Ley 28/2005). Control de lotería: administración concertada con SELAE. Comisión por venta de lotería: según contrato SELAE."},
+];
+
+const SECTORES = [...new Set(DATA.map(d=>d.sector))].sort();
+let activeSector = null;
+let currentBiz = null;
+let generatedPrompt = '';
+
+function render(){
+  const q = document.getElementById('search').value.toLowerCase();
+  const filtered = DATA.filter(n=>{
+    const matchS = !activeSector || n.sector===activeSector;
+    const matchQ = !q || n.nombre.toLowerCase().includes(q) || n.sector.toLowerCase().includes(q);
+    return matchS && matchQ;
+  });
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-chip"><b>${filtered.length}</b>businesses</div>
+    <div class="stat-chip"><b>${SECTORES.length}</b>sectors</div>
+    <div class="stat-chip"><b>13</b>spec layers each</div>
+  `;
+
+  const cc = {baja:"b-low",media:"b-med",alta:"b-hi"};
+  const cl = {baja:"Low",media:"Medium",alta:"High"};
+
+  document.getElementById('grid').innerHTML = filtered.length ? filtered.map(n=>`
+    <div class="biz-card">
+      <div class="biz-top">
+        <div class="biz-name">${n.nombre}</div>
+        <span class="biz-badge ${cc[n.complejidad]}">${cl[n.complejidad]}</span>
+      </div>
+      <div class="biz-sector">${n.sector}</div>
+      <div class="biz-mods">${n.modulos.map(m=>`<span class="mod">${m}</span>`).join('')}</div>
+      <button class="biz-btn biz-btn-primary" onclick="openPanel('${encodeURIComponent(n.nombre)}')">
+        Generate SPECTRA prompt →
+      </button>
+    </div>`).join('') : `<div class="empty-state">No businesses found for that search.</div>`;
+}
+
+function setFilter(s){
+  activeSector = activeSector===s ? null : s;
+  document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('on', p.dataset.s===activeSector));
+  render();
+}
+
+function buildMasterPrompt(n){
+  return `# SPECTRA Master Prompt — ${n.nombre}
+> Paste this file into Claude, GPT-4o, Gemini or any LLM.
+> The AI will generate 13 /specs files. NO code — specs only.
+> Framework: https://github.com/GuiMiran/spectra
+
+---
+
+## AGENT INSTRUCTIONS
+
+You are a Specification Architect expert in the SPECTRA framework.
+
+Generate the 13 /specs files for the business described below.
+Absolute rules:
+- NO code, no technical architecture
+- YES functional specs in business language throughout
+- Every file fully populated — no placeholders
+- Unique IDs with mandatory cross-references between files
+- Include real regulations for Spain / the sector
+
+Generate files IN ORDER, one at a time, starting with 00-index.md.
+Each file must begin with:
+\`\`\`
+# [filename] — ${n.nombre}
+> Generated with SPECTRA · https://github.com/GuiMiran/spectra
+\`\`\`
+
+---
+
+## BUSINESS CONTEXT
+
+**Business type**: ${n.nombre}
+**Sector**: ${n.sector}
+**Country**: Spain — applicable Spanish regulations
+**Complexity**: ${n.complejidad}
+**Main modules**: ${n.modulos.join(', ')}
+
+---
+
+## KNOWN BUSINESS RULES
+
+${n.rules}
+
+---
+
+## GENERATE THESE 13 FILES
+
+### /specs/00-index.md
+Dispatch table: for each agent task, which files to load.
+Tasks to cover: build from scratch · add module · fix business logic · verify completeness · implement workflow.
+
+### /specs/01-glossary.md
+Canonical domain dictionary. For each term: name, unambiguous definition, example, synonyms to avoid.
+Minimum 15 terms from the sector.
+
+### /specs/02-stories.md
+AS A [role] I WANT [action] SO THAT [benefit].
+Each story: unique ID (US-001...), priority Must/Should/Could, GIVEN/WHEN/THEN criteria.
+Cover all roles and error flows. Minimum 15 stories.
+
+### /specs/03-business-rules.md
+BR-XXX: [rule] · Normative source · Example · Exception.
+Group: Fiscal · Invoicing · Operational · Legal.
+Include ALL applicable Spanish regulations for this sector.
+
+### /specs/04-invariants.md
+INV-XXX: [condition always true].
+Type: Business | Technical | Architectural.
+If violated: [consequence]. Verified by: [SK-XXX or WF-XXX].
+Minimum 10 invariants. These are the agent's hard limits.
+
+### /specs/05-contracts.md
+OPERATION / PRE / POST / ERROR / REVERTS for each critical operation.
+Cover the 5-8 most important operations.
+
+### /specs/06-policies.md
+POL-XXX: IF [condition] THEN [action] ELSE [alternative].
+Include complete tables for: VAT rates, user permissions, pricing, state-based flows.
+
+### /specs/07-events.md
+EVT-XXX: [EventName] · Trigger · Triggers (reactions) · Notifies · Records in.
+Minimum 8 events.
+
+### /specs/08-agents.md
+AG-XXX: [AgentName] · Responsibility · Skills used · Events listened · Events produced · Invariants respected.
+
+### /specs/09-skills.md
+SK-XXX: [skill_name] · Description · Input · Output · Rules applied · Invariants verified · Used by.
+Minimum 8 skills.
+
+### /specs/10-workflows.md
+WF-XXX: [WorkflowName] · Trigger · Agents · Ordered steps with skill per step · Expected result · Error handling.
+
+### /specs/11-acceptance-criteria.md
+AC-XXX: [test name] · Linked: US-XXX, BR-XXX, INV-XXX.
+GIVEN / WHEN / THEN.
+Cover: happy path, expected errors, edge cases, regulatory combinations.
+Minimum 15 criteria.
+
+### /specs/12-trace.md — SPECTRA-TRACE
+Forward table (Spec → Code): | Spec ID | Description | Expected module | Status |
+Reverse table (Code → Spec): empty initially — builder agent fills this.
+Update protocol: agent updates after every iteration.
+
+### /specs/SPEC-INDEX.md
+Full cross-reference map. Naming conventions. Format conventions.
+Instructions for the builder agent on how to consume these specs.
+
+---
+
+## QUALITY CHECKLIST
+
+Before delivering, verify:
+- All IDs unique and sequential
+- Every SK references its BR and INV
+- Every WF references its AG and SK
+- Every AC references its US, BR and INV
+- Regulatory coverage complete in 03-business-rules.md
+- 00-index.md enables navigation to correct file for any agent task
+
+---
+
+## WHAT TO DO WITH THE OUTPUT
+
+1. Save each generated file in your /specs/ folder
+2. Create /config/negocio.md with this specific business data:
+   - Business name, owner, address, hours, services with prices
+   - Any rules specific to this instance (not the sector in general)
+3. Copy .claude/agents/spectra.agent.md from the SPECTRA repo
+4. In your IDE chat: "Read specs/00-index.md and config/negocio.md. Build the system."
+
+Full guide: https://github.com/GuiMiran/spectra/blob/main/docs/guides/quickstart.md
+`;
+}
+
+function openPanel(enc){
+  const nombre = decodeURIComponent(enc);
+  currentBiz = DATA.find(d=>d.nombre===nombre);
+  if(!currentBiz) return;
+
+  document.getElementById('panel-title').textContent = currentBiz.nombre;
+  document.getElementById('panel-sector').textContent = currentBiz.sector + ' · ' + currentBiz.modulos.join(' · ');
+  document.getElementById('btn-copy').disabled = true;
+  document.getElementById('btn-dl').disabled = true;
+  document.getElementById('progress-fill').style.width = '0';
+  document.getElementById('panel-body').innerHTML = '';
+  document.getElementById('panel-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Build prompt immediately (no API needed)
+  generatedPrompt = buildMasterPrompt(currentBiz);
+  setProgress(100);
+
+  document.getElementById('panel-body').innerHTML = `
+    <div style="background:rgba(108,99,255,0.06);border:1px solid rgba(108,99,255,0.2);border-radius:12px;padding:16px;margin-bottom:20px">
+      <div style="font-size:13px;font-weight:600;color:var(--accent2);margin-bottom:6px">✓ Master prompt ready for ${currentBiz.nombre}</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6">Copy or download this prompt, paste it into Claude, GPT-4o or Gemini. The AI will generate all 13 <code>/specs</code> files ready for your agentic builder.</div>
+    </div>
+    <div style="font-size:12px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Prompt preview</div>
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--mono);font-size:12px;line-height:1.8;color:rgba(240,240,248,0.7);max-height:360px;overflow-y:auto;white-space:pre-wrap">${generatedPrompt.replace(/</g,'&lt;').slice(0,2000)}...</div>
+    <div style="margin-top:14px;font-size:12px;color:var(--muted)">Full prompt: ~${Math.round(generatedPrompt.length/4)} tokens · 13 spec files will be generated</div>
+  `;
+
+  document.getElementById('btn-copy').disabled = false;
+  document.getElementById('btn-dl').disabled = false;
+  setTimeout(()=>setProgress(0), 600);
+}
+
+function setProgress(pct){
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function closePanel(e){
+  if(e && e.target !== document.getElementById('panel-overlay')) return;
+  document.getElementById('panel-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function copyPrompt(){
+  if(!generatedPrompt) return;
+  navigator.clipboard.writeText(generatedPrompt).then(()=>{
+    const btn = document.getElementById('btn-copy');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    setTimeout(()=>btn.textContent=orig, 2000);
+  });
+}
+
+function downloadPrompt(){
+  if(!generatedPrompt || !currentBiz) return;
+  const slug = currentBiz.nombre.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  const blob = new Blob([generatedPrompt], {type:'text/markdown'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `SPECTRA-PROMPT-${slug}.md`;
+  a.click();
+}
+
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePanel(null); });
+document.getElementById('filters').innerHTML = SECTORES.map(s=>
+  `<span class="pill" data-s="${s}" onclick="setFilter('${s}')">${s}</span>`
+).join('');
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "scenarios": [
+    {
+      "id": "critical-invariant",
+      "objective": "Restore invariant evidence",
+      "gaps": [
+        {
+          "id": "INV-001",
+          "type": "INV",
+          "severity": "CRITICAL",
+          "status": "PENDING",
+          "description": "Invariant has no independent evidence"
+        }
+      ],
+      "expectedCapability": "invariant-assurance"
+    },
+    {
+      "id": "failing-allure-test",
+      "objective": "Diagnose the failed acceptance test",
+      "gaps": [
+        {
+          "id": "AC-042",
+          "type": "TEST",
+          "severity": "MAJOR",
+          "status": "FAILED",
+          "description": "Acceptance flow fails"
+        }
+      ],
+      "expectedCapability": "test-failure-analysis"
+    },
+    {
+      "id": "partial-evidence",
+      "objective": "Complete trace evidence",
+      "gaps": [
+        {
+          "id": "BR-007",
+          "type": "BR",
+          "severity": "MAJOR",
+          "status": "PARTIAL",
+          "description": "Artifact exists without acceptance evidence"
+        }
+      ],
+      "expectedCapability": "evidence-completion"
+    }
+  ]
+}

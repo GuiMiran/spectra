@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "limits": {
+    "maxIterations": 3,
+    "maxAgents": 8,
+    "maxAgentVersions": 10,
+    "maxGapsPerRun": 250
+  },
+  "sandbox": {
+    "mode": "structured-local",
+    "allowNetwork": false,
+    "allowCredentials": false,
+    "allowSourceWrites": false,
+    "allowedWriteRoot": ".spectra/evolution/runs"
+  },
+  "evaluation": {
+    "targetScore": 0.95,
+    "weights": {
+      "gapCoverage": 0.45,
+      "priorityCoverage": 0.25,
+      "pipelineReadiness": 0.15,
+      "specificity": 0.15
+    }
+  },
+  "promotion": {
+    "enabled": true,
+    "minimumImprovement": 0.01,
+    "requireSafetyPass": true,
+    "requireCompleteCapabilityCoverage": true
+  },
+  "inputs": {
+    "trace": ".spectra/12-trace.md",
+    "allureSummary": ".spectra/allure-summary.json",
+    "coverageMap": ".spectra/coverage-map.json"
+  },
+  "externalStages": {
+    "mcp": { "enabled": false },
+    "pullRequest": { "enabled": false },
+    "rerun": { "enabled": false }
+  }
+}

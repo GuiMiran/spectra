@@ -29,9 +29,10 @@ spectra/
 ├── templates/             ← Templates de capas
 ├── layers/                ← Documentación de capas
 ├── docs/
-│   ├── VISIBILIDAD.md     ← Guía completa de visibilidad
-│   ├── INTEGRACION-OPENSPEC.md  ← Cómo integrar con OpenSpec
-│   └── PUBLICAR.md        ← Cómo publicar en npm
+│   └── guides/
+│       ├── agent-visibility.md     ← Guía completa de visibilidad
+│       ├── openspec-integration.md ← Cómo integrar con OpenSpec
+│       └── publishing.md           ← Cómo publicar en npm
 ├── SPECTRA-PROMPT.md      ← Prompt universal
 ├── MANIFESTO.md           ← Los 7 principios
 └── README.md              ← Actualizado con instalación
@@ -75,7 +76,7 @@ proyecto/
 2. OpenSpec implementa features con ese contexto
 3. El agente construye correctamente porque conoce el dominio
 
-Ver [docs/INTEGRACION-OPENSPEC.md](docs/INTEGRACION-OPENSPEC.md)
+Ver [docs/guides/openspec-integration.md](docs/guides/openspec-integration.md)
 
 ### 5. Protección Legal
 
@@ -104,7 +105,7 @@ npm publish --access public
 npm info @spectra/core
 ```
 
-Ver guía completa: [docs/PUBLICAR.md](docs/PUBLICAR.md)
+Ver guía completa: [docs/guides/publishing.md](docs/guides/publishing.md)
 
 ### Para Hacer Visible
 
@@ -171,7 +172,7 @@ spectra init
 2. **Instructions**: Agregar a `.instructions.md`
 3. **MCP**: Via Model Context Protocol
 
-Ver guía completa: [docs/VISIBILIDAD.md](docs/VISIBILIDAD.md)
+Ver guía completa: [docs/guides/agent-visibility.md](docs/guides/agent-visibility.md)
 
 ---
 
@@ -196,10 +197,10 @@ Ver guía completa: [docs/VISIBILIDAD.md](docs/VISIBILIDAD.md)
 - [Manifesto](MANIFESTO.md) - Los 7 principios
 - [Prompt Universal](SPECTRA-PROMPT.md) - Template para generar specs
 - [Ejemplo: GastroFlow](examples/gastroflow/) - Caso real completo
-- [vs OpenSpec](vs-openspec.md) - Comparación y complementariedad
-- [Guía de Visibilidad](docs/VISIBILIDAD.md) - Cómo hacerlo visible
-- [Integración OpenSpec](docs/INTEGRACION-OPENSPEC.md) - Úsalos juntos
-- [Publicar npm](docs/PUBLICAR.md) - Cómo publicar el paquete
+- [vs OpenSpec](../reference/openspec-comparison.md) - Comparación y complementariedad
+- [Guía de Visibilidad](docs/guides/agent-visibility.md) - Cómo hacerlo visible
+- [Integración OpenSpec](docs/guides/openspec-integration.md) - Úsalos juntos
+- [Publicar npm](docs/guides/publishing.md) - Cómo publicar el paquete
 
 ---
 
@@ -219,4 +220,4 @@ Ver guía completa: [docs/VISIBILIDAD.md](docs/VISIBILIDAD.md)
 
 ---
 
-¿Listo para publicar? Revisa [docs/PUBLICAR.md](docs/PUBLICAR.md) 🚀
+¿Listo para publicar? Revisa [docs/guides/publishing.md](docs/guides/publishing.md) 🚀

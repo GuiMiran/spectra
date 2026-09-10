@@ -1,6 +1,6 @@
 {
   "name": "@guimiran/spectra",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "The specification framework designed to be consumed by AI, not humans",
   "keywords": [
     "spec-driven-development",
@@ -26,9 +26,17 @@
   },
   "files": [
     "bin/",
+    "lib/",
     "scripts/",
     "templates/",
+    "agents/",
+    "docs/",
+    "evals/",
+    "harness/",
     "layers/",
+    "skills/",
+    "test/",
+    "AGENTS.md",
     "SPECTRA-PROMPT.md",
     "MANIFESTO.md",
     "README.md",
@@ -36,6 +44,9 @@
     "LICENSE"
   ],
   "scripts": {
+    "test": "node --test",
+    "test:syntax": "node --check bin/spectra.js && node --check lib/evolution/index.js",
+    "verify": "node scripts/verify-repository.js && npm run test:syntax && npm test",
     "welcome": "node scripts/welcome.js",
     "postinstall": "node scripts/welcome.js"
   },
