@@ -31,6 +31,17 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 ## Planning
 
 - [Product backlog](planning/product-backlog.md) — evidence-first roadmap for the product and delivery pipeline.
+- [Ecosystem backlog](planning/ecosystem-backlog.md) — future cross-repository work and completed delivery history.
+
+## GUIDO ecosystem
+
+- [Ecosystem index](ecosystem/README.md)
+- [Responsibility map](ecosystem/RESPONSIBILITY-MAP.md)
+- [Component contracts](ecosystem/COMPONENT-CONTRACTS.md)
+- [Agent architecture](ecosystem/AGENT-ARCHITECTURE.md)
+- [Autonomy model](ecosystem/AUTONOMY-MODEL.md)
+- [Canonical multi-root workspace policy](ecosystem/WORKSPACE-POLICY.md)
+- [Security remediation plan](ecosystem/SECURITY-REMEDIATION-PLAN.md)
 
 ## Prompts and templates
 
