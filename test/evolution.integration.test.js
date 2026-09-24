@@ -183,3 +183,23 @@ test('mother rejects malformed or external GUIDO audit input before persisting a
   fs.symlinkSync(outside, reportPath);
   assert.throws(() => new MotherEvolutionLoop(root, { clock }).run({ objective: 'Review evidence' }), /regular JSON file/);
 });
+
+
+test('mother dispatches active specialists only through the zero-effect sandbox and independent evaluator', t => {
+  const { root, clock } = tempProject(t);
+  writeCoverageMap(root, [
+    { id: 'INV-001', type: 'INV', severity: 'CRITICAL', status: 'PENDING', description: 'Invariant evidence' },
+    { id: 'TEST-002', type: 'TEST', severity: 'MAJOR', status: 'FAILED', description: 'Acceptance failure' },
+  ]);
+  const result = new MotherEvolutionLoop(root, { clock }).run({ objective: 'Evaluate two specialist routes' });
+  assert.equal(result.dispatch.mode, 'structured-sandbox');
+  assert.equal(result.dispatch.assignments.length, 2);
+  assert.equal(result.dispatch.effects.sourceWrites, 0);
+  assert.equal(result.dispatch.effects.networkCalls, 0);
+  assert.equal(result.dispatch.effects.credentialReads, 0);
+  assert.equal(result.dispatchEvaluation.passed, true);
+  assert.equal(result.dispatchEvaluation.checks.completeGapCoverage, true);
+  assert.equal(result.dispatchEvaluation.checks.routeBound, true);
+  const artifact = JSON.parse(fs.readFileSync(result.runArtifact, 'utf8'));
+  assert.equal(artifact.dispatchEvaluation.dispatchDigest, result.dispatch.digest);
+});

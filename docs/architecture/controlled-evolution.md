@@ -31,8 +31,9 @@ Objective
   -> System Architect
   -> Agent Factory
   -> Orchestrator
-  -> structured local sandbox
   -> Evaluator(candidate, active baseline)
+  -> controlled specialist dispatch (structured local sandbox)
+  -> independent dispatch evaluator
   -> Root-Cause Analysis on rejection
   -> Evolution Engine
   -> Agent Registry and next iteration
@@ -115,7 +116,7 @@ Each run records `routePlan` with fixed input/output/effect contracts for
 `awaiting-evidence` or `evidence-provided`; it never starts the auditor. The
 gap route lists normalized gap IDs after the existing adapter completes. The
 planner route lists specialist assignments and pipeline stages as `planned`.
-No route grants external effects or claims that those specialists executed.
+No route grants external effects. After evolution promotes the required active definitions, the controlled dispatch phase records a bounded sandbox execution and an independent zero-effect evaluation; see [ADR-0008](decisions/0008-controlled-specialist-dispatch.md).
 The run-start audit event includes the route-plan digest; see
 [ADR-0007](decisions/0007-specialist-route-contracts.md).
 
@@ -147,8 +148,8 @@ safety gate and the configured minimum improvement.
 
 The run record includes objective, source availability, normalized gaps,
 Meta-Intelligence decision, architecture rationale, pipeline state, candidate
-and baseline metrics, route plan, mutation fields, root cause, lifecycle decision, and the
-control-envelope hash.
+and baseline metrics, route plan, controlled dispatch and independent verdict,
+mutation fields, root cause, lifecycle decision, and the control-envelope hash.
 
 `spectra evolution-status` verifies the complete audit chain and reports active
 versions. A modified historical event makes verification fail.
