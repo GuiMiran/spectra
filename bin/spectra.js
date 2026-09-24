@@ -963,6 +963,25 @@ function cmdEvolutionStatus() {
   p();
 }
 
+function cmdPromptStatus() {
+  const asJson = cliOption('--json', false) === true;
+  try {
+    const { PromptVersionStore } = require('../lib/evolution');
+    const store = new PromptVersionStore(process.cwd());
+    const state = store.read();
+    const audit = store.verify(state);
+    const active = state.versions.find(item => item.version === state.activeVersion);
+    const result = { initialized: true, activeVersion: active.version,
+      activeHash: active.sha256, versions: state.versions, audit };
+    if (asJson) p(JSON.stringify(result, null, 2));
+    else p(`  Active prompt v${active.version} · ${active.sha256.slice(0, 12)} · audited ${audit.events} events`);
+  } catch (error) {
+    if (asJson) p(JSON.stringify({ initialized: false, error: error.message }, null, 2));
+    else p(c(RD, `  ✖  ${error.message}`));
+    process.exitCode = 1;
+  }
+}
+
 // ── DEFAULT HELP ──────────────────────────────────────────────────────────────
 function readJsonOption(name) {
   const option = cliOption(name);
@@ -1131,6 +1150,7 @@ function cmdHelp() {
   p(`  │  ${bd(GR, 'spectra agent plan')}  ${c(DM, 'Create a bounded read-only plan')}             │`);
   p(`  │  ${bd(GR, 'spectra evolve')}      ${c(DM, 'Run controlled agent evolution against gaps')} │`);
   p(`  │  ${bd(GR, 'spectra evolution-status')} ${c(DM, 'Show active versions and audit health')}   │`);
+  p(`  │  ${bd(GR, 'spectra prompt-status')} ${c(DM, 'Show audited active prompt version')}       │`);
   p(`  │  ${bd(GR, 'spectra --version')}   ${c(DM, 'Show installed version')}                     │`);
   p(c(DM, '  └───────────────────────────────────────────────────────────┘'));
   p();
@@ -1172,6 +1192,9 @@ switch (command) {
     break;
   case 'evolution-status':
     cmdEvolutionStatus();
+    break;
+  case 'prompt-status':
+    cmdPromptStatus();
     break;
   case 'help':
   case '--help':
