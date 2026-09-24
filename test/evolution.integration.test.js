@@ -8,6 +8,7 @@ const test = require('node:test');
 
 const {
   AgentRegistry,
+  CoverageMapAdapter,
   DEFAULT_CONFIG,
   MotherEvolutionLoop,
   mergeKnown,
@@ -114,4 +115,54 @@ test('audit verification detects tampering', t => {
   lines[0] = JSON.stringify(first);
   fs.writeFileSync(auditFile, `${lines.join('\n')}\n`, 'utf8');
   assert.equal(registry.verifyAuditChain().valid, false);
+});
+
+test('mother records GUIDO repository evidence without turning it into measured gaps', t => {
+  const { root, clock } = tempProject(t);
+  writeCoverageMap(root, [{
+    id: 'INV-001', type: 'INV', severity: 'CRITICAL', status: 'PENDING', description: 'Missing test evidence',
+  }]);
+  const adapter = new CoverageMapAdapter(root, DEFAULT_CONFIG);
+  const objective = { statement: 'Review evidence' };
+  const originalGaps = adapter.aggregate(objective).gaps;
+  const report = {
+    schema_version: '1.0', agent: 'sdd-auditor', repository: { commit: 'abc123' },
+    guido_scale: { organizational_level: null, migration_effort: null },
+    checks: [
+      { id: 'specifications', status: 'observed', evidence: ['Spec/game/invariants.yaml'], evidence_count: 1 },
+      { id: 'trace_map', status: 'no_evidence', evidence: [], evidence_count: 0 },
+    ],
+  };
+  fs.writeFileSync(path.join(root, '.spectra', 'guido-audit.json'), JSON.stringify(report));
+  const withAudit = adapter.aggregate(objective);
+  assert.deepEqual(withAudit.gaps, originalGaps);
+  assert.equal(withAudit.inputs.guidoAudit, true);
+  assert.deepEqual(withAudit.repositoryAudit.checks, [
+    { id: 'specifications', status: 'observed', evidenceCount: 1 },
+    { id: 'trace_map', status: 'no_evidence', evidenceCount: 0 },
+  ]);
+
+  const result = new MotherEvolutionLoop(root, { clock }).run({ objective: objective.statement });
+  assert.equal(result.coverageMap.repositoryAudit.repositoryCommit, 'abc123');
+  assert.equal(result.coverageMap.gaps.length, 1);
+  assert.equal(result.registry.audit.valid, true);
+  assert.equal(result.registry.active[0].capability, 'invariant-assurance');
+  assert.equal(JSON.parse(fs.readFileSync(result.runArtifact, 'utf8')).coverageMap.repositoryAudit.observed, 1);
+});
+
+test('mother rejects malformed or external GUIDO audit input before persisting a run', t => {
+  const { root, clock } = tempProject(t);
+  const reportPath = path.join(root, '.spectra', 'guido-audit.json');
+  fs.writeFileSync(reportPath, JSON.stringify({ schema_version: '1.0', agent: 'sdd-auditor', checks: [
+    { id: 'unit_agent', status: 'no_evidence', evidence: ['game/agent.py'], evidence_count: 1 },
+  ] }));
+  assert.throws(() => new MotherEvolutionLoop(root, { clock }).run({ objective: 'Review evidence' }), /invalid check evidence/);
+  assert.equal(fs.existsSync(path.join(root, '.spectra', 'evolution', 'registry.json')), false);
+
+  fs.rmSync(reportPath);
+  const outside = path.join(os.tmpdir(), `external-guido-${process.pid}.json`);
+  fs.writeFileSync(outside, '{}');
+  t.after(() => fs.rmSync(outside, { force: true }));
+  fs.symlinkSync(outside, reportPath);
+  assert.throws(() => new MotherEvolutionLoop(root, { clock }).run({ objective: 'Review evidence' }), /regular JSON file/);
 });
