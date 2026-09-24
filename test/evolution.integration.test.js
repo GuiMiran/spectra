@@ -11,6 +11,7 @@ const {
   CoverageMapAdapter,
   DEFAULT_CONFIG,
   MotherEvolutionLoop,
+  IndependentDispatchEvaluator,
   mergeKnown,
   routePlanDigest,
   validateConfig,
@@ -202,4 +203,39 @@ test('mother dispatches active specialists only through the zero-effect sandbox 
   assert.equal(result.dispatchEvaluation.checks.routeBound, true);
   const artifact = JSON.parse(fs.readFileSync(result.runArtifact, 'utf8'));
   assert.equal(artifact.dispatchEvaluation.dispatchDigest, result.dispatch.digest);
+});
+
+test('independent dispatch evaluator rejects assignments without matching findings', t => {
+  const { root, clock } = tempProject(t);
+  writeCoverageMap(root, [{
+    id: 'GAME-04-M1-REPLAY', type: 'AC', severity: 'MAJOR', status: 'PENDING',
+    description: 'Replay requires an independent evaluator',
+  }]);
+  const result = new MotherEvolutionLoop(root, { clock }).run({ objective: 'Plan replay' });
+  const evaluator = new IndependentDispatchEvaluator();
+  const modified = JSON.parse(JSON.stringify(result.dispatch));
+  modified.assignments[0].output.findings = [];
+  const verdict = evaluator.evaluate({ dispatch: modified, routePlan: result.routePlan,
+    gaps: result.coverageMap.gaps });
+  assert.equal(verdict.passed, false);
+  assert.equal(verdict.checks.completeGapCoverage, true);
+  assert.equal(verdict.checks.findingsMatchAssignments, false);
+  assert.equal(verdict.checks.digestValid, false);
+});
+
+test('independent dispatch evaluator rejects duplicate assignments and unplanned specialists', t => {
+  const { root, clock } = tempProject(t);
+  writeCoverageMap(root, [{
+    id: 'GAME-04-M1-SIMULATION', type: 'OBJECTIVE', severity: 'MAJOR', status: 'PENDING',
+    description: 'Simulation pending',
+  }]);
+  const result = new MotherEvolutionLoop(root, { clock }).run({ objective: 'Plan simulation' });
+  const evaluator = new IndependentDispatchEvaluator();
+  const modified = JSON.parse(JSON.stringify(result.dispatch));
+  modified.assignments.push(JSON.parse(JSON.stringify(modified.assignments[0])));
+  const verdict = evaluator.evaluate({ dispatch: modified, routePlan: result.routePlan,
+    gaps: result.coverageMap.gaps });
+  assert.equal(verdict.passed, false);
+  assert.equal(verdict.checks.uniqueGapAssignments, false);
+  assert.equal(verdict.checks.matchesPlan, false);
 });
