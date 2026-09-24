@@ -117,6 +117,10 @@ Each run records `routePlan` with fixed input/output/effect contracts for
 gap route lists normalized gap IDs after the existing adapter completes. The
 planner route lists specialist assignments and pipeline stages as `planned`.
 No route grants external effects. After evolution promotes the required active definitions, the controlled dispatch phase records a bounded sandbox execution and an independent zero-effect evaluation; see [ADR-0008](decisions/0008-controlled-specialist-dispatch.md).
+The evaluator also checks that every assigned gap has exactly one matching
+finding, every specialist matches its route, and the output digest is current.
+Passing this gate means the structured plan is internally consistent. It does
+not establish that a proposed fix works or that a product is ready for release.
 The run-start audit event includes the route-plan digest; see
 [ADR-0007](decisions/0007-specialist-route-contracts.md).
 
@@ -136,6 +140,10 @@ pipeline state, evaluator, and metric weights as the candidate.
 The weighted score combines gap coverage, priority coverage, pipeline
 readiness, and evidence specificity. Promotion additionally requires every
 safety gate and the configured minimum improvement.
+The specificity metric counts generated check placeholders in this MVP; it is
+not independent acceptance evidence. A declared coverage-map gap may be
+planned without test results or a GUIDO audit, and the resulting agent score
+must not be reported as product maturity or game quality.
 
 ## Persistence and traceability
 
