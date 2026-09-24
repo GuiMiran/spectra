@@ -45,7 +45,8 @@ implementation planning.
 
 ## Inputs
 
-The coverage adapter reads three sources. All are local and optional.
+The coverage adapter reads three gap sources. All are local and optional. It can
+also record a GUIDO Scale repository inventory as contextual evidence.
 
 ### SPECTRA-TRACE
 
@@ -86,6 +87,26 @@ An Allure adapter may write `.spectra/allure-summary.json`:
 Failed and broken tests become normalized gaps. Passing tests do not create
 gaps. If no source contains a gap, Spectra creates an explicit unassessed
 objective gap instead of claiming success without evidence.
+
+### GUIDO repository inventory (optional)
+
+Run the `sdd-auditor` from `guido-sdd-migration-effort-scale` against the same
+project, writing its report outside the project, then place `audit.json` at
+`.spectra/guido-audit.json`. For example:
+
+```bash
+guido audit . --output-dir /tmp/guido-audit
+cp /tmp/guido-audit/audit.json .spectra/guido-audit.json
+spectra evolve --objective "Review current evidence" --json
+```
+
+The Mother records the report's SHA-256 digest, repository commit if supplied,
+and the observed/no-evidence file categories in the run artifact and audit
+chain. It checks the report contract and refuses symlinks and files outside the
+project. A missing report is allowed. The report's paths and scores are not
+executed, scored as SPECTRA gaps, or used to assign a GUIDO organizational
+level. Regenerate the report after repository changes; a copied report may be
+stale and Spectra does not automatically verify that its commit is current.
 
 ## Agent lifecycle
 

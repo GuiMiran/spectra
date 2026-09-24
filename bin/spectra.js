@@ -914,6 +914,10 @@ function cmdEvolve() {
     p(`  Run              ${bd(CY, result.runId)}`);
     p(`  Objective        ${c(WH, result.objective.statement)}`);
     p(`  Measured gaps    ${bd(WH, String(result.coverageMap.gaps.length))}`);
+    if (result.coverageMap.repositoryAudit) {
+      const audit = result.coverageMap.repositoryAudit;
+      p(`  GUIDO evidence   ${bd(WH, `${audit.observed}/${audit.checks.length} file categories observed`)}`);
+    }
     p(`  Specialists      ${bd(WH, String(result.architecture.blueprints.length))}`);
     p(`  Promoted         ${bd(GR, String(promoted.length))}`);
     p(`  Rejected         ${bd(rejected.length ? YL : GR, String(rejected.length))}`);
