@@ -108,6 +108,17 @@ executed, scored as SPECTRA gaps, or used to assign a GUIDO organizational
 level. Regenerate the report after repository changes; a copied report may be
 stale and Spectra does not automatically verify that its commit is current.
 
+### Specialist route plan
+
+Each run records `routePlan` with fixed input/output/effect contracts for
+`sdd-auditor`, `gap-analyzer` and `qa-planner`. The auditor route is
+`awaiting-evidence` or `evidence-provided`; it never starts the auditor. The
+gap route lists normalized gap IDs after the existing adapter completes. The
+planner route lists specialist assignments and pipeline stages as `planned`.
+No route grants external effects or claims that those specialists executed.
+The run-start audit event includes the route-plan digest; see
+[ADR-0007](decisions/0007-specialist-route-contracts.md).
+
 ## Agent lifecycle
 
 Each agent version has one lifecycle state:
@@ -136,7 +147,7 @@ safety gate and the configured minimum improvement.
 
 The run record includes objective, source availability, normalized gaps,
 Meta-Intelligence decision, architecture rationale, pipeline state, candidate
-and baseline metrics, mutation fields, root cause, lifecycle decision, and the
+and baseline metrics, route plan, mutation fields, root cause, lifecycle decision, and the
 control-envelope hash.
 
 `spectra evolution-status` verifies the complete audit chain and reports active

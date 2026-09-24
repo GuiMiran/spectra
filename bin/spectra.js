@@ -919,6 +919,7 @@ function cmdEvolve() {
       p(`  GUIDO evidence   ${bd(WH, `${audit.observed}/${audit.checks.length} file categories observed`)}`);
     }
     p(`  Specialists      ${bd(WH, String(result.architecture.blueprints.length))}`);
+    p(`  Route plan       ${result.routePlan.routes.map(route => `${route.id}: ${route.status}`).join(' · ')}`);
     p(`  Promoted         ${bd(GR, String(promoted.length))}`);
     p(`  Rejected         ${bd(rejected.length ? YL : GR, String(rejected.length))}`);
     p(`  Audit chain      ${result.registry.audit.valid ? c(GR, 'valid') : c(RD, 'invalid')}`);

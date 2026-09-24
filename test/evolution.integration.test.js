@@ -12,6 +12,7 @@ const {
   DEFAULT_CONFIG,
   MotherEvolutionLoop,
   mergeKnown,
+  routePlanDigest,
   validateConfig,
 } = require('../lib/evolution');
 
@@ -68,6 +69,19 @@ test('Mother loop promotes only measured improvement and rejects weaker variants
   assert.equal(second.registry.lifecycle.rejected, 2);
   assert.equal(second.registry.audit.valid, true);
   assert.ok(fs.existsSync(second.runArtifact));
+  assert.deepEqual(second.routePlan.routes.map(route => [route.id, route.status]), [
+    ['sdd-auditor', 'awaiting-evidence'],
+    ['gap-analyzer', 'completed'],
+    ['qa-planner', 'planned'],
+  ]);
+  assert.deepEqual(second.routePlan.routes[1].gapIds, ['INV-001']);
+  assert.deepEqual(second.routePlan.routes[2].assignments[0].gapIds, ['INV-001']);
+  assert.ok(second.routePlan.routes.every(route => route.contract.effects.length === 0));
+  assert.deepEqual(JSON.parse(fs.readFileSync(second.runArtifact, 'utf8')).routePlan, second.routePlan);
+  const started = fs.readFileSync(path.join(root, '.spectra', 'evolution', 'audit.jsonl'), 'utf8')
+    .trim().split(/\r?\n/).map(line => JSON.parse(line))
+    .find(event => event.type === 'run.started' && event.payload.runId === second.runId);
+  assert.equal(started.payload.routePlanSha256, routePlanDigest(second.routePlan));
 });
 
 test('Mother loop stops creating variants when the target score is met', t => {
@@ -144,6 +158,9 @@ test('mother records GUIDO repository evidence without turning it into measured 
 
   const result = new MotherEvolutionLoop(root, { clock }).run({ objective: objective.statement });
   assert.equal(result.coverageMap.repositoryAudit.repositoryCommit, 'abc123');
+  assert.equal(result.routePlan.routes[0].status, 'evidence-provided');
+  assert.equal(result.routePlan.routes[0].evidence.sha256, result.coverageMap.repositoryAudit.sha256);
+  assert.deepEqual(result.routePlan.routes[1].gapIds, originalGaps.map(gap => gap.id));
   assert.equal(result.coverageMap.gaps.length, 1);
   assert.equal(result.registry.audit.valid, true);
   assert.equal(result.registry.active[0].capability, 'invariant-assurance');
