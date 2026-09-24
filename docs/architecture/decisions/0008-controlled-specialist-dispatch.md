@@ -21,14 +21,19 @@ Add a controlled dispatch phase:
 2. `ControlledSpecialistDispatcher` runs them exclusively through
    `StructuredSandbox`;
 3. `IndependentDispatchEvaluator`, separate from dispatch, verifies full
-   gap coverage, unique assignments, route zero-effect contracts, and zero
-   observed source writes, network calls, and credential reads;
+   gap coverage, unique assignments, planned route membership, matching
+   findings, the output digest, route zero-effect contracts, and zero
+   reported source writes, network calls, and credential reads;
 4. a failing evaluation rejects the run before its final artifact is written;
 5. the dispatch digest and verdict enter the append-only audit chain and run
    artifact.
 
 This is **not** a model invocation or external tool dispatch. Outputs remain
 structured findings and execution plans.
+Zero effects are asserted over structured outputs from the in-process sandbox;
+the evaluator is not a security monitor for a future external provider.
+Candidate scores reflect internal plan coverage and placeholder specificity,
+not acceptance-test evidence or product readiness.
 
 ## Consequences
 
