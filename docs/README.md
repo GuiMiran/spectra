@@ -7,6 +7,7 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 
 - [Architecture index](architecture/README.md)
 - [Controlled Evolution](architecture/controlled-evolution.md)
+- [Mother prompt evolution](architecture/prompt-evolution.md)
 - [Architecture decisions](architecture/decisions/)
 
 ## Guides

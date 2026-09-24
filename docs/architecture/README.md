@@ -10,6 +10,8 @@ They complement the SPECTRA domain layers; they do not replace them.
 - [ADR-0006](decisions/0006-guido-repository-audit-input.md) records a read-only GUIDO inventory input for the Mother loop.
 
 - [Controlled Evolution](controlled-evolution.md) describes the current controlled-evolution MVP, its data flow, lifecycle, and safety model.
+- [Mother prompt evolution](prompt-evolution.md) describes the evaluated prompt registry and trusted-host boundary.
+- [ADR-0009](decisions/0009-controlled-mother-prompt-evolution.md) records prompt promotion rules.
 - [ADR-0001](decisions/0001-controlled-evolution-superagents.md) records why the MVP is declarative, local, and externally inert.
 
 New decisions that materially constrain runtime behaviour, persistence, security,

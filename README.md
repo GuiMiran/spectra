@@ -204,6 +204,15 @@ See [Controlled Evolution](docs/architecture/controlled-evolution.md) and
 
 ---
 
+## Controlled Mother prompt evolution
+
+An opt-in runner compares versioned Mother instructions against an active
+baseline on evaluator-owned known and heldout cases. A trusted host supplies
+the model adapter, governance and policy. Passing candidates become proposals
+by default; an existing policy can permit promotion for the next run. Use
+`spectra prompt-status --json` to inspect the active version and audit chain.
+See [Mother prompt evolution](docs/architecture/prompt-evolution.md).
+
 ## Making Spectra Visible to Agents
 
 ### In VS Code / Copilot
