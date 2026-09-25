@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "minimumImprovement": 0.1,
+  "requireCriticalPass": true,
+  "requireHeldoutNonRegression": true,
+  "autoPromote": true,
+  "maxCases": 100,
+  "maxPromptBytes": 100000
+}
