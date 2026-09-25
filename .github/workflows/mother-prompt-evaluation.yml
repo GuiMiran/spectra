@@ -1,0 +1,46 @@
+name: Mother Prompt Evaluation
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_file:
+        description: Candidate prompt file relative to the repository root
+        required: false
+        default: .spectra/prompt-evolution/candidate.txt
+  schedule:
+    - cron: '0 6 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate-mother-prompt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: No-op when the authorized adapter is not configured
+        if: ${{ secrets.SPECTRA_PROMPT_ADAPTER_URL == '' }}
+        run: echo "SPECTRA_PROMPT_ADAPTER_URL is not configured; skipping Mother prompt evaluation."
+
+      - name: Run Mother prompt pilot
+        if: ${{ secrets.SPECTRA_PROMPT_ADAPTER_URL != '' }}
+        env:
+          SPECTRA_PROMPT_ADAPTER_URL: ${{ secrets.SPECTRA_PROMPT_ADAPTER_URL }}
+          SPECTRA_PROMPT_ADAPTER_TOKEN: ${{ secrets.SPECTRA_PROMPT_ADAPTER_TOKEN }}
+          SPECTRA_PROMPT_CANDIDATE_FILE: ${{ github.event.inputs.candidate_file || '.spectra/prompt-evolution/candidate.txt' }}
+        run: node scripts/run-prompt-evolution.js
+
+      - name: Upload prompt evaluation artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mother-prompt-evaluation
+          path: .spectra/prompt-evolution/runs/*.json
+          if-no-files-found: ignore

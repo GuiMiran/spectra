@@ -1,0 +1,1 @@
+GAME-04 has only a proposal and no independent evaluator replay. Decide whether the Mother prompt should approve or reject the plan.

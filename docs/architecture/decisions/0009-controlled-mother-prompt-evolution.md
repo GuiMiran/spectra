@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted for the local evaluator and version registry.
+Accepted for the local evaluator, authorized host adapter, and scheduled trigger.
 
 ## Context
 
@@ -36,15 +36,17 @@ previously active version with an audited reason.
 
 ## Boundary
 
-SPECTRA ships no model adapter, remote scheduler or GitHub PR adapter with
-this change. In-process evaluation alone cannot guarantee that a compromised
-host has protected heldout cases or provided an independent model invocation.
-The trusted host owns isolation, authorization, case secrecy, cost limits and
-the next-run trigger. No candidate may modify governance, policy or suite.
+SPECTRA ships a narrow host adapter client and a scheduled GitHub Actions
+trigger, not direct provider credentials or a self-authorizing evaluator. The
+trusted host still owns isolation, authorization, heldout secrecy, endpoint
+policy, and cost ceilings. In-process evaluation alone cannot guarantee that a
+compromised host has protected heldout cases or kept governance at higher
+priority. No candidate may modify governance, policy or suite.
 
 ## Consequences
 
-This establishes a testable local promotion mechanism and explicit host
-contract. It does not claim autonomous model training, independent research,
-product maturity or production release. A real pilot needs an approved model
-adapter, evaluator-owned cases and execution telemetry.
+This establishes a testable prompt-registry mechanism, an explicit host
+contract, a recurring trigger, and a minimal approved adapter shape. It does
+not claim autonomous model training, independent research, product maturity or
+production release. Real deployments still need an approved evaluator-owned
+endpoint, protected cases, and reviewed execution telemetry.
