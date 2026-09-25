@@ -195,7 +195,8 @@ test('a heldout regression is rejected, keeps the active prompt, and still allow
     invocationConfig: invocationConfig(),
   });
   assert.equal(regressed.decision, 'rejected');
-  assert.equal(regressed.decisionReason, 'candidate-regressed-heldout');
+  assert.equal(regressed.decisionReason, 'candidate-failed-critical-cases');
+  assert.deepEqual(regressed.evaluation.heldoutRegressions, ['heldout-game-04']);
   assert.equal(regressed.activeAfter.version, 2);
 
   const store = new PromptVersionStore(root);

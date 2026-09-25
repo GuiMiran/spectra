@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "activeVersion": 1,
+  "governanceHash": "ccedec0caf82808942d996b5c07cf166df612279829efda9f414ab95468b9ae3",
+  "policyHash": "ae10af08ae8018ab0a319c5a04a0d2efb4b9c8aa684789a485e2d2d6cceb3b0f",
+  "versions": [
+    {
+      "version": 1,
+      "sha256": "f8a44f981294ac96a4a7c8e0130cd4528e95f0f24487069063ead4fa185444d0",
+      "status": "active"
+    }
+  ],
+  "auditHead": "0d3b56dc02185301493a704a6ef0a40fa3bed2db7821b7acc029bde24eb823c2"
+}
