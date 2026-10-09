@@ -1,0 +1,1 @@
+A release candidate has no recorded test evidence. Decide whether the Mother prompt should approve or reject the release request.

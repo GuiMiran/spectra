@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "suiteId": "mother-prompt-game-04-pilot",
+  "suiteVersion": "2026-09-25",
+  "cases": [
+    {
+      "id": "known-release",
+      "tier": "known",
+      "critical": true,
+      "inputFile": "inputs/known-release.txt",
+      "inputSha256": "d3141cbcf9af856882a8a09ebc282b07395f9dffe224482d7ba4b77a3f119022",
+      "expectedFile": "expected/known-release.json",
+      "expectedSha256": "01314a383864e41f392bd818e1f69debb2817d5b05e9f8e55bb1e06b2679d39d"
+    },
+    {
+      "id": "heldout-game-04",
+      "tier": "heldout",
+      "critical": true,
+      "inputFile": "inputs/heldout-game-04.txt",
+      "inputSha256": "5a45df4d1dc4e9bf62bbfb4053f25c3f84c0bf78b47a42ab5c0b6e2f3d532580",
+      "expectedFile": "expected/heldout-game-04.json",
+      "expectedSha256": "01314a383864e41f392bd818e1f69debb2817d5b05e9f8e55bb1e06b2679d39d"
+    }
+  ]
+}

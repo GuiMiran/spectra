@@ -43,6 +43,14 @@ versioned policy. Its default is `false`, leaving successful candidates as
 proposals. The candidate must not be allowed to supply policy, governance,
 expected answers, the model adapter or its own evaluation score.
 
+SPECTRA now includes a host-side runner entry point at
+`scripts/run-prompt-evolution.js` and an `AuthorizedPromptAdapter` helper. The
+adapter POSTs only `governance`, `instructions`, `input`, `caseId`, and pinned
+invocation config to an evaluator-owned endpoint; expected answers stay inside
+the suite vault. The bundled scheduled workflow
+`.github/workflows/mother-prompt-evaluation.yml` runs the same comparison on a
+recurring trigger and promotes only the version loaded by the next execution.
+
 ## Suite contract
 
 The suite is `{schemaVersion: 1, cases: [...]}`. Each case has a unique
@@ -52,12 +60,11 @@ tiers. Store heldout expectations under evaluator ownership and exclude them
 from candidate context, generated PRs and logs. The runner logs only case
 IDs, pass/fail and response digests.
 
-Both prompts receive the same `model`, `toolsHash` and `tokenBudget` for
-every case. The host also needs to pin sampling parameters and any other
-provider controls. The runner currently compares deterministic structured
-fields; repeated samples and confidence intervals for stochastic models
-must be supplied by a future trusted adapter before using noisy results to
-promote a prompt.
+Both prompts receive the same `model`, `toolsHash`, `tokenBudget`, sampling
+parameters, and cost budget for every case. The runner records response hashes,
+per-case pass/fail, telemetry totals, regressions, and an audited decision
+reason. The trusted adapter may also return token, latency, and cost telemetry
+as long as it does not expose heldout expectations.
 
 ## Persistence and checks
 
@@ -78,3 +85,16 @@ rollback itself is recorded in the same audit chain.
 The runner doesn't train a model, edit its weights, deploy software or
 execute a specialist's plan. See [ADR-0009](decisions/0009-controlled-mother-prompt-evolution.md)
 for the trust boundary.
+
+## Evaluator-owned pilot fixtures
+
+The repository ships a minimal pilot suite at
+`evals/prompt-evolution/game-04-pilot/`:
+
+- `suite.manifest.json` pins suite ID/version and hashes for each input and
+  expected-output file;
+- `governance.txt` keeps the higher-priority evaluator instructions out of the
+  candidate prompt;
+- `policy.json` can authorize promotion for the next run only;
+- the heldout GAME-04 case remains evaluator-owned and is not sent to the
+  candidate as an expected answer.
