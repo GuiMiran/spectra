@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "agentId": "planner",
+  "spec": { "id": "SPEC-001", "version": "1.0.0" },
+  "evidence": [{ "id": "E-001", "status": "available" }],
+  "events": [
+    { "id": "call-1", "type": "tool", "tool": "repository.read", "args": { "path": "README.md" } },
+    { "id": "result-1", "type": "result", "callId": "call-1", "status": "success" },
+    { "id": "decision-1", "type": "decision", "resultId": "result-1", "outcome": "propose" },
+    { "id": "test-1", "type": "test", "evidenceId": "E-001", "status": "PASS" },
+    { "id": "execution-1", "type": "execution", "decisionId": "decision-1", "testId": "test-1", "mode": "dry-run", "sourceWrites": 0, "networkCalls": 0, "credentialReads": 0, "shellCommands": 0 },
+    { "id": "pr-1", "type": "pr", "executionId": "execution-1", "opened": false, "humanApproval": true }
+  ]
+}

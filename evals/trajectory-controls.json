@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "tools": [
+    { "name": "repository.read", "requiredArgs": ["path"], "effects": ["read"] },
+    { "name": "evidence.inspect", "requiredArgs": ["evidenceId"], "effects": ["read"] }
+  ]
+}
