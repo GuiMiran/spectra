@@ -12,6 +12,7 @@ They complement the SPECTRA domain layers; they do not replace them.
 - [Controlled Evolution](controlled-evolution.md) describes the current controlled-evolution MVP, its data flow, lifecycle, and safety model.
 - [Mother prompt evolution](prompt-evolution.md) describes the evaluated prompt registry and trusted-host boundary.
 - [ADR-0009](decisions/0009-controlled-mother-prompt-evolution.md) records prompt promotion rules.
+- [ADR-0010](decisions/0010-stage2-trust-assessment.md) defines the read-only Stage 2 trust assessment contract.
 - [ADR-0001](decisions/0001-controlled-evolution-superagents.md) records why the MVP is declarative, local, and externally inert.
 
 New decisions that materially constrain runtime behaviour, persistence, security,

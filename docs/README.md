@@ -13,6 +13,7 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 ## Guides
 
 - [Evidence and read-only planning](guides/evidence-and-read-only-planning.md) - record executed evidence and prepare a bounded agent-planning artifact.
+- [Stage 2 trust assessment](guides/stage2-trust-assessment.md) — assess policy, evidence, repeatability, and integrated results.
 
 - [Quickstart](guides/quickstart.md) — create a complete `/specs` folder from scratch.
 - [Agent visibility](guides/agent-visibility.md) — expose Spectra instructions to agent runtimes.
