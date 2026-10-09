@@ -2,59 +2,23 @@
   "name": "@guimiran/spectra",
   "version": "0.5.0",
   "description": "The specification framework designed to be consumed by AI, not humans",
-  "keywords": [
-    "spec-driven-development",
-    "sdd",
-    "ai-agents",
-    "specifications",
-    "domain-modeling",
-    "business-rules",
-    "agentic-ai"
-  ],
+  "keywords": ["spec-driven-development", "sdd", "ai-agents", "specifications", "domain-modeling", "business-rules", "agentic-ai"],
   "homepage": "https://github.com/GuiMiran/spectra",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/GuiMiran/spectra.git"
-  },
-  "bugs": {
-    "url": "https://github.com/GuiMiran/spectra/issues"
-  },
+  "repository": { "type": "git", "url": "git+https://github.com/GuiMiran/spectra.git" },
+  "bugs": { "url": "https://github.com/GuiMiran/spectra/issues" },
   "license": "CC-BY-NC-ND-4.0",
   "author": "GuiMiran",
-  "bin": {
-    "spectra": "bin/spectra.js"
-  },
-  "files": [
-    "bin/",
-    "lib/",
-    "scripts/",
-    "templates/",
-    "agents/",
-    "docs/",
-    "evals/",
-    "harness/",
-    "layers/",
-    "skills/",
-    "test/",
-    "AGENTS.md",
-    "SPECTRA-PROMPT.md",
-    "MANIFESTO.md",
-    "README.md",
-    "README.es.md",
-    "LICENSE"
-  ],
+  "bin": { "spectra": "bin/spectra.js" },
+  "files": ["bin/", "lib/", "scripts/", "templates/", "agents/", "docs/", "evals/", "harness/", "layers/", "skills/", "test/", "AGENTS.md", "SPECTRA-PROMPT.md", "MANIFESTO.md", "README.md", "README.es.md", "LICENSE"],
   "scripts": {
     "test": "node --test",
-    "test:syntax": "node --check bin/spectra.js && node --check lib/evolution/index.js && node --check lib/verification/index.js && node --check lib/agent-runtime/index.js",
+    "test:syntax": "node --check bin/spectra.js && node --check lib/evolution/index.js && node --check lib/verification/index.js && node --check lib/verification/trajectory.js && node --check lib/agent-runtime/index.js",
     "verify": "node scripts/verify-repository.js && npm run test:syntax && npm test",
     "stage2:assess": "node scripts/stage2-assess.js",
+    "trajectory:assess": "node scripts/trajectory-assess.js",
     "welcome": "node scripts/welcome.js",
     "postinstall": "node scripts/welcome.js"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+  "engines": { "node": ">=18.0.0" },
+  "publishConfig": { "access": "public" }
 }
