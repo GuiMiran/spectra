@@ -35,6 +35,14 @@
       "verify": ["npm test"]
     },
     {
+      "id": "STAGE2-001",
+      "requirement": "A Stage 2 record assesses policy, supported evidence, repeatability, and the integrated result separately.",
+      "owner": "lib/verification/",
+      "artifacts": ["lib/verification/stage2.js", "scripts/stage2-assess.js", "docs/architecture/decisions/0010-stage2-trust-assessment.md"],
+      "evidence": ["test/verification.stage2.test.js", "test/cli.stage2.test.js", "evals/stage2-pass.json"],
+      "verify": ["npm test", "npm run stage2:assess -- --input evals/stage2-pass.json"]
+    },
+    {
       "id": "HARN-001",
       "requirement": "The repository stays navigable: its root remains minimal and documented local links and matrix artefacts resolve.",
       "owner": "harness/",
