@@ -3,6 +3,15 @@
 `assessStage2` is a local library contract for assessing evidence collected
 elsewhere. It does not run a benchmark or certify the supplied data.
 
+```bash
+npm run stage2:assess -- --input path/to/stage2-record.json
+```
+
+The command prints a JSON verdict. Exit codes are `0` for PASS, `1` for FAIL
+or UNRESOLVED, and `2` for invalid input or an unreadable file. The example at
+`evals/stage2-pass.json` exercises the shape only; its results are illustrative
+and must never be reported as a real benchmark run.
+
 ```js
 const { assessStage2 } = require('../../lib/verification/stage2');
 const result = assessStage2(record);
