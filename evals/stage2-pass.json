@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "agentId": "builder",
+  "candidateCommit": "candidate-abc",
+  "integratedCommit": "merge-def",
+  "critical": true,
+  "integration": { "verifiedCommit": "merge-def", "includesCandidate": true },
+  "policies": [
+    { "id": "P-trajectory", "surface": "trajectory", "applicable": true, "outcome": "PASS", "evaluatorId": "external-harness" },
+    { "id": "P-result", "surface": "result", "applicable": true, "outcome": "PASS", "evaluatorId": "external-harness" }
+  ],
+  "checks": [
+    { "name": "functional", "outcome": "PASS", "evaluatorId": "external-harness" },
+    { "name": "supported", "outcome": "PASS", "evaluatorId": "external-harness" },
+    { "name": "traceable", "outcome": "PASS", "evaluatorId": "external-harness" },
+    { "name": "honestCompletion", "outcome": "PASS", "evaluatorId": "external-harness" }
+  ],
+  "coordination": { "tasks": [
+    { "id": "producer", "writeScope": ["src/a.js"], "consumes": [], "produces": ["API-v1"] },
+    { "id": "consumer", "writeScope": ["src/b.js"], "consumes": ["API-v1"], "produces": [] }
+  ] },
+  "repetitions": [
+    { "runId": "run-1", "commit": "merge-def", "outcome": "PASS", "evaluatorId": "external-harness" },
+    { "runId": "run-2", "commit": "merge-def", "outcome": "PASS", "evaluatorId": "external-harness" },
+    { "runId": "run-3", "commit": "merge-def", "outcome": "PASS", "evaluatorId": "external-harness" }
+  ]
+}
