@@ -45,7 +45,7 @@
   ],
   "scripts": {
     "test": "node --test",
-    "test:syntax": "node --check bin/spectra.js && node --check lib/evolution/index.js && node --check lib/verification/index.js && node --check lib/verification/trajectory.js && node --check lib/agent-runtime/index.js",
+    "test:syntax": "node --check bin/spectra.js && node --check lib/evidence/allure-aggregator.js && node --check lib/evolution/index.js && node --check lib/verification/index.js && node --check lib/verification/trajectory.js && node --check lib/agent-runtime/index.js",
     "verify": "node scripts/verify-repository.js && npm run test:syntax && npm test",
     "stage2:assess": "node scripts/stage2-assess.js",
     "trajectory:assess": "node scripts/trajectory-assess.js",

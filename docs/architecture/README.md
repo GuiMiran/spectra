@@ -13,6 +13,7 @@ They complement the SPECTRA domain layers; they do not replace them.
 - [Mother prompt evolution](prompt-evolution.md) describes the evaluated prompt registry and trusted-host boundary.
 - [ADR-0009](decisions/0009-controlled-mother-prompt-evolution.md) records prompt promotion rules.
 - [ADR-0010](decisions/0010-stage2-trust-assessment.md) defines the read-only Stage 2 trust assessment contract.
+- [ADR-0012](decisions/0012-allure-ingestion.md) defines versioned Allure evidence and gap ingestion.
 - [ADR-0001](decisions/0001-controlled-evolution-superagents.md) records why the MVP is declarative, local, and externally inert.
 
 New decisions that materially constrain runtime behaviour, persistence, security,

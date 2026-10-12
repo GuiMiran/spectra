@@ -1137,6 +1137,44 @@ function cmdVerify() {
   }
 }
 
+function cmdIngestAllure() {
+  const asJson = cliOption('--json', false) === true;
+  try {
+    const input = cliOption('--input');
+    const runId = cliOption('--run-id');
+    const commit = cliOption('--commit');
+    const ref = cliOption('--ref');
+    if (!input || input === true) throw new Error('--input requires an Allure results directory.');
+    if ([runId, commit, ref].some(value => value === true)) {
+      throw new Error('--run-id, --commit and --ref require values when supplied.');
+    }
+    const { aggregateAllure, writeAllureEvidence } = require('../lib/evidence/allure-aggregator');
+    const aggregation = aggregateAllure(path.resolve(process.cwd(), input), { runId, commit, ref });
+    const files = writeAllureEvidence(process.cwd(), aggregation);
+    const report = {
+      success: true, runId: aggregation.snapshot.runId,
+      counts: aggregation.snapshot.counts, gaps: aggregation.coverageMap.gaps.length,
+      sourceDigest: aggregation.snapshot.sourceDigest,
+      snapshotFile: files.snapshotFile, coverageMapFile: files.mapFile,
+    };
+    if (asJson) p(JSON.stringify(report, null, 2));
+    else {
+      p();
+      p(bd(CY, '  SPECTRA INGEST ALLURE'));
+      p(`  Run              ${bd(WH, report.runId)}`);
+      p(`  Tests            ${bd(WH, String(report.counts.tests))} (${report.counts.attempts} attempts)`);
+      p(`  Gaps             ${bd(report.gaps ? YL : GR, String(report.gaps))}`);
+      p(`  Evidence         ${c(DM, path.relative(process.cwd(), report.snapshotFile))}`);
+      p(`  Coverage map     ${c(DM, path.relative(process.cwd(), report.coverageMapFile))}`);
+      p();
+    }
+  } catch (error) {
+    if (asJson) p(JSON.stringify({ success: false, error: error.message }, null, 2));
+    else p(c(RD, `  ${error.message}`));
+    process.exitCode = 1;
+  }
+}
+
 function cmdHelp() {
   p();
   p(bd(CY, '  SPECTRA') + c(DM, '  ·  Spec-Driven Development for Agentic AI'));
@@ -1147,6 +1185,7 @@ function cmdHelp() {
   p(`  │  ${bd(GR, 'spectra trace')}       ${c(DM, 'Scan specs + code → generate 12-trace.md')}   │`);
   p(`  │  ${bd(GR, 'spectra validate')}    ${c(DM, 'Validate spec quality and cross-refs')}        │`);
   p(`  │  ${bd(GR, 'spectra verify')}      ${c(DM, 'Check recorded acceptance evidence')}          │`);
+  p(`  │  ${bd(GR, 'spectra ingest-allure')} ${c(DM, 'Import Allure results and gaps')}           │`);
   p(`  │  ${bd(GR, 'spectra agent plan')}  ${c(DM, 'Create a bounded read-only plan')}             │`);
   p(`  │  ${bd(GR, 'spectra evolve')}      ${c(DM, 'Run controlled agent evolution against gaps')} │`);
   p(`  │  ${bd(GR, 'spectra evolution-status')} ${c(DM, 'Show active versions and audit health')}   │`);
@@ -1183,6 +1222,9 @@ switch (command) {
     break;
   case 'verify':
     cmdVerify();
+    break;
+  case 'ingest-allure':
+    cmdIngestAllure();
     break;
   case 'agent':
     cmdAgent();
