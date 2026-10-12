@@ -38,10 +38,14 @@ previously active version with an audited reason.
 
 SPECTRA ships a narrow host adapter client and a scheduled GitHub Actions
 trigger, not direct provider credentials or a self-authorizing evaluator. The
-trusted host still owns isolation, authorization, heldout secrecy, endpoint
-policy, and cost ceilings. In-process evaluation alone cannot guarantee that a
-compromised host has protected heldout cases or kept governance at higher
-priority. No candidate may modify governance, policy or suite.
+trusted host loads the suite and candidate from protected storage; neither
+heldout inputs nor expected answers are committed to the repository or sent to
+the adapter. The workflow serializes runs and persists the complete registry on
+a dedicated branch. The trusted host still owns isolation, authorization,
+heldout secrecy, endpoint policy, and cost ceilings. In-process evaluation
+alone cannot guarantee that a compromised host has protected heldout cases or
+kept governance at higher priority. No candidate may modify governance, policy
+or suite.
 
 ## Consequences
 

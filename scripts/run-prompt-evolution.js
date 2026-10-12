@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('node:fs');
 const path = require('node:path');
 const {
   AuthorizedPromptAdapter,
@@ -30,12 +29,15 @@ function floatEnv(name, fallback) {
 
 async function main() {
   const projectRoot = path.resolve(__dirname, '..');
-  const candidateFile = path.resolve(projectRoot, env('SPECTRA_PROMPT_CANDIDATE_FILE', '.spectra/prompt-evolution/candidate.txt'));
-  if (!fs.existsSync(candidateFile)) {
+  const candidateFileSetting = env('SPECTRA_PROMPT_CANDIDATE_FILE');
+  const candidateFile = candidateFileSetting && path.resolve(projectRoot, candidateFileSetting);
+  const candidateInstructions = candidateFile
+    ? readTextFile(candidateFile, 'Candidate prompt')
+    : env('SPECTRA_PROMPT_CANDIDATE');
+  if (!candidateInstructions) {
     process.stdout.write(`${JSON.stringify({
       skipped: true,
-      reason: 'candidate-file-not-found',
-      candidateFile,
+      reason: 'candidate-not-configured',
     }, null, 2)}\n`);
     return;
   }
@@ -49,7 +51,6 @@ async function main() {
     env('SPECTRA_PROMPT_SUITE_FILE', 'evals/prompt-evolution/game-04-pilot/suite.manifest.json'));
   const policyFile = path.resolve(projectRoot,
     env('SPECTRA_PROMPT_POLICY_FILE', 'evals/prompt-evolution/game-04-pilot/policy.json'));
-  const candidateInstructions = readTextFile(candidateFile, 'Candidate prompt');
   const baselineInstructions = readTextFile(baselineFile, 'Baseline prompt');
   const governance = readTextFile(governanceFile, 'Governance');
   const policy = loadPolicy(policyFile);
@@ -59,6 +60,7 @@ async function main() {
     timeoutMs: intEnv('SPECTRA_PROMPT_TIMEOUT_MS', '30000'),
   });
   const host = new PromptEvaluationHost(projectRoot, { governance, policy, adapter });
+  const suiteManifestJson = env('SPECTRA_PROMPT_SUITE_JSON');
   const invocationConfig = {
     model: env('SPECTRA_PROMPT_MODEL', 'gpt-5-mini'),
     toolsHash: env('SPECTRA_PROMPT_TOOLS_HASH', sha256([])),
@@ -77,14 +79,16 @@ async function main() {
   const result = await host.run({
     baselineInstructions,
     candidateInstructions,
-    suiteManifestPath: suiteManifestFile,
+    ...(suiteManifestJson
+      ? { suiteManifest: JSON.parse(suiteManifestJson) }
+      : { suiteManifestPath: suiteManifestFile }),
     invocationConfig,
     metadata: {
       baselineFile: path.relative(projectRoot, baselineFile),
-      candidateFile: path.relative(projectRoot, candidateFile),
+      ...(candidateFile ? { candidateFile: path.relative(projectRoot, candidateFile) } : {}),
       governanceFile: path.relative(projectRoot, governanceFile),
       policyFile: path.relative(projectRoot, policyFile),
-      adapterEndpoint,
+      adapterEndpointSha256: sha256(adapterEndpoint),
     },
   });
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);

@@ -24,6 +24,7 @@ const runner = new PromptEvolutionRunner(projectRoot, {
   },
 });
 
+// `evaluatorOwnedSuite` is loaded by the trusted host from protected storage.
 // Once per project: runner.initialize(currentMotherInstructions);
 const before = runner.active(); // Pinned prompt for this execution.
 const result = await runner.run({
@@ -46,8 +47,13 @@ expected answers, the model adapter or its own evaluation score.
 SPECTRA now includes a host-side runner entry point at
 `scripts/run-prompt-evolution.js` and an `AuthorizedPromptAdapter` helper. The
 adapter POSTs only `governance`, `instructions`, `input`, `caseId`, and pinned
-invocation config to an evaluator-owned endpoint; expected answers stay inside
-the suite vault. The bundled scheduled workflow
+invocation config to an evaluator-owned endpoint; expected answers stay in the
+trusted host. The scheduled workflow reads the candidate prompt and case suite
+from protected GitHub secrets (or an explicitly selected prompt file), and does
+not run when they are absent. It stores the complete audited registry on the
+serialized `prompt-evolution-registry` branch so later runs load promotions.
+The adapter URL is represented in run metadata only by its SHA-256 digest.
+The scheduled workflow
 `.github/workflows/mother-prompt-evaluation.yml` runs the same comparison on a
 recurring trigger and promotes only the version loaded by the next execution.
 
@@ -86,15 +92,22 @@ The runner doesn't train a model, edit its weights, deploy software or
 execute a specialist's plan. See [ADR-0009](decisions/0009-controlled-mother-prompt-evolution.md)
 for the trust boundary.
 
-## Evaluator-owned pilot fixtures
+## Evaluator-owned pilot configuration
 
-The repository ships a minimal pilot suite at
-`evals/prompt-evolution/game-04-pilot/`:
+The repository includes the trusted governance and promotion policy at
+`evals/prompt-evolution/game-04-pilot/`. Case inputs, expected outputs, and
+their manifest are not committed. Configure `SPECTRA_PROMPT_SUITE_JSON` as a
+protected secret containing a manifest with `schemaVersion`, `suiteId`,
+`suiteVersion`, and at least one known and one heldout case. Each case includes
+`id`, `tier`, `critical`, `input`, `expected`, `inputSha256`, and
+`expectedSha256`; hashes are checked before any model invocation. Keep the
+complete specification-generation cases and their artifact-specific expected
+fields in that protected data, rather than using a binary release decision.
+The candidate prompt is supplied through the protected
+`SPECTRA_PROMPT_CANDIDATE` secret or an explicitly selected workflow-dispatch
+file. Configure `SPECTRA_PROMPT_ADAPTER_URL` and its optional token separately.
 
-- `suite.manifest.json` pins suite ID/version and hashes for each input and
-  expected-output file;
-- `governance.txt` keeps the higher-priority evaluator instructions out of the
-  candidate prompt;
-- `policy.json` can authorize promotion for the next run only;
-- the heldout GAME-04 case remains evaluator-owned and is not sent to the
-  candidate as an expected answer.
+The registry branch is writable only by the scheduled/manual workflow token;
+workflow concurrency prevents overlapping read/modify/write cycles. Protect
+that branch with repository access controls. Artifacts contain case hashes and
+scores, never case inputs or expected values.

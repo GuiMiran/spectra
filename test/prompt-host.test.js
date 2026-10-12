@@ -64,6 +64,35 @@ function writeSuite(root) {
   return { manifestFile, files };
 }
 
+function protectedSpecSuite() {
+  const cases = [
+    {
+      id: 'known-scope-artifact',
+      tier: 'known',
+      critical: true,
+      input: 'Generate the scope artifact and return its path and whether user outcomes are traceable.',
+      expected: { artifactPath: 'spec/01-scope.md', traceable: true },
+    },
+    {
+      id: 'heldout-acceptance-artifact',
+      tier: 'heldout',
+      critical: true,
+      input: 'Generate the acceptance-criteria artifact and return its path and whether each criterion is testable.',
+      expected: { artifactPath: 'spec/08-acceptance.md', testable: true },
+    },
+  ].map(item => ({
+    ...item,
+    inputSha256: sha256(item.input),
+    expectedSha256: sha256(item.expected),
+  }));
+  return {
+    schemaVersion: 1,
+    suiteId: 'mother-prompt-spec-artifacts',
+    suiteVersion: 'test-1',
+    cases,
+  };
+}
+
 async function createAdapterServer(t, handler) {
   const requests = [];
   const server = http.createServer(async (req, res) => {
@@ -90,13 +119,21 @@ function invocationConfig(costBudget = 5000) {
   };
 }
 
-test('authorized prompt host records a GAME-04 pilot run without exposing expected answers', async t => {
+test('authorized prompt host scores protected specification artifacts without exposing expectations', async t => {
   const root = project(t);
-  const suite = writeSuite(root);
+  const suite = protectedSpecSuite();
+  const privateEndpoint = 'https://private.example.test/evaluate?token=secret';
+  const adapterEndpointSha256 = sha256(privateEndpoint);
   const { endpoint, requests } = await createAdapterServer(t, body => {
     const candidate = body.instructions === 'candidate v2';
+    const correct = body.caseId === 'known-scope-artifact'
+      ? { artifactPath: 'spec/01-scope.md', traceable: true }
+      : { artifactPath: 'spec/08-acceptance.md', testable: true };
+    const incorrect = body.caseId === 'known-scope-artifact'
+      ? { artifactPath: 'spec/01-scope.md', traceable: false }
+      : { artifactPath: 'spec/08-acceptance.md', testable: false };
     return {
-      response: { decision: candidate || body.caseId === 'known-release' ? 'reject' : 'approve' },
+      response: candidate || body.caseId === 'heldout-acceptance-artifact' ? correct : incorrect,
       usage: { inputTokens: 10, outputTokens: 2, totalTokens: 12 },
       cost: { currency: 'USD', inputMicros: 400, outputMicros: 100, totalMicros: 500 },
       latencyMs: candidate ? 25 : 20,
@@ -113,9 +150,9 @@ test('authorized prompt host records a GAME-04 pilot run without exposing expect
   const result = await host.run({
     baselineInstructions: 'baseline v1',
     candidateInstructions: 'candidate v2',
-    suiteManifestPath: suite.manifestFile,
+    suiteManifest: suite,
     invocationConfig: invocationConfig(),
-    metadata: { pilot: 'GAME-04' },
+    metadata: { adapterEndpointSha256 },
   });
 
   assert.equal(result.decision, 'active');
@@ -126,16 +163,39 @@ test('authorized prompt host records a GAME-04 pilot run without exposing expect
   assert.equal(result.evaluation.telemetry.baseline.usage.totalTokens, 24);
   assert.equal(result.evaluation.telemetry.candidate.usage.totalTokens, 24);
   assert.equal(result.evaluation.telemetry.candidate.cost.totalMicros, 1000);
-  assert.equal(result.suite.suiteVersion, '2026-09-25');
+  assert.equal(result.suite.suiteVersion, 'test-1');
   assert.ok(fs.existsSync(result.artifactFile));
   const artifact = JSON.parse(fs.readFileSync(result.artifactFile, 'utf8'));
-  assert.equal(artifact.metadata.pilot, 'GAME-04');
+  assert.equal(artifact.metadata.adapterEndpointSha256, adapterEndpointSha256);
+  assert.ok(!JSON.stringify(artifact).includes(privateEndpoint));
   assert.equal(artifact.evaluation.observations.length, 2);
+  assert.ok(artifact.suite.cases.every(item => item.inputFile === null && item.expectedFile === null));
+  assert.ok(!JSON.stringify(artifact).includes('Generate the scope artifact'));
+  assert.ok(!JSON.stringify(artifact).includes('traceable'));
   assert.deepEqual(requests.map(body => body.instructions),
     ['baseline v1', 'candidate v2', 'baseline v1', 'candidate v2']);
   assert.ok(requests.every(body => !('expected' in body)));
   assert.ok(requests.every(body => Object.keys(body).sort().join(',') ===
     'caseId,config,governance,input,instructions,schemaVersion'));
+});
+
+test('protected inline suite hashes are checked before invocation', async t => {
+  const root = project(t);
+  const suite = protectedSpecSuite();
+  suite.cases[1].expectedSha256 = '0'.repeat(64);
+  let invoked = false;
+  const host = new PromptEvaluationHost(root, {
+    governance: 'Trusted governance.',
+    adapter: { invoke: async () => { invoked = true; return { response: { ok: true } }; } },
+  });
+
+  await assert.rejects(host.run({
+    baselineInstructions: 'baseline v1',
+    candidateInstructions: 'candidate v2',
+    suiteManifest: suite,
+    invocationConfig: invocationConfig(),
+  }), /Expected evidence hash mismatch/);
+  assert.equal(invoked, false);
 });
 
 test('suite evidence hash mismatches fail before any model invocation', async t => {
