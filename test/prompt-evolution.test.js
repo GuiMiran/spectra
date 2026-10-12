@@ -129,6 +129,59 @@ test('changing the active pointer without an audit event fails closed', t => {
   assert.throws(() => runner.active(), /audited lifecycle/);
 });
 
+test('disabled critical and heldout gates do not produce contradictory decision reasons', async t => {
+  const root = project(t);
+  const expanded = { schemaVersion: 1, cases: [
+    { id: 'known-a', tier: 'known', critical: true, input: 'a', expected: { ok: true } },
+    { id: 'known-b', tier: 'known', critical: true, input: 'b', expected: { ok: true } },
+    { id: 'known-c', tier: 'known', critical: false, input: 'c', expected: { ok: true } },
+    { id: 'known-d', tier: 'known', critical: false, input: 'd', expected: { ok: true } },
+    { id: 'heldout-a', tier: 'heldout', critical: true, input: 'e', expected: { ok: true } },
+  ] };
+  const runner = new PromptEvolutionRunner(root, {
+    governance: 'Immutable policy',
+    policy: { ...DEFAULT_PROMPT_POLICY, autoPromote: true,
+      requireCriticalPass: false, requireHeldoutNonRegression: false },
+    invoke: async ({ instructions, caseId }) => ({
+      ok: instructions === 'baseline v1'
+        ? caseId === 'heldout-a'
+        : ['known-a', 'known-c'].includes(caseId),
+    }),
+  });
+  runner.initialize('baseline v1');
+  const result = await runner.run({
+    candidate: 'candidate v2',
+    suite: expanded,
+    invocationConfig: config,
+  });
+  assert.equal(result.decision, 'active');
+  assert.deepEqual(result.evaluation.criticalFailures, ['known-b', 'heldout-a']);
+  assert.deepEqual(result.evaluation.heldoutRegressions, ['heldout-a']);
+  assert.equal(result.decisionReason, 'candidate-promoted-for-next-run');
+});
+
+test('configured cost budgets require matching cost telemetry for every invocation', async t => {
+  for (const cost of [undefined, {
+    currency: 'EUR', inputMicros: 1, outputMicros: 1, totalMicros: 2,
+  }]) {
+    const root = project(t);
+    const runner = new PromptEvolutionRunner(root, {
+      governance: 'Immutable policy',
+      invoke: async () => ({
+        response: { decision: 'reject' },
+        ...(cost ? { cost } : {}),
+      }),
+    });
+    runner.initialize('baseline v1');
+    await assert.rejects(runner.run({
+      candidate: 'candidate v2',
+      suite,
+      invocationConfig: { ...config, costBudget: { currency: 'USD', maxMicros: 100 } },
+    }), /Cost telemetry in USD is required/);
+    assert.equal(runner.active().version, 1);
+  }
+});
+
 test('prompt-status exposes only the audited active version', t => {
   const root = project(t);
   const runner = new PromptEvolutionRunner(root, {

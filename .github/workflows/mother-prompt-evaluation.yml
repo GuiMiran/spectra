@@ -1,0 +1,93 @@
+name: Mother Prompt Evaluation
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_file:
+        description: Candidate prompt file relative to the repository root
+        required: false
+  schedule:
+    - cron: '0 6 * * 1'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mother-prompt-evaluation-registry
+  cancel-in-progress: false
+
+jobs:
+  evaluate-mother-prompt:
+    if: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+    runs-on: ubuntu-latest
+    env:
+      SPECTRA_PROMPT_ADAPTER_CONFIGURED: ${{ secrets.SPECTRA_PROMPT_ADAPTER_URL != '' }}
+      SPECTRA_PROMPT_CANDIDATE_CONFIGURED: ${{ secrets.SPECTRA_PROMPT_CANDIDATE != '' || inputs.candidate_file != '' }}
+      SPECTRA_PROMPT_SUITE_CONFIGURED: ${{ secrets.SPECTRA_PROMPT_SUITE_JSON != '' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: No-op when the authorized adapter is not configured
+        if: ${{ env.SPECTRA_PROMPT_ADAPTER_CONFIGURED != 'true' || env.SPECTRA_PROMPT_CANDIDATE_CONFIGURED != 'true' || env.SPECTRA_PROMPT_SUITE_CONFIGURED != 'true' }}
+        run: echo "The authorized adapter, candidate prompt, and protected evaluator suite must all be configured."
+
+      - name: Restore audited prompt registry
+        id: restore_registry
+        if: ${{ env.SPECTRA_PROMPT_ADAPTER_CONFIGURED == 'true' && env.SPECTRA_PROMPT_CANDIDATE_CONFIGURED == 'true' && env.SPECTRA_PROMPT_SUITE_CONFIGURED == 'true' }}
+        run: |
+          if git ls-remote --exit-code --heads origin prompt-evolution-registry >/dev/null; then
+            git fetch origin prompt-evolution-registry
+            git worktree add ../prompt-evolution-registry FETCH_HEAD
+            if [ ! -d ../prompt-evolution-registry/.spectra/prompt-evolution ]; then
+              echo "The persisted prompt registry branch is missing its registry data."
+              exit 1
+            fi
+          else
+            git worktree add --detach ../prompt-evolution-registry "$GITHUB_SHA"
+            git -C ../prompt-evolution-registry switch --orphan prompt-evolution-registry
+          fi
+          if [ -d ../prompt-evolution-registry/.spectra/prompt-evolution ]; then
+            rm -rf .spectra/prompt-evolution
+            mkdir -p .spectra
+            cp -a ../prompt-evolution-registry/.spectra/prompt-evolution .spectra/
+          fi
+
+      - name: Run Mother prompt pilot
+        if: ${{ env.SPECTRA_PROMPT_ADAPTER_CONFIGURED == 'true' && env.SPECTRA_PROMPT_CANDIDATE_CONFIGURED == 'true' && env.SPECTRA_PROMPT_SUITE_CONFIGURED == 'true' }}
+        env:
+          SPECTRA_PROMPT_ADAPTER_URL: ${{ secrets.SPECTRA_PROMPT_ADAPTER_URL }}
+          SPECTRA_PROMPT_ADAPTER_TOKEN: ${{ secrets.SPECTRA_PROMPT_ADAPTER_TOKEN }}
+          SPECTRA_PROMPT_CANDIDATE: ${{ secrets.SPECTRA_PROMPT_CANDIDATE }}
+          SPECTRA_PROMPT_CANDIDATE_FILE: ${{ inputs.candidate_file }}
+          SPECTRA_PROMPT_SUITE_JSON: ${{ secrets.SPECTRA_PROMPT_SUITE_JSON }}
+        run: node scripts/run-prompt-evolution.js
+
+      - name: Persist audited prompt registry
+        if: ${{ always() && steps.restore_registry.outcome == 'success' && env.SPECTRA_PROMPT_ADAPTER_CONFIGURED == 'true' && env.SPECTRA_PROMPT_CANDIDATE_CONFIGURED == 'true' && env.SPECTRA_PROMPT_SUITE_CONFIGURED == 'true' }}
+        run: |
+          if [ -d .spectra/prompt-evolution ]; then
+            mkdir -p ../prompt-evolution-registry/.spectra
+            rm -rf ../prompt-evolution-registry/.spectra/prompt-evolution
+            cp -a .spectra/prompt-evolution ../prompt-evolution-registry/.spectra/
+            git -C ../prompt-evolution-registry config user.name "github-actions[bot]"
+            git -C ../prompt-evolution-registry config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git -C ../prompt-evolution-registry add .spectra/prompt-evolution
+            if ! git -C ../prompt-evolution-registry diff --cached --quiet; then
+              git -C ../prompt-evolution-registry commit -m "Persist Mother prompt evaluation registry"
+              git -C ../prompt-evolution-registry push origin HEAD:prompt-evolution-registry
+            fi
+          fi
+
+      - name: Upload prompt evaluation artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mother-prompt-evaluation
+          path: .spectra/prompt-evolution/runs/*.json
+          if-no-files-found: ignore

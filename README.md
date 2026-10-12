@@ -211,7 +211,9 @@ baseline on evaluator-owned known and heldout cases. A trusted host supplies
 the model adapter, governance and policy. Passing candidates become proposals
 by default; an existing policy can permit promotion for the next run. Use
 `spectra prompt-status --json` to inspect the active version and audit chain.
-See [Mother prompt evolution](docs/architecture/prompt-evolution.md).
+The repository also ships an authorized adapter client, a GAME-04 pilot suite,
+and a scheduled workflow trigger for recurring comparisons. See
+[Mother prompt evolution](docs/architecture/prompt-evolution.md).
 
 ## Making Spectra Visible to Agents
 

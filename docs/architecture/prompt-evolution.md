@@ -24,6 +24,7 @@ const runner = new PromptEvolutionRunner(projectRoot, {
   },
 });
 
+// `evaluatorOwnedSuite` is loaded by the trusted host from protected storage.
 // Once per project: runner.initialize(currentMotherInstructions);
 const before = runner.active(); // Pinned prompt for this execution.
 const result = await runner.run({
@@ -43,6 +44,19 @@ versioned policy. Its default is `false`, leaving successful candidates as
 proposals. The candidate must not be allowed to supply policy, governance,
 expected answers, the model adapter or its own evaluation score.
 
+SPECTRA now includes a host-side runner entry point at
+`scripts/run-prompt-evolution.js` and an `AuthorizedPromptAdapter` helper. The
+adapter POSTs only `governance`, `instructions`, `input`, `caseId`, and pinned
+invocation config to an evaluator-owned endpoint; expected answers stay in the
+trusted host. The scheduled workflow reads the candidate prompt and case suite
+from protected GitHub secrets (or an explicitly selected prompt file), and does
+not run when they are absent. It stores the complete audited registry on the
+serialized `prompt-evolution-registry` branch so later runs load promotions.
+The adapter URL is represented in run metadata only by its SHA-256 digest.
+The scheduled workflow
+`.github/workflows/mother-prompt-evaluation.yml` runs the same comparison on a
+recurring trigger and promotes only the version loaded by the next execution.
+
 ## Suite contract
 
 The suite is `{schemaVersion: 1, cases: [...]}`. Each case has a unique
@@ -52,12 +66,11 @@ tiers. Store heldout expectations under evaluator ownership and exclude them
 from candidate context, generated PRs and logs. The runner logs only case
 IDs, pass/fail and response digests.
 
-Both prompts receive the same `model`, `toolsHash` and `tokenBudget` for
-every case. The host also needs to pin sampling parameters and any other
-provider controls. The runner currently compares deterministic structured
-fields; repeated samples and confidence intervals for stochastic models
-must be supplied by a future trusted adapter before using noisy results to
-promote a prompt.
+Both prompts receive the same `model`, `toolsHash`, `tokenBudget`, sampling
+parameters, and cost budget for every case. The runner records response hashes,
+per-case pass/fail, telemetry totals, regressions, and an audited decision
+reason. The trusted adapter may also return token, latency, and cost telemetry
+as long as it does not expose heldout expectations.
 
 ## Persistence and checks
 
@@ -78,3 +91,23 @@ rollback itself is recorded in the same audit chain.
 The runner doesn't train a model, edit its weights, deploy software or
 execute a specialist's plan. See [ADR-0009](decisions/0009-controlled-mother-prompt-evolution.md)
 for the trust boundary.
+
+## Evaluator-owned pilot configuration
+
+The repository includes the trusted governance and promotion policy at
+`evals/prompt-evolution/game-04-pilot/`. Case inputs, expected outputs, and
+their manifest are not committed. Configure `SPECTRA_PROMPT_SUITE_JSON` as a
+protected secret containing a manifest with `schemaVersion`, `suiteId`,
+`suiteVersion`, and at least one known and one heldout case. Each case includes
+`id`, `tier`, `critical`, `input`, `expected`, `inputSha256`, and
+`expectedSha256`; hashes are checked before any model invocation. Keep the
+complete specification-generation cases and their artifact-specific expected
+fields in that protected data, rather than using a binary release decision.
+The candidate prompt is supplied through the protected
+`SPECTRA_PROMPT_CANDIDATE` secret or an explicitly selected workflow-dispatch
+file. Configure `SPECTRA_PROMPT_ADAPTER_URL` and its optional token separately.
+
+The registry branch is writable only by the scheduled/manual workflow token;
+workflow concurrency prevents overlapping read/modify/write cycles. Protect
+that branch with repository access controls. Artifacts contain case hashes and
+scores, never case inputs or expected values.
