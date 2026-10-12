@@ -6,7 +6,32 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
+  node-verify:
+    name: Verify Node contracts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Verify repository and run tests
+        run: npm run verify
+
+      - name: Assess Stage 2 fixture
+        run: npm run stage2:assess -- --input evals/stage2-pass.json
+
+      - name: Assess trajectory fixture
+        run: npm run trajectory:assess -- --input evals/trajectory-pass.json --controls evals/trajectory-controls.json
+
   spectra-validate:
     name: Validate Spectra specs
     runs-on: ubuntu-latest
