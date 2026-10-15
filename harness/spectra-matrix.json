@@ -72,6 +72,22 @@
       ]
     },
     {
+      "id": "ALLURE-001",
+      "requirement": "Allure result files yield a versioned evidence snapshot and provenance-linked gaps without replacing external maps.",
+      "owner": "lib/evidence/",
+      "artifacts": [
+        "lib/evidence/allure-aggregator.js",
+        "bin/spectra.js",
+        "docs/architecture/decisions/0012-allure-ingestion.md"
+      ],
+      "evidence": [
+        "test/allure-aggregator.test.js",
+        "test/cli.ingest-allure.test.js",
+        "test/fixtures/allure/broken-result.json"
+      ],
+      "verify": ["npm run verify"]
+    },
+    {
       "id": "STAGE2-001",
       "requirement": "A Stage 2 record assesses policy, supported evidence, repeatability, and the integrated result separately.",
       "owner": "lib/verification/",
