@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "traceId": "synthetic-trace-1",
+  "evidenceId": "synthetic-violation-1",
+  "events": [
+    { "stage": "detected", "traceId": "synthetic-trace-1", "evidenceId": "synthetic-violation-1", "violation": true },
+    { "stage": "correlated", "traceId": "synthetic-trace-1", "evidenceId": "synthetic-violation-1", "matched": true },
+    { "stage": "policy", "traceId": "synthetic-trace-1", "evidenceId": "synthetic-violation-1", "decision": "block" },
+    { "stage": "action", "traceId": "synthetic-trace-1", "evidenceId": "synthetic-violation-1", "id": "block-1", "kind": "block", "executed": true },
+    { "stage": "audit", "traceId": "synthetic-trace-1", "evidenceId": "synthetic-violation-1", "actionId": "block-1", "recorded": true }
+  ]
+}
