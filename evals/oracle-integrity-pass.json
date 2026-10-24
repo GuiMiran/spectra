@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "caseId": "oracle-smoke",
+  "baseline": { "runId": "run-1", "beforeHash": "state-a", "afterHash": "state-a", "expected": "PASS", "actual": "PASS" },
+  "replay": { "runId": "run-2", "beforeHash": "state-a", "afterHash": "state-a", "expected": "PASS", "actual": "PASS" },
+  "controls": [
+    { "id": "known-valid", "expected": "PASS", "actual": "PASS" },
+    { "id": "known-invalid", "expected": "FAIL", "actual": "FAIL" }
+  ],
+  "metamorphic": [
+    { "id": "reorder-independent-evidence", "relation": "invariant", "baselineScore": 0.8, "transformedScore": 0.8 },
+    { "id": "remove-evidence", "relation": "no-improvement", "baselineScore": 0.8, "transformedScore": 0.5 },
+    { "id": "add-supporting-evidence", "relation": "no-decrease", "baselineScore": 0.5, "transformedScore": 0.8 }
+  ]
+}

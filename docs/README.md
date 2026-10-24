@@ -15,6 +15,7 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 - [Evidence and read-only planning](guides/evidence-and-read-only-planning.md) - record executed evidence and prepare a bounded agent-planning artifact.
 - [Allure ingestion](guides/allure-ingestion.md) — import result files into versioned evidence and gaps.
 - [Stage 2 trust assessment](guides/stage2-trust-assessment.md) — assess policy, evidence, repeatability, and integrated results.
+- [Evaluator and signal-path assurance](guides/evaluator-assurance.md) — replay, known-answer, metamorphic and evidence-path checks; Azure YAML task audit.
 
 - [Quickstart](guides/quickstart.md) — create a complete `/specs` folder from scratch.
 - [Agent visibility](guides/agent-visibility.md) — expose Spectra instructions to agent runtimes.

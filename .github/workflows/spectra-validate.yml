@@ -32,6 +32,14 @@ jobs:
       - name: Assess trajectory fixture
         run: npm run trajectory:assess -- --input evals/trajectory-pass.json --controls evals/trajectory-controls.json
 
+      - name: Assess oracle and signal-path fixtures
+        run: |
+          npm run assurance:assess -- oracle evals/oracle-integrity-pass.json
+          npm run assurance:assess -- signal evals/signal-path-pass.json
+
+      - name: Audit retired Azure DevOps YAML tasks
+        run: npm run audit:azure-tasks -- .
+
   spectra-validate:
     name: Validate Spectra specs
     runs-on: ubuntu-latest
