@@ -89,9 +89,22 @@ test('timeouts abort cooperatively and do not authorize another call', async () 
   assert.equal(report.arms.candidate.calls, 1);
 });
 
+test('synchronous callbacks that finish after the timeout fail closed', async () => {
+  const h = harness(); h.options.timeoutMs = 10;
+  h.adapters.candidate = () => {
+    const deadline = process.hrtime.bigint() + 30_000_000n;
+    while (process.hrtime.bigint() < deadline) {}
+    return h.reply({ artifact: 'candidate' });
+  };
+  const report = await runBestOfN(h.options, h.adapters);
+  assert.equal(report.status, 'INFRA_ERROR');
+  assert.equal(report.arms.candidate.calls, 1);
+});
+
 test('invalid configuration and public-task leakage fail before callbacks', async () => {
   for (const mutate of [h => { h.options.n = 1; }, h => { h.options.task.expected = 'private'; },
-    h => { h.options.evaluationMetric = 'visible'; }, h => { h.options.executor.token = 'secret'; }]) {
+    h => { h.options.evaluationMetric = 'visible'; }, h => { h.options.executor.token = 'secret'; },
+    h => { h.options.suiteHash = ['b'.repeat(64)]; }, h => { h.options.oracleHash = ['c'.repeat(64)]; }]) {
     const h = harness(); mutate(h);
     await assert.rejects(runBestOfN(h.options, h.adapters)); assert.equal(h.calls.length, 0);
   }
