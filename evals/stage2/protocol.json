@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "suiteId": "stage2-coupled-public-controls",
+  "suiteVersion": "1.0.0",
+  "scope": "public-evaluator-controls-not-agent-performance",
+  "seed": 0,
+  "repetitions": 3,
+  "selectionPolicy": "all-registered-controls-no-selection",
+  "cases": [
+    {
+      "id": "retry-idempotency",
+      "requirements": ["retry after response loss", "one committed effect"],
+      "input": { "operationId": "payment-1", "amountCents": 700 },
+      "positive": ["reference", "alternative"],
+      "negative": ["duplicate-effect", "no-retry"]
+    },
+    {
+      "id": "concurrency-limits",
+      "requirements": ["shared capacity ceiling", "admit work up to capacity"],
+      "input": { "jobs": 3, "limit": 2 },
+      "positive": ["reference", "alternative"],
+      "negative": ["check-before-yield", "reject-all"]
+    },
+    {
+      "id": "trace-privacy",
+      "requirements": ["reconstruct correlated decision", "exclude raw sensitive fields"],
+      "input": { "traceId": "TRACE-1", "operationId": "transfer-1", "token": "SYNTHETIC_TOKEN_NOT_A_CREDENTIAL", "email": "synthetic@example.invalid" },
+      "positive": ["reference", "alternative"],
+      "negative": ["raw-sensitive-data", "drop-correlation"]
+    },
+    {
+      "id": "compatibility-validation",
+      "requirements": ["accept v1 result records", "missing obligations cannot pass"],
+      "input": { "legacy": { "schemaVersion": 1, "results": [{ "id": "AC-001", "status": "passed" }] }, "complete": ["AC-001"], "missing": ["AC-001", "AC-002"] },
+      "positive": ["reference", "alternative"],
+      "negative": ["reject-v1", "absence-is-pass"]
+    }
+  ]
+}

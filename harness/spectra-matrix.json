@@ -3,6 +3,14 @@
   "purpose": "Repository-level SPECTRA matrix: requirements, owned artefacts, independent evidence, and verification commands.",
   "entries": [
     {
+      "id": "STAGE2-002",
+      "requirement": "Frozen executable coupled-case controls accept correct alternatives and reject known faults without oracle state mutation.",
+      "owner": "evals/",
+      "artifacts": ["evals/stage2/protocol.json", "evals/stage2/freeze.json", "evals/stage2/implementations.js", "evals/stage2/oracle.js", "evals/stage2/run-controls.js", "scripts/stage2-controls.js"],
+      "evidence": ["test/stage2-controls.test.js", "docs/guides/stage2-public-controls.md"],
+      "verify": ["npm run verify", "npm run stage2:freeze", "npm run stage2:controls"]
+    },
+    {
       "id": "EVAL-001",
       "requirement": "Best-of-n selection freezes before held-out evaluation and accounts for all reported work under equal whole-arm budgets.",
       "owner": "lib/evaluation/",

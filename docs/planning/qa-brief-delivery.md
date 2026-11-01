@@ -14,7 +14,7 @@ The [product backlog](product-backlog.md) remains the product roadmap.
 | Fair architectural comparisons | Equal-budget record assessor plus host-adapter best-of-n runner, frozen visible selection, complete usage accounting and deterministic CI demo | Connect an authorized provider under external resource/oracle isolation and run repeated statistical trials |
 | Executor alignment | Automatic promotion requires pinned model/harness/tools identity | Remote attestation and binding production deployment receipts |
 | Instruction security | Conflict rule and CODEOWNERS; security checks run in normal PR CI | Human enables required review rules; instruction-change reporting UI |
-| Interacting Stage 2 requirements | Four public coupled-case designs in `evals/stage2-coupled-cases.json` | Implement fixtures, freeze protocol, isolate oracle and run trials |
+| Interacting Stage 2 requirements | Four executable public cases, 16 positive/negative variants, frozen source manifest, 48 deterministic executions and oracle discrimination matrix | Private held-out tasks, candidate-code isolation and real provider trials |
 | Hybrid fuzzing and dependency recovery | Not started | Non-production Payroll OpenAPI subset and authorized data/runner |
 | Review cost and compact state | Not started | Token/cost instrumentation and state-replay/no-op experiment |
 | Adaptive bug-report completeness | Not started | Missing environment/steps/version prompts, without asserting confirmed bugs |
