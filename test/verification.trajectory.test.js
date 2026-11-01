@@ -32,7 +32,10 @@ function fixture() {
 }
 
 test('passes an ordered read-only trajectory with human-gated promotion', () => {
-  assert.deepEqual(assessTrajectory(fixture(), controls()), { valid: true, errors: [], verdict: 'PASS', reasons: [] });
+  const result = assessTrajectory(fixture(), controls());
+  assert.equal(result.verdict, 'PASS');
+  assert.deepEqual(result.metrics, { first_invalid_step: null, valid_prefixes: 6, total_prefixes: 6,
+    valid_prefix_ratio: 1, successful_result_after_invalid_step: false });
 });
 
 test('rejects a tool absent from the independently supplied controls', () => {

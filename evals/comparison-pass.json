@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "executor": { "model": "fixture-model", "harnessVersion": "fixture-v1", "toolsHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+  "suiteHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "oracleHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "evaluationMetric": "heldout-discrimination",
+  "split": "heldout",
+  "optimizedMetrics": ["visible-pass-rate"],
+  "candidate": {
+    "suiteHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "oracleHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "executor": { "model": "fixture-model", "harnessVersion": "fixture-v1", "toolsHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+    "budget": { "tokens": 10000, "toolCalls": 100 },
+    "consumed": { "tokens": 8000, "toolCalls": 80 },
+    "score": 0.9
+  },
+  "baseline": {
+    "suiteHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "oracleHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "strategy": "best-of-n", "n": 3,
+    "executor": { "model": "fixture-model", "harnessVersion": "fixture-v1", "toolsHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+    "budget": { "tokens": 10000, "toolCalls": 100 },
+    "consumed": { "tokens": 9500, "toolCalls": 90 },
+    "score": 0.8
+  },
+  "knownGoodPreserved": true,
+  "noOpCompared": true,
+  "faults": [
+    { "id": "broken-implementation", "expectedDetected": true, "observedDetected": true },
+    { "id": "correct-alternative-patch", "expectedDetected": false, "observedDetected": false }
+  ]
+}

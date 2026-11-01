@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "status": "proposed-experiment-not-results",
+  "cases": [
+    { "id": "retry-idempotency", "requirements": ["retry after transient failure", "one business effect only"], "fault": "retry duplicates a transaction", "control": "different correct retry implementation" },
+    { "id": "concurrency-limits", "requirements": ["parallel execution", "hard shared capacity ceiling"], "fault": "per-agent limit bypasses aggregate ceiling", "control": "atomic capacity reservation" },
+    { "id": "trace-privacy", "requirements": ["reconstruct decision provenance", "exclude raw credentials and personal data"], "fault": "trace includes raw adapter token", "control": "digest and redacted metadata" },
+    { "id": "compatibility-validation", "requirements": ["accept legacy v1 evidence", "fail closed for absent new evidence"], "fault": "missing inventory becomes PASS", "control": "legacy import with UNKNOWN qualification" }
+  ]
+}

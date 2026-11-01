@@ -1,6 +1,7 @@
 # Architecture
 
 Architecture documents define durable implementation boundaries and decisions.
+See [ADR-0014](decisions/0014-evidence-closed-brief-controls.md) for evidence-closed qualification and comparable evaluation.
 They complement the SPECTRA domain layers; they do not replace them.
 
 - [ADR-0002](decisions/0002-evidence-and-read-only-planning.md) adds a recorded-evidence gate and bounded planning contract without enabling model or source-write effects.

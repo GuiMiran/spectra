@@ -1144,17 +1144,23 @@ function cmdIngestAllure() {
     const runId = cliOption('--run-id');
     const commit = cliOption('--commit');
     const ref = cliOption('--ref');
+    const expectedFile = cliOption('--expected');
+    const baselineFile = cliOption('--baseline');
     if (!input || input === true) throw new Error('--input requires an Allure results directory.');
-    if ([runId, commit, ref].some(value => value === true)) {
-      throw new Error('--run-id, --commit and --ref require values when supplied.');
+    if ([runId, commit, ref, expectedFile, baselineFile].some(value => value === true)) {
+      throw new Error('--run-id, --commit, --ref, --expected and --baseline require values when supplied.');
     }
     const { aggregateAllure, writeAllureEvidence } = require('../lib/evidence/allure-aggregator');
-    const aggregation = aggregateAllure(path.resolve(process.cwd(), input), { runId, commit, ref });
+    const expected = expectedFile ? JSON.parse(fs.readFileSync(path.resolve(expectedFile), 'utf8')) : null;
+    const baseline = baselineFile ? JSON.parse(fs.readFileSync(path.resolve(baselineFile), 'utf8')) : null;
+    const aggregation = aggregateAllure(path.resolve(process.cwd(), input), { runId, commit, ref, expected, baseline });
     const files = writeAllureEvidence(process.cwd(), aggregation);
     const report = {
       success: true, runId: aggregation.snapshot.runId,
       counts: aggregation.snapshot.counts, gaps: aggregation.coverageMap.gaps.length,
       sourceDigest: aggregation.snapshot.sourceDigest,
+      qualification: aggregation.snapshot.qualification,
+      regressions: aggregation.snapshot.regressions,
       snapshotFile: files.snapshotFile, coverageMapFile: files.mapFile,
     };
     if (asJson) p(JSON.stringify(report, null, 2));
@@ -1168,6 +1174,7 @@ function cmdIngestAllure() {
       p(`  Coverage map     ${c(DM, path.relative(process.cwd(), report.coverageMapFile))}`);
       p();
     }
+    if ((expected && report.qualification.verdict !== 'PASS') || report.regressions.length) process.exitCode = 1;
   } catch (error) {
     if (asJson) p(JSON.stringify({ success: false, error: error.message }, null, 2));
     else p(c(RD, `  ${error.message}`));

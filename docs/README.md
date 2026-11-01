@@ -12,6 +12,8 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 
 ## Guides
 
+- [Evidence-closed evaluation](guides/evidence-closed-evaluation.md) — inventories, continuity, prefix metrics, comparison contracts and instruction security.
+
 - [Evidence and read-only planning](guides/evidence-and-read-only-planning.md) - record executed evidence and prepare a bounded agent-planning artifact.
 - [Allure ingestion](guides/allure-ingestion.md) — import result files into versioned evidence and gaps.
 - [Stage 2 trust assessment](guides/stage2-trust-assessment.md) — assess policy, evidence, repeatability, and integrated results.
@@ -33,6 +35,8 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 - [Spectra report](reports/spectra-report.md)
 
 ## Planning
+
+- [QA brief delivery ledger](planning/qa-brief-delivery.md) — implemented controls and remaining experiments from the October briefs.
 
 - [Product backlog](planning/product-backlog.md) — evidence-first roadmap for the product and delivery pipeline.
 - [Ecosystem backlog](planning/ecosystem-backlog.md) — future cross-repository work and completed delivery history.
