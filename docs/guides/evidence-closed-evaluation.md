@@ -77,6 +77,8 @@ no-op comparison, and both positive and negative fault controls. The fixture
 is illustrative, not a measured improvement. The assessor does not generate
 candidates or perform model calls and is not wired as an automatic promotion
 authority. A trusted experiment runner must produce the measurements.
+The separate [best-of-n runner](best-of-n-runner.md) supplies that execution
+protocol through host-owned callbacks; its bundled demo has no live model.
 
 Automatic Mother prompt promotion now additionally requires
 `invocationConfig.executor = { model, harnessVersion, toolsHash }`. Its model

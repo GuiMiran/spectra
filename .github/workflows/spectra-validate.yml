@@ -35,6 +35,9 @@ jobs:
       - name: Assess budget-matched comparison contract
         run: npm run comparison:assess -- evals/comparison-pass.json
 
+      - name: Run deterministic best-of-n experiment demo
+        run: npm run best-of-n:demo
+
       - name: Assess oracle and signal-path fixtures
         run: |
           npm run assurance:assess -- oracle evals/oracle-integrity-pass.json

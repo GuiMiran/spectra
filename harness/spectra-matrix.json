@@ -3,6 +3,14 @@
   "purpose": "Repository-level SPECTRA matrix: requirements, owned artefacts, independent evidence, and verification commands.",
   "entries": [
     {
+      "id": "EVAL-001",
+      "requirement": "Best-of-n selection freezes before held-out evaluation and accounts for all reported work under equal whole-arm budgets.",
+      "owner": "lib/evaluation/",
+      "artifacts": ["lib/evaluation/best-of-n.js", "scripts/best-of-n-demo.js", "docs/architecture/decisions/0015-budget-matched-runner.md"],
+      "evidence": ["test/best-of-n.test.js"],
+      "verify": ["npm run verify", "npm run best-of-n:demo"]
+    },
+    {
       "id": "BRIEF-001",
       "requirement": "Missing expected results cannot authorize a run; comparisons preserve continuity, equal budgets and deployment identity.",
       "owner": "lib/evidence/",

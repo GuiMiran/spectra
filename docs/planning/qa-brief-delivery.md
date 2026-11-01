@@ -11,7 +11,7 @@ The [product backlog](product-backlog.md) remains the product roadmap.
 | Typed boundaries | Inventory JSON Schema plus runtime checks; observed and baseline contracts | Full snapshot/gap/plan JSON Schemas and rejected-record custody |
 | Prefix executability | First invalid step, valid-prefix ratio, later-success diagnostic, latest dependency checks | External tool execution telemetry and plan preflight adapter |
 | Oracles and discrimination | Existing ADR-0013 oracle controls; new positive/negative fault comparison checks and mutation tests | Independent sealed corpus and tests against real alternative patches |
-| Fair architectural comparisons | Equal total budget, best-of-n and independent-metric record assessor | Model-backed best-of-n runner and repeated statistical evaluation |
+| Fair architectural comparisons | Equal-budget record assessor plus host-adapter best-of-n runner, frozen visible selection, complete usage accounting and deterministic CI demo | Connect an authorized provider under external resource/oracle isolation and run repeated statistical trials |
 | Executor alignment | Automatic promotion requires pinned model/harness/tools identity | Remote attestation and binding production deployment receipts |
 | Instruction security | Conflict rule and CODEOWNERS; security checks run in normal PR CI | Human enables required review rules; instruction-change reporting UI |
 | Interacting Stage 2 requirements | Four public coupled-case designs in `evals/stage2-coupled-cases.json` | Implement fixtures, freeze protocol, isolate oracle and run trials |
