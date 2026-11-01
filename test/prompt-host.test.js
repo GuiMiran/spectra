@@ -111,6 +111,7 @@ async function createAdapterServer(t, handler) {
 
 function invocationConfig(costBudget = 5000) {
   return {
+    executor: { model: 'fixture-model-v1', toolsHash: 'a'.repeat(64), harnessVersion: 'fixture-v1' },
     model: 'fixture-model-v1',
     toolsHash: 'a'.repeat(64),
     tokenBudget: 2000,

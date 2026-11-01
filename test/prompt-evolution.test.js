@@ -8,7 +8,8 @@ const { spawnSync } = require('node:child_process');
 const test = require('node:test');
 const { DEFAULT_PROMPT_POLICY, PromptEvolutionRunner } = require('../lib/evolution');
 
-const config = { model: 'fixture-model-v1', toolsHash: 'a'.repeat(64), tokenBudget: 2000 };
+const config = { model: 'fixture-model-v1', toolsHash: 'a'.repeat(64), tokenBudget: 2000,
+  executor: { model: 'fixture-model-v1', toolsHash: 'a'.repeat(64), harnessVersion: 'fixture-v1' } };
 const suite = {
   schemaVersion: 1,
   cases: [
@@ -24,6 +25,21 @@ function project(t) {
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   return root;
 }
+
+test('automatic promotion refuses absent or mismatched deployment identity before invocation', async t => {
+  const root = project(t);
+  let invoked = false;
+  const runner = new PromptEvolutionRunner(root, { governance: 'Trusted host',
+    policy: { ...DEFAULT_PROMPT_POLICY, autoPromote: true },
+    invoke: async () => { invoked = true; return { decision: 'reject' }; } });
+  runner.initialize('baseline');
+  const { executor, ...legacy } = config;
+  await assert.rejects(runner.run({ candidate: 'candidate', suite, invocationConfig: legacy }), /executor identity/);
+  await assert.rejects(runner.run({ candidate: 'candidate', suite, invocationConfig: {
+    ...config, executor: { ...executor, model: 'different' } } }), /Deployment executor/);
+  assert.equal(invoked, false);
+  assert.equal(runner.active().version, 1);
+});
 
 test('promotes an evaluated prompt for the next run, with a pinned configuration', async t => {
   const root = project(t);

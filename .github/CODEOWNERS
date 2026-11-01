@@ -1,0 +1,14 @@
+# Require code-owner review through the repository ruleset (maintainer action).
+# Ownership alone does not enforce a merge restriction.
+/.github/ @GuiMiran
+AGENTS.md @GuiMiran
+CLAUDE.md @GuiMiran
+GEMINI.md @GuiMiran
+/SPECTRA-PROMPT.md @GuiMiran
+/skills/ @GuiMiran
+/agents/ @GuiMiran
+/docs/prompts/ @GuiMiran
+/lib/verification/ @GuiMiran
+/lib/evolution/prompt-evolution.js @GuiMiran
+/evals/ @GuiMiran
+/schemas/ @GuiMiran

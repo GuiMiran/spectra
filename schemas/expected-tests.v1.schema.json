@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Trusted expected test inventory",
+  "type": "object",
+  "required": ["schemaVersion", "source", "tests"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "source": {
+      "type": "object", "required": ["system", "revision"],
+      "properties": { "system": { "type": "string", "pattern": "\\S" }, "revision": { "type": "string", "pattern": "\\S" } }
+    },
+    "tests": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "required": ["id", "key", "execution"],
+        "properties": {
+          "id": { "type": "string", "pattern": "\\S" },
+          "key": { "type": "string", "pattern": "\\S" },
+          "execution": { "enum": ["expected", "not_run"] }
+        }
+      }
+    }
+  },
+  "$comment": "Runtime validation additionally rejects duplicate test IDs and keys. Source custody must be enforced by the host."
+}

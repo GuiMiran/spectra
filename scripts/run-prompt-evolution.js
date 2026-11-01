@@ -76,6 +76,10 @@ async function main() {
       maxMicros: intEnv('SPECTRA_PROMPT_COST_BUDGET_MICROS', '5000000'),
     },
   };
+  if (env('SPECTRA_PROMPT_HARNESS_VERSION')) {
+    invocationConfig.executor = { model: invocationConfig.model, toolsHash: invocationConfig.toolsHash,
+      harnessVersion: env('SPECTRA_PROMPT_HARNESS_VERSION') };
+  }
   const result = await host.run({
     baselineInstructions,
     candidateInstructions,

@@ -3,6 +3,14 @@
   "purpose": "Repository-level SPECTRA matrix: requirements, owned artefacts, independent evidence, and verification commands.",
   "entries": [
     {
+      "id": "BRIEF-001",
+      "requirement": "Missing expected results cannot authorize a run; comparisons preserve continuity, equal budgets and deployment identity.",
+      "owner": "lib/evidence/",
+      "artifacts": ["lib/evidence/qualification.js", "lib/verification/comparison.js", "lib/verification/trajectory.js", "schemas/expected-tests.v1.schema.json", ".github/CODEOWNERS"],
+      "evidence": ["test/evidence-qualification.test.js", "test/brief-controls.test.js", "test/prompt-evolution.test.js", "evals/stage2-coupled-cases.json"],
+      "verify": ["npm run verify", "npm run comparison:assess -- evals/comparison-pass.json"]
+    },
+    {
       "id": "SPEC-001",
       "requirement": "A fresh agent can discover the domain-first specification model and canonical terminology.",
       "owner": "skills/",

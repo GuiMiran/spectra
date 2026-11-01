@@ -32,6 +32,9 @@ jobs:
       - name: Assess trajectory fixture
         run: npm run trajectory:assess -- --input evals/trajectory-pass.json --controls evals/trajectory-controls.json
 
+      - name: Assess budget-matched comparison contract
+        run: npm run comparison:assess -- evals/comparison-pass.json
+
       - name: Assess oracle and signal-path fixtures
         run: |
           npm run assurance:assess -- oracle evals/oracle-integrity-pass.json

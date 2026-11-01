@@ -1,5 +1,8 @@
 # Import Allure results
 
+For expected-test inventories and baseline comparison, see
+[evidence-closed evaluation](evidence-closed-evaluation.md).
+
 From a project containing an Allure 2 results directory:
 
 ```bash
