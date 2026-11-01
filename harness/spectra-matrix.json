@@ -3,6 +3,14 @@
   "purpose": "Repository-level SPECTRA matrix: requirements, owned artefacts, independent evidence, and verification commands.",
   "entries": [
     {
+      "id": "EVAL-002",
+      "requirement": "External suite custody and hash-bound host approval precede a separate Runtime adapter; uncertainty cannot yield a score.",
+      "owner": "lib/evaluation/",
+      "artifacts": ["lib/evaluation/external-suite.js", "integration/external-runtime.cjs", ".github/workflows/external-runtime-evaluation.yml", "docs/architecture/decisions/0017-external-suite-runtime-isolation.md"],
+      "evidence": ["test/external-suite.test.js", "docs/guides/external-runtime-evaluation.md"],
+      "verify": ["npm run verify", "node --test test/external-suite.test.js", "npm run test:runtime:integration (explicit trusted Docker configuration required)"]
+    },
+    {
       "id": "STAGE2-002",
       "requirement": "Frozen executable coupled-case controls accept correct alternatives and reject known faults without oracle state mutation.",
       "owner": "evals/",

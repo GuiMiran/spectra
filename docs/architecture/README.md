@@ -1,6 +1,7 @@
 # Architecture
 
 Architecture documents define durable implementation boundaries and decisions.
+See [ADR-0017](decisions/0017-external-suite-runtime-isolation.md) for the external-suite API and separate Runtime isolation boundary.
 See [ADR-0016](decisions/0016-frozen-stage2-controls.md) for executable frozen Stage 2 public controls.
 See [ADR-0015](decisions/0015-budget-matched-runner.md) for the bounded best-of-n experiment runner.
 See [ADR-0014](decisions/0014-evidence-closed-brief-controls.md) for evidence-closed qualification and comparable evaluation.
