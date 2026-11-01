@@ -12,6 +12,8 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 
 ## Guides
 
+- [Frozen Stage 2 public controls](guides/stage2-public-controls.md) — execute coupled-requirement controls and audit the fault matrix.
+
 - [Budget-matched best-of-n runner](guides/best-of-n-runner.md) — host-adapter execution and a no-model deterministic demo.
 
 - [Evidence-closed evaluation](guides/evidence-closed-evaluation.md) — inventories, continuity, prefix metrics, comparison contracts and instruction security.

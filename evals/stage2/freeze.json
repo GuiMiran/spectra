@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "suiteVersion": "1.0.0",
+  "files": {
+    "implementations.js": "110ae16d62d0819ff993f35bf11c1762b1fcdd134859996158683d901bfb45d4",
+    "oracle.js": "83537a9b2f4082976923bfb2c9b990615481283300a94fcbe85987c6e2b9d5b1",
+    "protocol.json": "b084363d99e8777f2feba6399025db7df9757cbcf400497c125cfd323860fc44",
+    "run-controls.js": "dfc3543243790b85631965f8d4fb7e832d4538f0d945c1d2a00603844539be58"
+  }
+}
