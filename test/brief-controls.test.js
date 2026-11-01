@@ -46,6 +46,12 @@ test('late success cannot hide an invalid prefix or stale dependency', () => {
   const invalidLate = assessTrajectory(late, controls);
   assert.equal(invalidLate.metrics.first_invalid_step, 5);
   assert.equal(invalidLate.metrics.valid_prefix_ratio, 4 / 6);
+  const partial = load('evals/trajectory-pass.json');
+  partial.events = partial.events.slice(0, 2);
+  const incomplete = assessTrajectory(partial, controls);
+  assert.equal(incomplete.verdict, 'FAIL');
+  assert.equal(incomplete.metrics.first_invalid_step, null);
+  assert.equal(incomplete.metrics.valid_prefix_ratio, 1);
 });
 test('coupled Stage 2 designs explicitly bind two requirements and an opposite control', () => {
   const catalogue = load('evals/stage2-coupled-cases.json');

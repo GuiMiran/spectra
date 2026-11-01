@@ -60,6 +60,8 @@ invalid even if a later tool reports success. A tool failure followed by a
 justified retry is not itself an invalid prefix. Result and decision references
 must point to the latest dependency, not an older successful call. These are
 record-level checks, not permission to run the recorded actions.
+A truncated but well-ordered trajectory can have fully executable prefixes
+while still failing the separate completion requirement.
 
 ## Comparisons and deployment identity
 
