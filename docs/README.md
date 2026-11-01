@@ -12,6 +12,8 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 
 ## Guides
 
+- [Budget-matched best-of-n runner](guides/best-of-n-runner.md) — host-adapter execution and a no-model deterministic demo.
+
 - [Evidence-closed evaluation](guides/evidence-closed-evaluation.md) — inventories, continuity, prefix metrics, comparison contracts and instruction security.
 
 - [Evidence and read-only planning](guides/evidence-and-read-only-planning.md) - record executed evidence and prepare a bounded agent-planning artifact.

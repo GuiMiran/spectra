@@ -11,6 +11,7 @@ humans and autonomous agents. Treat this file as the repository entry point.
 | Change a CLI command | `bin/spectra.js` | `lib/`, `test/`, relevant docs | `npm test` and `npm run test:syntax` |
 | Change the evolution loop | `docs/architecture/controlled-evolution.md`, `docs/architecture/decisions/0001-controlled-evolution-superagents.md`, `lib/evolution/index.js` | `lib/evolution/`, `evals/`, `test/`, config template | `npm test` |
 | Change Mother prompt evolution | `docs/architecture/prompt-evolution.md`, `docs/architecture/decisions/0009-controlled-mother-prompt-evolution.md` | `lib/evolution/prompt-evolution.js`, `test/prompt-evolution.test.js` | `npm run verify` |
+| Change budget-matched experiments | `docs/architecture/decisions/0015-budget-matched-runner.md`, `lib/evaluation/best-of-n.js` | `lib/evaluation/`, demo, tests and guide | `npm run verify` and `npm run best-of-n:demo` |
 | Change recorded evidence or `spectra verify` | `docs/architecture/decisions/0002-evidence-and-read-only-planning.md`, `lib/verification/index.js` | `lib/verification/`, CLI adapter, templates, tests | `npm test` and `npm run test:syntax` |
 | Change Allure ingestion | `docs/architecture/decisions/0012-allure-ingestion.md`, `lib/evidence/allure-aggregator.js` | `lib/evidence/`, CLI adapter, fixtures, gap adapter | `npm run verify` |
 | Change read-only agent planning | `docs/architecture/decisions/0002-evidence-and-read-only-planning.md`, `lib/agent-runtime/index.js` | `lib/agent-runtime/`, CLI adapter, templates, tests | `npm test` and `npm run test:syntax` |
@@ -26,6 +27,7 @@ humans and autonomous agents. Treat this file as the repository entry point.
 bin/        Stable CLI entry point. Keep it thin: parse arguments and delegate.
 lib/        Dependency-free runtime modules. `lib/evolution/` owns the controlled-evolution domain.
             `lib/verification/` owns recorded evidence; `lib/agent-runtime/` owns bounded read-only planning.
+            `lib/evaluation/` owns host-adapter experiments; it has no default live provider or production effects.
 test/       Deterministic unit and integration tests for public behaviour.
 evals/      Versioned evaluation scenarios and fixtures; not production runtime state.
 templates/  Files copied into a consumer project; maintain backward-compatible schemas.

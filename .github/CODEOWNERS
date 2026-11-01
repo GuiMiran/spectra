@@ -9,6 +9,7 @@ GEMINI.md @GuiMiran
 /agents/ @GuiMiran
 /docs/prompts/ @GuiMiran
 /lib/verification/ @GuiMiran
+/lib/evaluation/ @GuiMiran
 /lib/evolution/prompt-evolution.js @GuiMiran
 /evals/ @GuiMiran
 /schemas/ @GuiMiran
