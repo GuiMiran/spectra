@@ -24,6 +24,7 @@ can remain in review while one or more of its tasks are complete.
 | ECO-ARCH-001 | ECO-US-001 | Publish architecture, ownership, autonomy and contract baseline | DONE | docs/ecosystem and ADR-0003 through ADR-0005 |
 | ECO-WORKSPACE-001 | ECO-US-003 | Publish proposed canonical multi-root workspace and duplicate-checkout policy | DONE | `WORKSPACE-POLICY.md`, 2026-09-11 |
 | ECO-SECPLAN-001 | ECO-US-003 | Publish proposed security remediation plan from read-only findings | DONE | `SECURITY-REMEDIATION-PLAN.md`, 2026-09-11 |
+| ECO-CI-001 | ECO-US-003 | Restore Runtime .NET CI with supported actions, Release parity, headless E2E and fresh TRX | DONE | [Runtime PR #2](https://github.com/GuiMiran/guido-autonomous-runtime/pull/2); 3 Auth + 1 E2E passed in run 41361529080 |
 
 ## ECO-EPIC-001 — Architecture and governance baseline
 
@@ -97,7 +98,7 @@ Status: PLANNED.
 | ID | Outcome | Status |
 | --- | --- | --- |
 | ECO-P2-001 | APM registry and compatible capability discovery inside SPECTRA | NOT STARTED |
-| ECO-P2-002 | Runtime adapter with isolated worktree, allowlisted tools and audit | NOT STARTED |
+| ECO-P2-002 | Runtime adapter with isolated worktree, allowlisted tools and audit | PARTIAL / IN REVIEW: evaluation-only isolation in [Runtime PR #4](https://github.com/GuiMiran/guido-autonomous-runtime/pull/4) and the paired SPECTRA external-suite change; worktree mutation runtime remains NOT STARTED |
 
 ### ECO-US-006 — Review changes and measure their effect before promotion
 

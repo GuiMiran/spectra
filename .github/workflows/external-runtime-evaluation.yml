@@ -1,0 +1,64 @@
+name: External Runtime evaluation controls
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'lib/evaluation/**'
+      - 'test/external-suite.test.js'
+      - 'integration/external-runtime.cjs'
+      - '.github/workflows/external-runtime-evaluation.yml'
+  push:
+    branches: [main, feat/external-suite-runtime-evaluation]
+    paths:
+      - 'lib/evaluation/**'
+      - 'test/external-suite.test.js'
+      - 'integration/external-runtime.cjs'
+      - '.github/workflows/external-runtime-evaluation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-cross-repository-controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GUIDO_RUNTIME_COMMIT: 202ded17469940fd17b133c2ff6d60c972d04880
+      GUIDO_RUNTIME_MODULE: ${{ github.workspace }}/runtime/evaluation
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          path: spectra
+          persist-credentials: false
+      - name: Checkout independently pinned Runtime
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: GuiMiran/guido-autonomous-runtime
+          ref: 202ded17469940fd17b133c2ff6d60c972d04880
+          path: runtime
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - name: Unit contracts
+        working-directory: spectra
+        run: node --test test/external-suite.test.js
+      - name: Prepare public image outside the executor
+        shell: bash
+        run: |
+          docker pull node:24-bookworm-slim
+          image=$(docker image inspect node:24-bookworm-slim --format '{{index .RepoDigests 0}}')
+          [[ "$image" =~ ^[a-z0-9][a-z0-9./:_-]*@sha256:[a-f0-9]{64}$ ]]
+          printf 'GUIDO_EVAL_IMAGE=%s\n' "$image" >> "$GITHUB_ENV"
+      - name: Synthetic external suite to real Docker Runtime
+        working-directory: spectra
+        run: npm run test:runtime:integration
+      - name: Preserve hash-only control reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: external-runtime-synthetic-controls
+          path: spectra/external-runtime-controls.json
+          if-no-files-found: error
