@@ -178,7 +178,12 @@ and [ADR-0002](docs/architecture/decisions/0002-evidence-and-read-only-planning.
 
 ## Controlled Agent Evolution (MVP)
 
-Spectra can now turn measured trace, coverage-map, and Allure gaps into a
+Native .NET TRX results can also be imported using `spectra ingest-trx` with a
+trusted expected inventory, explicit run ID and full commit. Allure is optional;
+see the [TRX ingestion guide](docs/guides/trx-ingestion.md). Missing, skipped and
+unexpected results cannot produce PASS. Unmapped tests remain visible gaps.
+
+Spectra can now turn measured trace, coverage-map, Allure and TRX gaps into a
 versioned organization of specialist agents:
 
 ```bash

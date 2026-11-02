@@ -47,7 +47,7 @@
   ],
   "scripts": {
     "test": "node --test",
-    "test:syntax": "node --check bin/spectra.js && node --check lib/evaluation/best-of-n.js && node --check lib/evaluation/external-suite.js && node --check integration/external-runtime.cjs && node --check scripts/best-of-n-demo.js && node --check lib/evidence/allure-aggregator.js && node --check lib/evolution/index.js && node --check lib/verification/index.js && node --check lib/verification/trajectory.js && node --check lib/verification/assurance.js && node --check lib/agent-runtime/index.js && node --check scripts/audit-azure-tasks.js && node --check scripts/assurance-assess.js",
+    "test:syntax": "node --check bin/spectra.js && node --check lib/evaluation/best-of-n.js && node --check lib/evaluation/external-suite.js && node --check integration/external-runtime.cjs && node --check scripts/best-of-n-demo.js && node --check lib/evidence/allure-aggregator.js && node --check lib/evidence/trx-aggregator.js && node --check lib/evidence/trx-xml.js && node --check lib/evidence/store.js && node --check lib/evolution/index.js && node --check lib/verification/index.js && node --check lib/verification/trajectory.js && node --check lib/verification/assurance.js && node --check lib/agent-runtime/index.js && node --check scripts/audit-azure-tasks.js && node --check scripts/assurance-assess.js",
     "test:runtime:integration": "node --test integration/external-runtime.cjs",
     "verify": "node scripts/verify-repository.js && npm run test:syntax && npm test",
     "stage2:assess": "node scripts/stage2-assess.js",
