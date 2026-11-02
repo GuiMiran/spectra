@@ -3,6 +3,14 @@
   "purpose": "Repository-level SPECTRA matrix: requirements, owned artefacts, independent evidence, and verification commands.",
   "entries": [
     {
+      "id": "TRX-001",
+      "requirement": "Native TRX qualifies against trusted inventory, retains provenance and never passes missing or ambiguous results.",
+      "owner": "lib/evidence/",
+      "artifacts": ["lib/evidence/trx-aggregator.js", "lib/evidence/trx-xml.js", "lib/evidence/store.js", "docs/architecture/decisions/0018-native-trx-ingestion.md"],
+      "evidence": ["test/trx-aggregator.test.js", "test/cli.ingest-trx.test.js", "docs/guides/trx-ingestion.md"],
+      "verify": ["npm run verify", "node --test test/trx-aggregator.test.js test/cli.ingest-trx.test.js"]
+    },
+    {
       "id": "EVAL-002",
       "requirement": "External suite custody and hash-bound host approval precede a separate Runtime adapter; uncertainty cannot yield a score.",
       "owner": "lib/evaluation/",

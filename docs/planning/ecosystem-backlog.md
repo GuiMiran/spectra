@@ -18,6 +18,19 @@ can remain in review while one or more of its tasks are complete.
 
 ## Delivery history
 
+### Native evidence follow-up — 2026-11-02
+
+| Scope | Status | Evidence / remaining boundary |
+| --- | --- | --- |
+| Pipeline direct xUnit + Selenium, native TRX and independent 23-scenario gate | MERGED, MAIN CI VERIFIED | [Pipeline PR #13](https://github.com/GuiMiran/guido-agentic-pipeline/pull/13), [main run 41448729320](https://github.com/GuiMiran/guido-agentic-pipeline/actions/runs/41448729320); no SpecFlow/Reqnroll or mandatory Allure |
+| SPECTRA native TRX adapter + independent-inventory qualification + provenance-linked gaps | PROPOSED IN THIS CHANGE | [Guide and recorded artifact replay](../guides/trx-ingestion.md), ADR-0018, negative unit and CLI controls; merge and CI still require review |
+| Map Pipeline domain IDs to reviewed SPECTRA requirements | NOT STARTED | 23 passing native tests are still 23 unmapped SPECTRA relationships; no fabricated coverage |
+| Automated authenticated Pipeline-to-SPECTRA artifact handoff | NOT STARTED | Current replay is host-assisted and local; not an unattended A1 product integration |
+
+The earlier epic task rows below are the original planning baseline, not a
+claim that this targeted native-evidence change completes A1/A2, a canonical
+GUIDO score, private evaluations or general autonomous source execution.
+
 | ID | Parent user story | Work | Status | Evidence |
 | --- | --- | --- | --- | --- |
 | ECO-DISCOVERY-001 | ECO-US-001 | Read-only discovery of Stack, Scale, SPECTRA, Runtime and Pipeline | DONE | Ecosystem architecture baseline, 2026-09-11 |

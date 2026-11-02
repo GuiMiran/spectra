@@ -1182,6 +1182,32 @@ function cmdIngestAllure() {
   }
 }
 
+function cmdIngestTrx() {
+  const asJson = cliOption('--json', false) === true;
+  try {
+    const input = cliOption('--input'), expectedFile = cliOption('--expected');
+    const runId = cliOption('--run-id'), commit = cliOption('--commit'), ref = cliOption('--ref');
+    if ([input, expectedFile, runId, commit].some(value => !value || value === true) || ref === true) {
+      throw new Error('ingest-trx requires --input, --expected, --run-id and --commit values; --ref is optional.');
+    }
+    if (fs.statSync(expectedFile).size > 2 * 1024 * 1024) throw new Error('Expected inventory exceeds 2 MiB.');
+    const expected = JSON.parse(fs.readFileSync(expectedFile, 'utf8'));
+    const { aggregateTrx, writeTrxEvidence } = require('../lib/evidence/trx-aggregator');
+    const aggregation = aggregateTrx(path.resolve(input), { runId, commit, ref, expected });
+    const files = writeTrxEvidence(process.cwd(), aggregation);
+    const report = { success: true, runId, counts: aggregation.snapshot.counts,
+      qualification: aggregation.snapshot.qualification, sourceDigest: aggregation.snapshot.sourceDigest,
+      gaps: aggregation.coverageMap.gaps.length, snapshotFile: files.snapshotFile, coverageMapFile: files.mapFile };
+    if (asJson) p(JSON.stringify(report, null, 2));
+    else p(`  TRX ${runId}: ${report.qualification.verdict}; ${report.counts.tests} tests; ${report.gaps} gaps.`);
+    if (report.qualification.verdict !== 'PASS') process.exitCode = 1;
+  } catch (error) {
+    if (asJson) p(JSON.stringify({ success: false, error: error.message }, null, 2));
+    else p(c(RD, `  ${error.message}`));
+    process.exitCode = 1;
+  }
+}
+
 function cmdHelp() {
   p();
   p(bd(CY, '  SPECTRA') + c(DM, '  ·  Spec-Driven Development for Agentic AI'));
@@ -1193,6 +1219,7 @@ function cmdHelp() {
   p(`  │  ${bd(GR, 'spectra validate')}    ${c(DM, 'Validate spec quality and cross-refs')}        │`);
   p(`  │  ${bd(GR, 'spectra verify')}      ${c(DM, 'Check recorded acceptance evidence')}          │`);
   p(`  │  ${bd(GR, 'spectra ingest-allure')} ${c(DM, 'Import Allure results and gaps')}           │`);
+  p(`  │  ${bd(GR, 'spectra ingest-trx')} ${c(DM, 'Import native TRX with expected inventory')} │`);
   p(`  │  ${bd(GR, 'spectra agent plan')}  ${c(DM, 'Create a bounded read-only plan')}             │`);
   p(`  │  ${bd(GR, 'spectra evolve')}      ${c(DM, 'Run controlled agent evolution against gaps')} │`);
   p(`  │  ${bd(GR, 'spectra evolution-status')} ${c(DM, 'Show active versions and audit health')}   │`);
@@ -1232,6 +1259,9 @@ switch (command) {
     break;
   case 'ingest-allure':
     cmdIngestAllure();
+    break;
+  case 'ingest-trx':
+    cmdIngestTrx();
     break;
   case 'agent':
     cmdAgent();
