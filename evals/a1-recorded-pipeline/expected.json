@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "system": "guido-agentic-pipeline/declared-acceptance-map",
+    "revision": "35fb5f7da800f77320405bcc78627e762ef1e6d1"
+  },
+  "tests": [
+    {
+      "id": "AC-001",
+      "key": "Successful login with standard user",
+      "execution": "expected",
+      "pipelineTestId": "AUTH-001"
+    },
+    {
+      "id": "AC-002",
+      "key": "Login with locked-out user is rejected",
+      "execution": "expected",
+      "pipelineTestId": "AUTH-002"
+    },
+    {
+      "id": "AC-003",
+      "key": "Login with invalid credentials shows error",
+      "execution": "expected",
+      "pipelineTestId": "AUTH-003"
+    },
+    {
+      "id": "AC-004",
+      "key": "Login without credentials shows required field error",
+      "execution": "expected",
+      "pipelineTestId": "AUTH-004"
+    },
+    {
+      "id": "AC-005",
+      "key": "Login with username only shows password required error",
+      "execution": "expected",
+      "pipelineTestId": "AUTH-005"
+    },
+    {
+      "id": "AC-006",
+      "key": "Inventory page displays products",
+      "execution": "expected",
+      "pipelineTestId": "INVENTORY-001"
+    },
+    {
+      "id": "AC-007",
+      "key": "Products can be sorted by name ascending",
+      "execution": "expected",
+      "pipelineTestId": "INVENTORY-002"
+    },
+    {
+      "id": "AC-008",
+      "key": "Products can be sorted by name descending",
+      "execution": "expected",
+      "pipelineTestId": "INVENTORY-003"
+    },
+    {
+      "id": "AC-009",
+      "key": "Products can be sorted by price low to high",
+      "execution": "expected",
+      "pipelineTestId": "INVENTORY-004"
+    },
+    {
+      "id": "AC-010",
+      "key": "Products can be sorted by price high to low",
+      "execution": "expected",
+      "pipelineTestId": "INVENTORY-005"
+    },
+    {
+      "id": "AC-011",
+      "key": "Adding a product to cart updates the cart badge",
+      "execution": "expected",
+      "pipelineTestId": "INVENTORY-006"
+    },
+    {
+      "id": "AC-012",
+      "key": "Removing a product from cart clears the cart badge",
+      "execution": "expected",
+      "pipelineTestId": "INVENTORY-007"
+    },
+    {
+      "id": "AC-013",
+      "key": "Cart page shows added item",
+      "execution": "expected",
+      "pipelineTestId": "CART-001"
+    },
+    {
+      "id": "AC-014",
+      "key": "Cart badge matches item count",
+      "execution": "expected",
+      "pipelineTestId": "CART-002"
+    },
+    {
+      "id": "AC-015",
+      "key": "Removing an item from cart updates the list",
+      "execution": "expected",
+      "pipelineTestId": "CART-003"
+    },
+    {
+      "id": "AC-016",
+      "key": "Continue shopping returns to inventory",
+      "execution": "expected",
+      "pipelineTestId": "CART-004"
+    },
+    {
+      "id": "AC-017",
+      "key": "Checkout button navigates to checkout",
+      "execution": "expected",
+      "pipelineTestId": "CART-005"
+    },
+    {
+      "id": "AC-018",
+      "key": "Complete checkout with valid information",
+      "execution": "expected",
+      "pipelineTestId": "CHECKOUT-001"
+    },
+    {
+      "id": "AC-019",
+      "key": "Checkout fails with empty form",
+      "execution": "expected",
+      "pipelineTestId": "CHECKOUT-002"
+    },
+    {
+      "id": "AC-020",
+      "key": "Checkout fails without last name",
+      "execution": "expected",
+      "pipelineTestId": "CHECKOUT-003"
+    },
+    {
+      "id": "AC-021",
+      "key": "Checkout fails without zip code",
+      "execution": "expected",
+      "pipelineTestId": "CHECKOUT-004"
+    },
+    {
+      "id": "AC-022",
+      "key": "Checkout overview displays order summary",
+      "execution": "expected",
+      "pipelineTestId": "CHECKOUT-005"
+    },
+    {
+      "id": "AC-023",
+      "key": "Back Home after order completion returns to inventory",
+      "execution": "expected",
+      "pipelineTestId": "CHECKOUT-006"
+    },
+    {
+      "id": "AC-024",
+      "key": "Standard user inventory contains exactly six products",
+      "execution": "expected",
+      "pipelineTestId": "INVENTORY-008"
+    },
+    {
+      "id": "AC-026",
+      "key": "Removing the only cart item hides the cart badge",
+      "execution": "expected",
+      "pipelineTestId": "CART-006"
+    },
+    {
+      "id": "AC-027",
+      "key": "Unauthenticated inventory access returns to login",
+      "execution": "expected",
+      "pipelineTestId": "AUTH-006"
+    },
+    {
+      "id": "AC-028",
+      "key": "Checkout overview preserves the added product identity",
+      "execution": "expected",
+      "pipelineTestId": "CHECKOUT-007"
+    },
+    {
+      "id": "AC-025",
+      "key": "Every inventory product displays a non-empty description",
+      "execution": "expected",
+      "pipelineTestId": "INVENTORY-009"
+    }
+  ],
+  "mapping": {
+    "kind": "declared-links-not-behavioural-proof",
+    "sourceDigest": "811e798b167c602f33c580e15bead0bb81b1035cf0cb833048ee261fe6712431",
+    "files": [
+      {
+        "file": ".spectra/11-acceptance-criteria.md",
+        "sha256": "6982d89a83c43bd75c59438b3ffe6f7db15774e786d94d1d354c0acd42b2da2c"
+      },
+      {
+        "file": "specs/auth/login.context.md",
+        "sha256": "d3d98d34a269bc0ff16e5f2d3cecdde0e5e1ede5d0850abd3b136592bd74b60a"
+      },
+      {
+        "file": "specs/auth/login.feature",
+        "sha256": "1e4edeacb086c8e50ef7a06871adbec0dac20a117ad5fda3d5c7e1f55ef28208"
+      },
+      {
+        "file": "specs/cart/cart.context.md",
+        "sha256": "cbe6d2acd4f94a8c5c5bc1dba99e6ccfab1c99455d5596ad55330d0da95558fc"
+      },
+      {
+        "file": "specs/cart/cart.feature",
+        "sha256": "7ac19de658e369077ed193039b426a0f15d9420b68dd530d53f3c6e3ed4bd217"
+      },
+      {
+        "file": "specs/checkout/checkout.context.md",
+        "sha256": "7c82f663f7c671a66b2baf0e1cf235bb276cae9c034ebc24831c7776caedabc4"
+      },
+      {
+        "file": "specs/checkout/checkout.feature",
+        "sha256": "d101c475294967ccbd176ea349256f815a861078ad43872b84a5c2f76cdb5855"
+      },
+      {
+        "file": "specs/checkout/overview-identity.feature",
+        "sha256": "f7c54973691922a7ba928e8b936ee442b64e4ac9cc19016f5581d2067af659b9"
+      },
+      {
+        "file": "specs/inventory/inventory.context.md",
+        "sha256": "fb567ae9177c27c4977a2209402418e26a4ac0cd9c78f5e0b2ece6483c239974"
+      },
+      {
+        "file": "specs/inventory/inventory.feature",
+        "sha256": "89ed2ab1b1144660a5369603cccdee0a623b4092006c2f237f45054d8208ac5a"
+      },
+      {
+        "file": "specs/patterns/selenium-specflow-patterns.context.md",
+        "sha256": "b6ed17d8a9e3aa8b66680c5aa6a955eb737d50668cf6c6baa336b13762a3ba99"
+      },
+      {
+        "file": "specs/spectra-mapping.json",
+        "sha256": "4492468d6d9e51f360220d94264979acae4d48d08d3a420aeb4f23ea5c198efd"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Core/BasePage.cs",
+        "sha256": "b5c8ece40ce2fd61d5af5fd755d458526c1dd17fefbdaf961e945ecd54ed7b4f"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Core/BaseTest.cs",
+        "sha256": "2d08c49e79fd347bf33159ac06851870ee5a38c743940297add619d0f1064cbf"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Core/BrowserFactory.cs",
+        "sha256": "48dbbc28b7c1237e6bcc8bd8b206ece08f5416b9d582faaf91974f40a3e8081a"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Core/ConfigManager.cs",
+        "sha256": "1eb444458c787f6ff012402941fcd283c18af6446e8b199839ed2c1fa4e310fa"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Core/DriverContext.cs",
+        "sha256": "55f15e3a3daaac94c35e4273d1129da41cc3e26748b236955c57fa2d77b75d83"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Core/DriverFactory.cs",
+        "sha256": "01a99de5acfeb3c90f49469214ac49a2f78fabe47eaf77a3a93013a0633ee482"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Helpers/LoginHelper.cs",
+        "sha256": "9c1e87a6ca0aaa721f0297c36a3361fd566d87d5c00dfae034d189b8109f7a55"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Helpers/TestDataLoader.cs",
+        "sha256": "73c4e5aa45afb4df3db5b61c3b76362e8914fab1535239cd94ff1efab5d26cab"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Models/Models.cs",
+        "sha256": "7196059d1a9d623c53f558d36999da4ac96a574ad7fdd59d5b78b8e27b440585"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Pages/CartPage.cs",
+        "sha256": "0363afad09a1623eec2244c46d528c32c8f5b22131f2f7edffb4b089d6428e36"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Pages/CheckoutPage.cs",
+        "sha256": "5150589c59244b077d3c915cdf8fbe54cc9f4f119e94f29e200e61fb3597abff"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Pages/InventoryPage.cs",
+        "sha256": "ebcc9ae6365758bd512e67ed2e94ce4c3b070c613eb1ee0005feeb400341885a"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Pages/LoginPage.cs",
+        "sha256": "d77a26c864ef357bddc7695a2d7dd12b2d72a35559a990e93a18a1dcba03aa9a"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Tests/CartObligationTests.cs",
+        "sha256": "4f8667c52ca63ecad63aec33bcfb1056488761e3c859afdcfb1adc742be7570b"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Tests/CheckoutObligationTests.cs",
+        "sha256": "083cea829381eb849f76ac57b634d89e81cf33fcb367c7ecb876df9957f25d54"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Tests/InventoryObligationTests.cs",
+        "sha256": "751023585e61c9c62099d84e34356766a59b3c033fcfb97606585c465737b87a"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Tests/ScenarioTests.cs",
+        "sha256": "de869ce8ccd04885d47c2ae73a1f828d3429500f73331752d6dc003116e7fdc2"
+      },
+      {
+        "file": "src/GUIDO.Agentic.Tests/Tests/UnauthorizedInventoryTests.cs",
+        "sha256": "09c0415dde60f4ed3064e4edfd52de2fc8b5b51cc2fbcaa48fbb8f1a5652396c"
+      }
+    ]
+  }
+}

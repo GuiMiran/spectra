@@ -26,7 +26,8 @@ can remain in review while one or more of its tasks are complete.
 | SPECTRA native TRX adapter + expected-inventory qualification + provenance-linked gaps | MERGED | [SPECTRA PR #22](https://github.com/GuiMiran/spectra/pull/22), [guide](../guides/trx-ingestion.md), ADR-0018 and negative controls |
 | Map Pipeline tests to scoped SPECTRA requirements | MERGED, EXECUTED | [Pipeline PR #14](https://github.com/GuiMiran/guido-agentic-pipeline/pull/14); PRs [#15](https://github.com/GuiMiran/guido-agentic-pipeline/pull/15) and [#16](https://github.com/GuiMiran/guido-agentic-pipeline/pull/16) close five local obligations: 28 tests / 28 linked ACs, not exhaustive product coverage |
 | Authenticated automatic Pipeline-to-SPECTRA evidence handoff | MERGED, FIRST AUTOMATIC RECEIPT VERIFIED | [Pipeline PR #17](https://github.com/GuiMiran/guido-agentic-pipeline/pull/17); [workflow_run 41580010385](https://github.com/GuiMiran/guido-agentic-pipeline/actions/runs/41580010385), PASS, mode=workflow_run, source commit 35fb5f7da800f77320405bcc78627e762ef1e6d1, source run 41579887847, 28 passed / 0 unmapped |
-| Bounded RepositoryProfile / EvidenceBundle / unscored GUIDOAssessment v1 | PROPOSED IN THIS CHANGE | [A1 contract guide](../guides/a1-contracts.md), ADR-0019, strict schemas and negative structural/lineage controls; not a complete A1 orchestrator |
+| Bounded RepositoryProfile / EvidenceBundle / unscored GUIDOAssessment v1 | MERGED | [SPECTRA PR #23](https://github.com/GuiMiran/spectra/pull/23), [A1 contract guide](../guides/a1-contracts.md), ADR-0019; structure/lineage only, not a complete A1 orchestrator |
+| Host projection of recorded real test evidence and a fresh same-commit GUIDO audit | PROPOSED IN THIS CHANGE | [Projection guide](../guides/a1-projection.md), ADR-0020; dedicated pinned three-checkout CI must produce a scoped receipt before readiness. No fresh Selenium or new collector authentication is claimed |
 
 The source archive of the first automatic receipt was artifact 13205103884,
 SHA-256 `216f37835e1d9e2ce6af7ce7d9a5be40b898e10bfc56f42289329f3f466b680e`.
@@ -76,7 +77,7 @@ may be reviewed without assigning scores or ratifying the broader governance mod
 | ID | Outcome | Status |
 | --- | --- | --- |
 | ECO-P0-002 | Select one canonical GUIDO Scale scoring model and evidence policy | BLOCKED BY ECO-P0-001 |
-| ECO-P0-003 | Define JSON Schema v1 for RepositoryProfile, EvidenceBundle and GUIDOAssessment | IN REVIEW: bounded read-only contracts in this change; scoring stays null, global policy still requires ratification |
+| ECO-P0-003 | Define JSON Schema v1 for RepositoryProfile, EvidenceBundle and GUIDOAssessment | MERGED in SPECTRA #23 for bounded read-only/unscored scope; global scoring/governance policy still requires ratification |
 
 ## ECO-EPIC-002 — Evidence-backed A1 observation and recommendation
 
@@ -105,10 +106,10 @@ an unattended inventory-to-analysis-to-proposal cycle is not yet delivered.
 
 | ID | Outcome | Status |
 | --- | --- | --- |
-| ECO-P1-001 | SPECTRA deterministic scanner produces RepositoryProfile | NOT STARTED as full technology scanner; GUIDO file-presence CLI exists, contract projection/commit custody adapter pending |
-| ECO-P1-002 | GUIDO Scale adapter produces evidence-based GUIDOAssessment | PARTIAL: existing read-only audit bridge; unscored v1 contract proposed; no organizational score or approved rubric |
+| ECO-P1-001 | SPECTRA deterministic scanner produces RepositoryProfile | PARTIAL: bounded same-commit projection and real pinned file-presence audit proposed here; a full technology scanner remains open |
+| ECO-P1-002 | GUIDO Scale adapter produces evidence-based GUIDOAssessment | PARTIAL: audit bridge and unscored contracts shipped; new host projection proposed; no organizational score or approved rubric |
 | ECO-P1-003 | SPECTRA creates GapReport and AgentExecutionPlan with existing verify and dry-run facilities | PARTIAL: Gap Engine and bounded dry-run planning exist; deterministic evidence-to-gap-to-plan adapter still pending |
-| ECO-P1-004 | Run the A1 vertical against guido-agentic-pipeline without source mutation | PARTIAL: automatic TRX evidence path verified on main; full auditor/profile → analysis → reviewed-plan receipt remains open |
+| ECO-P1-004 | Run the A1 vertical against guido-agentic-pipeline without source mutation | PARTIAL: production TRX handoff verified; pinned recorded-evidence/live-audit projection proposed here. Full analysis → reviewed-plan receipt remains open |
 
 ## ECO-EPIC-003 — Governed execution and measurable learning
 

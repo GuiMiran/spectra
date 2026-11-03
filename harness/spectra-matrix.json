@@ -3,6 +3,14 @@
   "purpose": "Repository-level SPECTRA matrix: requirements, owned artefacts, independent evidence, and verification commands.",
   "entries": [
     {
+      "id": "A1-PROJECTION-001",
+      "requirement": "Same-commit pinned evidence and real read-only auditor results project to A1 contracts without scoring, source mutation or false fresh-test claims.",
+      "owner": "lib/verification/",
+      "artifacts": ["lib/verification/a1-projection.js", "scripts/a1-recorded-integration.js", ".github/workflows/a1-recorded-integration.yml", "evals/a1-recorded-pipeline/pins.json", "docs/architecture/decisions/0020-a1-evidence-projection.md"],
+      "evidence": ["test/a1-projection.test.js", "docs/guides/a1-projection.md"],
+      "verify": ["npm run verify", "A1 recorded evidence and live audit workflow (actual pinned checkouts required)"]
+    },
+    {
       "id": "A1-CONTRACT-001",
       "requirement": "A1 profile, recorded-evidence and unscored-assessment contracts preserve commit/correlation/hash lineage without granting execution or maturity scores.",
       "owner": "lib/verification/",

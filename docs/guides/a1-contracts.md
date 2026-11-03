@@ -57,7 +57,11 @@ performs separate cross-document semantic checks beyond JSON Schema. Independent
 standard validators can validate each published schema/document's structural
 shape; they do not implement the extra lineage/count rules.
 
-## How a later A1 adapter should connect the existing components
+## How the A1 adapters connect existing components
+
+The [recorded-evidence/live-audit projection](a1-projection.md) now implements
+the bounded host projection portion of steps 1–3 for one pinned real case.
+Fresh collector automation and the complete gap-to-plan cycle are still separate.
 
 1. A trusted host obtains an immutable repository snapshot and its full commit;
    runs the existing GUIDO auditor outside that target; verifies its output's
@@ -77,8 +81,8 @@ shape; they do not implement the extra lineage/count rules.
    verification, human approval and zero effects. Do not introduce a second plan
    format or reinterpret an A1 contract as Runtime execution authority.
 
-Steps 1–5 describe remaining adapter/integration work; this change does not
-execute them. Missing evidence or unresolved contract boundaries must stop a
+Steps 4–5 and unattended fresh-input integration remain open. The contract
+checker alone does not execute any step. Missing evidence or unresolved contract boundaries must stop a
 complete-cycle claim. A2 worktree mutation, A3 draft-PR automation, provider
 credentials, canonical scoring and before/after improvement remain separate.
 
@@ -90,10 +94,11 @@ native TRX and an authenticated pinned-SPECTRA handoff. The first automatic
 passed on source commit `35fb5f7da800f77320405bcc78627e762ef1e6d1`.
 Its original hashes and scope are recorded in the
 [ecosystem backlog](../planning/ecosystem-backlog.md).
-The Pipeline consumer remains pinned at the older reviewed SPECTRA commit;
-this PR neither changes that pin nor claims a live integration of new contracts.
+The Pipeline consumer remains pinned at the older reviewed SPECTRA commit.
+The separate recorded-evidence/live-audit integration does not update that pin
+or turn the production collector into an unattended A1 contract/plan orchestrator.
 
-Next deliverable after schema/decision review: a bounded host adapter that
-projects authenticated auditor/test artifacts into these contracts for one
-commit, followed by explicit GapReport-to-existing-plan integration and a live
-A1 receipt. See [ADR-0019](../architecture/decisions/0019-a1-read-only-contracts.md).
+Next deliverable after the bounded projection's review: explicit
+GapReport-to-existing-plan integration and an end-to-end scoped A1 receipt.
+See [ADR-0019](../architecture/decisions/0019-a1-read-only-contracts.md) and
+[ADR-0020](../architecture/decisions/0020-a1-evidence-projection.md).
