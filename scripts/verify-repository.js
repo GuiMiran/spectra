@@ -6,6 +6,7 @@ const path = require('node:path');
 const ROOT = path.join(__dirname, '..');
 const ROOT_MARKDOWN = new Set([
   'AGENTS.md',
+  'CHANGELOG.md',
   'CONTRIBUTING.md',
   'MANIFESTO.md',
   'README.es.md',

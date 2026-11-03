@@ -25,7 +25,7 @@ class BundleCLI(build_py):
 
 
 setup(
-    name="guimiran-spectra",
+    name="spectra-sdd",
     version=VERSION,
     description="Python distribution of the SPECTRA Node.js CLI",
     url="https://github.com/GuiMiran/spectra",

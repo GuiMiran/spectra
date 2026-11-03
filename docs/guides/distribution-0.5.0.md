@@ -1,7 +1,7 @@
 # SPECTRA 0.5.0 distribution
 
 The npm package is `@guimiran/spectra`. The proposed PyPI distribution is
-`guimiran-spectra`. Both install the `spectra` command and require Node.js
+`spectra-sdd`. Both install the `spectra` command and require Node.js
 18 or newer. The Python package additionally requires Python 3.9 or newer.
 It bundles the same CLI and does not fetch npm packages at runtime.
 
@@ -28,7 +28,7 @@ After publication, verify both registries and use either:
 
 ```sh
 npm install -g @guimiran/spectra@0.5.0
-python -m pip install guimiran-spectra==0.5.0
+python -m pip install spectra-sdd==0.5.0
 ```
 
 See the [compatibility notes](../../CHANGELOG.md) before upgrading automation
