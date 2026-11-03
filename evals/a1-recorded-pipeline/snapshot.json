@@ -1,0 +1,805 @@
+{
+  "schemaVersion": 1,
+  "source": "trx-results",
+  "runId": "pipeline-41579887847-1",
+  "sourceDigest": "a0719eb59abde2ce7dab494c086427fbb32d1f0655e4c8a8559b394304b42fcf",
+  "provenance": {
+    "commit": "35fb5f7da800f77320405bcc78627e762ef1e6d1",
+    "ref": "refs/heads/main",
+    "files": [
+      {
+        "file": "tests.trx",
+        "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+      }
+    ],
+    "inventorySha256": "5b5f68fd2eec48912b81de0330c4a26cb45c4e85187853dd68688c992d2b3824"
+  },
+  "counts": {
+    "tests": 28,
+    "attempts": 28,
+    "passed": 28,
+    "failed": 0,
+    "broken": 0,
+    "skipped": 0,
+    "unknown": 0,
+    "unmapped": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "key": "Adding a product to cart updates the cart badge",
+      "name": "Adding a product to cart updates the cart badge",
+      "specIds": [
+        "AC-011"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "cffaddcf-25c6-4548-b4bc-a50a750ad08a",
+          "testId": "420d8d0e-6c6d-3255-bbd3-44efffdb58d7",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Back Home after order completion returns to inventory",
+      "name": "Back Home after order completion returns to inventory",
+      "specIds": [
+        "AC-023"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "b829912b-4f88-4fc3-b105-af6c96e34f77",
+          "testId": "33c0b80a-1e7a-f960-f568-0ea255ecb732",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Cart badge matches item count",
+      "name": "Cart badge matches item count",
+      "specIds": [
+        "AC-014"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "7e157545-0e95-4ae0-821c-08e82b8a0031",
+          "testId": "b84f6500-aad9-edf0-0e0a-4dac9a3f5ebb",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Cart page shows added item",
+      "name": "Cart page shows added item",
+      "specIds": [
+        "AC-013"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "7299802e-e959-4f5a-bec3-9abb0b841747",
+          "testId": "87f84397-88f6-a2d4-d2ad-5253cabf9118",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Checkout button navigates to checkout",
+      "name": "Checkout button navigates to checkout",
+      "specIds": [
+        "AC-017"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "238b181a-7648-4dbb-87cb-b1e904affa7b",
+          "testId": "566c67ac-5d73-014f-ebd9-99d8ea229187",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Checkout fails with empty form",
+      "name": "Checkout fails with empty form",
+      "specIds": [
+        "AC-019"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "69e95800-b1ad-4ada-806a-1bca441f672a",
+          "testId": "55bf0bd5-93b4-ee12-bc18-aa9a026436f1",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Checkout fails without last name",
+      "name": "Checkout fails without last name",
+      "specIds": [
+        "AC-020"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "1142e846-270d-4214-bb4c-841d84e0ad6f",
+          "testId": "1949cb88-20c1-95f0-e684-176fe0672e06",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Checkout fails without zip code",
+      "name": "Checkout fails without zip code",
+      "specIds": [
+        "AC-021"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "58a771a5-7568-4e75-8213-e503598fad64",
+          "testId": "f39123d7-bf95-72bd-2b07-949bf5dd506b",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Checkout overview displays order summary",
+      "name": "Checkout overview displays order summary",
+      "specIds": [
+        "AC-022"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "cfe25e99-47ee-4012-af6f-f006eeb61cf3",
+          "testId": "2e77ccc8-48f7-5f08-e676-303eb94f800a",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Checkout overview preserves the added product identity",
+      "name": "Checkout overview preserves the added product identity",
+      "specIds": [
+        "AC-028"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "62c34fcf-e6df-46a6-9cf9-75bc8f53f696",
+          "testId": "d670f200-572c-2ed7-0918-53385f7d6827",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Complete checkout with valid information",
+      "name": "Complete checkout with valid information",
+      "specIds": [
+        "AC-018"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "68ffefb0-efbb-4b49-bafe-be4d2884208d",
+          "testId": "9ae6ec05-662a-b2ec-2e3a-0786516c8676",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Continue shopping returns to inventory",
+      "name": "Continue shopping returns to inventory",
+      "specIds": [
+        "AC-016"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "684ebc48-826b-4146-bc7d-8a8d7d669e05",
+          "testId": "20e5d08a-e6d7-0dba-18af-26392e1402bd",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Every inventory product displays a non-empty description",
+      "name": "Every inventory product displays a non-empty description",
+      "specIds": [
+        "AC-025"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "c6ecb791-16c5-4748-8453-6aa4a08a8600",
+          "testId": "2b61d5d1-49b4-8773-e3e2-3a7f4c4d9995",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Inventory page displays products",
+      "name": "Inventory page displays products",
+      "specIds": [
+        "AC-006"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "1994fd64-025c-49ea-8a50-121254794726",
+          "testId": "397d6311-b4d1-b95d-377a-934e31017ed2",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Login with invalid credentials shows error",
+      "name": "Login with invalid credentials shows error",
+      "specIds": [
+        "AC-003"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "080d4789-acf4-4dee-918b-a3a20151aa6a",
+          "testId": "f323dd0d-8b61-84cc-2fc6-aec29fa87a71",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Login with locked-out user is rejected",
+      "name": "Login with locked-out user is rejected",
+      "specIds": [
+        "AC-002"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "af284268-87c2-45d3-a589-c4fb97b4f912",
+          "testId": "ee0f08ba-03dd-6d81-455f-60fd7f03892d",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Login with username only shows password required error",
+      "name": "Login with username only shows password required error",
+      "specIds": [
+        "AC-005"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "03ea6523-93cc-4768-85bb-985dddfc6156",
+          "testId": "de1add2f-bcc8-d389-bbd4-cf33b5f9cc74",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Login without credentials shows required field error",
+      "name": "Login without credentials shows required field error",
+      "specIds": [
+        "AC-004"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "0a28f130-0c40-4c06-b707-54e509c4cb4a",
+          "testId": "912f2db6-ea0f-04e9-fbdb-36b99e1dfce1",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Products can be sorted by name ascending",
+      "name": "Products can be sorted by name ascending",
+      "specIds": [
+        "AC-007"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "7b0a36fb-baf1-4ba2-8230-27ef70abaf20",
+          "testId": "90bdc2df-0419-2c33-9707-3213dfa6e2b9",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Products can be sorted by name descending",
+      "name": "Products can be sorted by name descending",
+      "specIds": [
+        "AC-008"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "e74fdabb-3079-49f6-b7c8-86761552fe76",
+          "testId": "7fa37fca-0360-352c-8c40-c0e0d949b22c",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Products can be sorted by price high to low",
+      "name": "Products can be sorted by price high to low",
+      "specIds": [
+        "AC-010"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "cc474db7-2de3-49b2-90d5-47bfadfd5354",
+          "testId": "d9021f8f-ffe0-156a-4ec8-d984f380464e",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Products can be sorted by price low to high",
+      "name": "Products can be sorted by price low to high",
+      "specIds": [
+        "AC-009"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "5d18a029-be34-4317-9d2d-9ebd1ef47193",
+          "testId": "6f37dda6-a4a4-7cf1-abed-7b5e8cdd7e32",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Removing a product from cart clears the cart badge",
+      "name": "Removing a product from cart clears the cart badge",
+      "specIds": [
+        "AC-012"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "dc22832e-0cb6-4cfa-be98-1c2c78444f11",
+          "testId": "5670f7b2-2242-ae44-6dbc-e1df719ae018",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Removing an item from cart updates the list",
+      "name": "Removing an item from cart updates the list",
+      "specIds": [
+        "AC-015"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "7ff5856f-a1d7-43cc-8049-fabe01d20246",
+          "testId": "853c194c-1c97-b7e2-1460-e6b751606bd8",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Removing the only cart item hides the cart badge",
+      "name": "Removing the only cart item hides the cart badge",
+      "specIds": [
+        "AC-026"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "00f33b3a-bb20-401a-9538-162b4a8d75a1",
+          "testId": "346a0f3d-b16d-ae37-f767-4373b9b02367",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Standard user inventory contains exactly six products",
+      "name": "Standard user inventory contains exactly six products",
+      "specIds": [
+        "AC-024"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "ba04425e-1efa-4ca3-9829-fad3bc8c3b66",
+          "testId": "8bc27b85-215d-1b9a-4f94-1b1f57683f41",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Successful login with standard user",
+      "name": "Successful login with standard user",
+      "specIds": [
+        "AC-001"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "37a70036-93a9-41f7-be69-1aa09b9f7aed",
+          "testId": "c55e5855-fb3c-57ab-abf8-1a926848e20e",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Unauthenticated inventory access returns to login",
+      "name": "Unauthenticated inventory access returns to login",
+      "specIds": [
+        "AC-027"
+      ],
+      "finalStatus": "passed",
+      "flaky": false,
+      "attempts": [
+        {
+          "uuid": "7bb0cb7d-70b6-4ea7-ba76-704f93f789ec",
+          "testId": "6f2c10dc-1f81-e7fc-d2a8-7c4c899536fe",
+          "trxRunId": "d470df50-d35c-4753-85b5-8dc37a4049df",
+          "status": "passed",
+          "outcome": "Passed",
+          "source": {
+            "file": "tests.trx",
+            "sha256": "99c739fa163ae20b089b67047de3a6a42141336ca66cacd5dbd0867f090831b4"
+          }
+        }
+      ]
+    }
+  ],
+  "qualification": {
+    "verdict": "PASS",
+    "source": {
+      "system": "guido-agentic-pipeline/declared-acceptance-map",
+      "revision": "35fb5f7da800f77320405bcc78627e762ef1e6d1"
+    },
+    "counts": {
+      "PASS": 28,
+      "FAIL": 0,
+      "NOT_RUN": 0,
+      "MISSING_EVIDENCE": 0,
+      "UNKNOWN": 0
+    },
+    "results": [
+      {
+        "id": "AC-001",
+        "key": "Successful login with standard user",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-002",
+        "key": "Login with locked-out user is rejected",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-003",
+        "key": "Login with invalid credentials shows error",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-004",
+        "key": "Login without credentials shows required field error",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-005",
+        "key": "Login with username only shows password required error",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-006",
+        "key": "Inventory page displays products",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-007",
+        "key": "Products can be sorted by name ascending",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-008",
+        "key": "Products can be sorted by name descending",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-009",
+        "key": "Products can be sorted by price low to high",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-010",
+        "key": "Products can be sorted by price high to low",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-011",
+        "key": "Adding a product to cart updates the cart badge",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-012",
+        "key": "Removing a product from cart clears the cart badge",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-013",
+        "key": "Cart page shows added item",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-014",
+        "key": "Cart badge matches item count",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-015",
+        "key": "Removing an item from cart updates the list",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-016",
+        "key": "Continue shopping returns to inventory",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-017",
+        "key": "Checkout button navigates to checkout",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-018",
+        "key": "Complete checkout with valid information",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-019",
+        "key": "Checkout fails with empty form",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-020",
+        "key": "Checkout fails without last name",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-021",
+        "key": "Checkout fails without zip code",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-022",
+        "key": "Checkout overview displays order summary",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-023",
+        "key": "Back Home after order completion returns to inventory",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-024",
+        "key": "Standard user inventory contains exactly six products",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-026",
+        "key": "Removing the only cart item hides the cart badge",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-027",
+        "key": "Unauthenticated inventory access returns to login",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-028",
+        "key": "Checkout overview preserves the added product identity",
+        "state": "PASS"
+      },
+      {
+        "id": "AC-025",
+        "key": "Every inventory product displays a non-empty description",
+        "state": "PASS"
+      }
+    ],
+    "unexpected": [],
+    "inventoryDigest": "5b5f68fd2eec48912b81de0330c4a26cb45c4e85187853dd68688c992d2b3824",
+    "diagnostics": []
+  }
+}

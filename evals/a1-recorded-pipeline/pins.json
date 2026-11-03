@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "kind": "RecordedA1InputPins",
+  "source": {
+    "repository": "GuiMiran/guido-agentic-pipeline",
+    "repositoryId": 1190006301,
+    "workflowId": 250433858,
+    "runId": 41579887847,
+    "attempt": 1,
+    "commit": "35fb5f7da800f77320405bcc78627e762ef1e6d1",
+    "conclusion": "success"
+  },
+  "artifact": {
+    "id": 13205103884,
+    "name": "pipeline-trx-41579887847-1",
+    "size": 9855,
+    "digest": "sha256:216f37835e1d9e2ce6af7ce7d9a5be40b898e10bfc56f42289329f3f466b680e"
+  },
+  "handoffRunId": 41580010385,
+  "spectraCommit": "bb561e388eb3406b1ddd4792c4f8e81769b108c6",
+  "auditorCommit": "497b6694de9315516ea297a48a470c5a5048abc1",
+  "mode": "workflow_run",
+  "hashes": {
+    "receiptSha256": "a9778fda0f02e9e94a6edada769acd4d250819a80b09d59027b90a77d0e5c760",
+    "snapshotSha256": "ebdd186d11ce8739a50b6b580ce78b4bf0816aec675283a356cff4cc87e35148",
+    "expectedInventorySha256": "09170bc4c13ab48bcebab04d6412e82b4a55348b11f54199a89299c5cfdf9d61"
+  },
+  "recordedSource": {
+    "sourceRunUrl": "https://github.com/GuiMiran/guido-agentic-pipeline/actions/runs/41579887847",
+    "handoffRunUrl": "https://github.com/GuiMiran/guido-agentic-pipeline/actions/runs/41580010385",
+    "resultArtifactId": 13204899747,
+    "resultArchiveSha256": "e38e54b4cc067c7010cc5327e58db306f366cc1e57019eabbcb76885979abc83"
+  }
+}

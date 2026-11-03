@@ -1,0 +1,58 @@
+name: A1 recorded evidence and live audit
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/a1-recorded-integration.yml'
+      - 'lib/verification/a1-*.js'
+      - 'scripts/a1-*.js'
+      - 'schemas/*v1.schema.json'
+      - 'evals/a1-recorded-pipeline/**'
+      - 'test/a1-projection.test.js'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/a1-recorded-integration.yml'
+      - 'lib/verification/a1-*.js'
+      - 'scripts/a1-*.js'
+      - 'schemas/*v1.schema.json'
+      - 'evals/a1-recorded-pipeline/**'
+      - 'test/a1-projection.test.js'
+permissions:
+  contents: read
+jobs:
+  project:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          path: spectra
+          persist-credentials: false
+      - name: Checkout recorded source as inventory data, never execute its code
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: GuiMiran/guido-agentic-pipeline
+          ref: 35fb5f7da800f77320405bcc78627e762ef1e6d1
+          path: target
+          persist-credentials: false
+      - name: Checkout trusted auditor at reviewed commit
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: GuiMiran/guido-sdd-migration-effort-scale
+          ref: 497b6694de9315516ea297a48a470c5a5048abc1
+          path: scale
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '20'
+      - name: Project recorded evidence and fresh audit for the exact same commit
+        run: env -i PATH="$PATH" node spectra/scripts/a1-recorded-integration.js --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/a1-projection"
+      - name: Preserve audit, projected contracts and scoped receipt
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: a1-recorded-live-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/a1-projection/
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "acquisition": "authenticated-github-actions-api",
+  "mode": "workflow_run",
+  "source": {
+    "repository": "GuiMiran/guido-agentic-pipeline",
+    "repositoryId": 1190006301,
+    "workflowId": 250433858,
+    "runId": 41579887847,
+    "attempt": 1,
+    "commit": "35fb5f7da800f77320405bcc78627e762ef1e6d1",
+    "conclusion": "success"
+  },
+  "artifact": {
+    "id": 13205103884,
+    "name": "pipeline-trx-41579887847-1",
+    "size": 9855,
+    "digest": "sha256:216f37835e1d9e2ce6af7ce7d9a5be40b898e10bfc56f42289329f3f466b680e"
+  },
+  "spectraCommit": "bb561e388eb3406b1ddd4792c4f8e81769b108c6",
+  "verdict": "PASS",
+  "testQualification": "PASS",
+  "counts": {
+    "tests": 28,
+    "attempts": 28,
+    "passed": 28,
+    "failed": 0,
+    "broken": 0,
+    "skipped": 0,
+    "unknown": 0,
+    "unmapped": 0,
+    "flaky": 0
+  },
+  "unassessedCriteria": [],
+  "sourceDigest": "811e798b167c602f33c580e15bead0bb81b1035cf0cb833048ee261fe6712431",
+  "snapshotSha256": "ebdd186d11ce8739a50b6b580ce78b4bf0816aec675283a356cff4cc87e35148",
+  "coverageMapSha256": "fed2be80cca0d9d4f2f340c26610405dec3d5aa949b2477453d571a48a9218d4",
+  "limitations": [
+    "LOCAL_SCOPE_NOT_EXHAUSTIVE",
+    "NO_COLLECTOR_OR_ASSERTION_INDEPENDENCE_PROOF",
+    "NO_SOURCE_EXECUTION_OR_REPAIR",
+    "NO_CROSS_REPOSITORY_WRITES"
+  ]
+}
