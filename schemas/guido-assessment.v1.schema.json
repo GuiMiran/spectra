@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "A1 GUIDOAssessment v1: explicitly unscored pending policy approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "producer",
+    "generatedAt",
+    "correlationId",
+    "repository",
+    "kind",
+    "state",
+    "organizationalLevel",
+    "migrationEffort",
+    "rubric",
+    "reason",
+    "provenance",
+    "requiresHumanApproval",
+    "executionAuthorized"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "component",
+        "version"
+      ],
+      "properties": {
+        "component": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[A-Za-z0-9_./-]+$(?![\\s\\S])"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[A-Za-z0-9._+\\-]+$(?![\\s\\S])"
+        }
+      }
+    },
+    "generatedAt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 24,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$(?![\\s\\S])"
+    },
+    "correlationId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z][a-z0-9-]{2,79}$(?![\\s\\S])"
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fullName",
+        "commit"
+      ],
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$(?![\\s\\S])"
+        },
+        "commit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^(?:[a-f0-9]{40}|[a-f0-9]{64})$(?![\\s\\S])"
+        }
+      }
+    },
+    "kind": {
+      "const": "GUIDOAssessment"
+    },
+    "state": {
+      "const": "NOT_ASSESSED"
+    },
+    "organizationalLevel": {
+      "type": "null"
+    },
+    "migrationEffort": {
+      "type": "null"
+    },
+    "rubric": {
+      "type": "null"
+    },
+    "reason": {
+      "const": "SCORING_POLICY_NOT_APPROVED"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repositoryProfileSha256",
+        "evidenceBundleSha256"
+      ],
+      "properties": {
+        "repositoryProfileSha256": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}$(?![\\s\\S])"
+        },
+        "evidenceBundleSha256": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}$(?![\\s\\S])"
+        }
+      }
+    },
+    "requiresHumanApproval": {
+      "const": true
+    },
+    "executionAuthorized": {
+      "const": false
+    }
+  }
+}

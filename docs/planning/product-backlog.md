@@ -2,6 +2,12 @@
 
 Status: proposed
 
+Delivery reconciliation (2026-11-03): native TRX ingestion, reviewed local test
+mapping and authenticated main-push Pipeline → pinned SPECTRA consumption are
+shipped. See [ecosystem delivery evidence](ecosystem-backlog.md). The new
+[A1 v1 contracts](../guides/a1-contracts.md) validate structure/lineage only;
+full A1 recommendation integration and GUIDO scoring are not complete.
+
 This backlog turns Spectra from a structured specification method with a light
 CLI into an evidence-driven control plane for AI-assisted software delivery.
 It is based on the current product, its existing safety constraints, and the
@@ -23,7 +29,7 @@ multi-agent software teams.
 | Level | Customer promise | Evidence required | Current state |
 | --- | --- | --- | --- |
 | L0 — structured context | Agents receive consistent domain rules and acceptance context. | Valid layers, cross references, trace declarations. | Available. |
-| L1 — verified behaviour | Critical rules and acceptance criteria are linked to executed test results. | Test-run ingestion, result-to-spec mapping, regression detection. | Backlog P0. |
+| L1 — verified behaviour | Critical rules and acceptance criteria are linked to executed test results. | Test-run ingestion, result-to-spec mapping, regression detection. | PARTIAL: 28 local Pipeline ACs linked/executed through TRX; broader coverage and cross-source regression semantics remain open. |
 | L2 — governed delivery | Agents can turn verified gaps into reviewable plans and approved delivery actions. | Planner, approval gates, immutable audit trail, PR/re-run adapters. | Backlog P1. |
 | L3 — measured evolution | Agent strategies are selected against independent task evaluations. | Benchmark suite, external evaluator, baseline comparison. | Controlled local MVP only. |
 
@@ -100,7 +106,12 @@ an intentionally unscanned directory produces an auditable report.
 
 ## Next — make the delivery pipeline real, still governed
 
-### P1-01 — Allure Aggregator and execution-result ingestion
+### P1-01 — Execution-result ingestion (native TRX and optional Allure)
+
+Status: core importers shipped. Allure JSON aggregation and native TRX expected-
+inventory qualification are implemented; Pipeline does not require Allure.
+Authenticated automatic consumption is verified for the bounded Pipeline main
+workflow. This does not close cross-source aggregation or independent-oracle work.
 
 **Outcome:** Spectra consumes real Allure result files and produces a canonical
 test-evidence snapshot.
@@ -116,6 +127,9 @@ test-evidence snapshot.
 tests creates an evidence snapshot and deterministic diagnostics.
 
 ### P1-02 — Canonical coverage-map and Gap Engine
+
+Status: PARTIAL. Existing adapters emit provenance-linked gap maps; a canonical
+multi-source schema and disagreement-preserving merge still require delivery.
 
 **Outcome:** all sources produce one versioned gap contract.
 

@@ -12,6 +12,8 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 
 ## Guides
 
+- [A1 read-only contracts](guides/a1-contracts.md) — bounded inventory/evidence/unscored assessment schemas and lineage checks; not a complete A1 loop.
+
 - [External suite / Runtime evaluation](guides/external-runtime-evaluation.md) — host-approved external cases and a separately pinned execution boundary; synthetic CI controls only.
 
 - [Frozen Stage 2 public controls](guides/stage2-public-controls.md) — execute coupled-requirement controls and audit the fault matrix.

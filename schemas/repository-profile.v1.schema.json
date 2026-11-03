@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "A1 RepositoryProfile v1: bounded inventory projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "producer",
+    "generatedAt",
+    "correlationId",
+    "repository",
+    "kind",
+    "scope",
+    "provenance",
+    "observations"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "component",
+        "version"
+      ],
+      "properties": {
+        "component": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[A-Za-z0-9_./-]+$(?![\\s\\S])"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[A-Za-z0-9._+\\-]+$(?![\\s\\S])"
+        }
+      }
+    },
+    "generatedAt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 24,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$(?![\\s\\S])"
+    },
+    "correlationId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z][a-z0-9-]{2,79}$(?![\\s\\S])"
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fullName",
+        "commit"
+      ],
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$(?![\\s\\S])"
+        },
+        "commit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^(?:[a-f0-9]{40}|[a-f0-9]{64})$(?![\\s\\S])"
+        }
+      }
+    },
+    "kind": {
+      "const": "RepositoryProfile"
+    },
+    "scope": {
+      "const": "file-presence-only"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "auditSha256"
+      ],
+      "properties": {
+        "auditSha256": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}$(?![\\s\\S])"
+        }
+      }
+    },
+    "observations": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "status",
+          "evidenceCount",
+          "paths"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "project_readme",
+              "specifications",
+              "contribution_policy",
+              "security_policy",
+              "ci_workflow",
+              "tests",
+              "agent_contract",
+              "trace_map"
+            ]
+          },
+          "status": {
+            "enum": [
+              "observed",
+              "no_evidence"
+            ]
+          },
+          "evidenceCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000
+          },
+          "paths": {
+            "type": "array",
+            "maxItems": 20,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512,
+              "pattern": "^(?!\\.{1,2}(?:/|$))[A-Za-z0-9._@+\\-]+(?:/(?!\\.{1,2}(?:/|$))[A-Za-z0-9._@+\\-]+)*$(?![\\s\\S])"
+            }
+          }
+        }
+      }
+    }
+  }
+}
