@@ -1,0 +1,7 @@
+include package.json SPECTRA-PROMPT.md LICENSE
+include scripts/welcome.js
+graft bin
+graft lib
+graft templates
+graft schemas
+graft layers
