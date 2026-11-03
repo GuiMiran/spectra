@@ -44,6 +44,20 @@ npm install -g @guimiran/spectra
 spectra init
 ```
 
+### Via pip (pending PyPI publication)
+
+The `0.5.0` wheel is prepared as `spectra-sdd`. Once published on PyPI:
+
+```bash
+python -m pip install spectra-sdd==0.5.0
+spectra init
+```
+
+Requires Python 3.9+ and Node.js 18+ on PATH. The wheel bundles the same
+CLI; it does not download npm packages at runtime. Choose one installation
+method per environment because both provide `spectra`.
+See the [distribution guide](docs/guides/distribution-0.5.0.md).
+
 ### Via Git
 
 ```bash
