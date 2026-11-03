@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "repositoryProfile": {
+    "schemaVersion": 1,
+    "producer": {
+      "component": "fixture-only",
+      "version": "1.0.0"
+    },
+    "generatedAt": "2026-11-03T00:00:00.000Z",
+    "correlationId": "a1-fixture-001",
+    "repository": {
+      "fullName": "fixtures/a1-contracts",
+      "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "kind": "RepositoryProfile",
+    "scope": "file-presence-only",
+    "provenance": {
+      "auditSha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "observations": [
+      {
+        "id": "project_readme",
+        "status": "no_evidence",
+        "evidenceCount": 0,
+        "paths": []
+      },
+      {
+        "id": "specifications",
+        "status": "no_evidence",
+        "evidenceCount": 0,
+        "paths": []
+      },
+      {
+        "id": "contribution_policy",
+        "status": "no_evidence",
+        "evidenceCount": 0,
+        "paths": []
+      },
+      {
+        "id": "security_policy",
+        "status": "no_evidence",
+        "evidenceCount": 0,
+        "paths": []
+      },
+      {
+        "id": "ci_workflow",
+        "status": "no_evidence",
+        "evidenceCount": 0,
+        "paths": []
+      },
+      {
+        "id": "tests",
+        "status": "no_evidence",
+        "evidenceCount": 0,
+        "paths": []
+      },
+      {
+        "id": "agent_contract",
+        "status": "no_evidence",
+        "evidenceCount": 0,
+        "paths": []
+      },
+      {
+        "id": "trace_map",
+        "status": "no_evidence",
+        "evidenceCount": 0,
+        "paths": []
+      }
+    ]
+  },
+  "evidenceBundle": {
+    "schemaVersion": 1,
+    "producer": {
+      "component": "fixture-only",
+      "version": "1.0.0"
+    },
+    "generatedAt": "2026-11-03T00:00:00.000Z",
+    "correlationId": "a1-fixture-001",
+    "repository": {
+      "fullName": "fixtures/a1-contracts",
+      "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "kind": "EvidenceBundle",
+    "scope": "local-expected-tests-only",
+    "provenance": {
+      "receiptSha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "snapshotSha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "expectedInventorySha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "sourceArtifactSha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "spectraCommit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "sourceRunId": 1,
+      "sourceAttempt": 1,
+      "handoffRunId": 2,
+      "mode": "fixture"
+    },
+    "qualification": "PASS",
+    "counts": {
+      "expected": 1,
+      "observed": 1,
+      "passed": 1,
+      "failed": 0,
+      "broken": 0,
+      "skipped": 0,
+      "unknown": 0,
+      "unmapped": 0
+    }
+  },
+  "guidoAssessment": {
+    "schemaVersion": 1,
+    "producer": {
+      "component": "fixture-only",
+      "version": "1.0.0"
+    },
+    "generatedAt": "2026-11-03T00:00:00.000Z",
+    "correlationId": "a1-fixture-001",
+    "repository": {
+      "fullName": "fixtures/a1-contracts",
+      "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "kind": "GUIDOAssessment",
+    "state": "NOT_ASSESSED",
+    "organizationalLevel": null,
+    "migrationEffort": null,
+    "rubric": null,
+    "reason": "SCORING_POLICY_NOT_APPROVED",
+    "provenance": {
+      "repositoryProfileSha256": "897cefe916e2d7e3993906650235b5703ed34d0633511839c7867fbfddce98ee",
+      "evidenceBundleSha256": "3eeeddc080ab6c79b1b82d5b9cd50a49f326893053a5c1e64316d351586bb508"
+    },
+    "requiresHumanApproval": true,
+    "executionAuthorized": false
+  }
+}

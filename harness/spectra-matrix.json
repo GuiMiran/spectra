@@ -3,6 +3,14 @@
   "purpose": "Repository-level SPECTRA matrix: requirements, owned artefacts, independent evidence, and verification commands.",
   "entries": [
     {
+      "id": "A1-CONTRACT-001",
+      "requirement": "A1 profile, recorded-evidence and unscored-assessment contracts preserve commit/correlation/hash lineage without granting execution or maturity scores.",
+      "owner": "lib/verification/",
+      "artifacts": ["schemas/repository-profile.v1.schema.json", "schemas/evidence-bundle.v1.schema.json", "schemas/guido-assessment.v1.schema.json", "lib/verification/a1-contracts.js", "scripts/a1-contracts.js", "docs/architecture/decisions/0019-a1-read-only-contracts.md"],
+      "evidence": ["test/a1-contracts.test.js", "evals/a1-contracts.v1.json", "docs/guides/a1-contracts.md"],
+      "verify": ["npm run verify", "npm run a1:contracts -- --input evals/a1-contracts.v1.json"]
+    },
+    {
       "id": "TRX-001",
       "requirement": "Native TRX qualifies against trusted inventory, retains provenance and never passes missing or ambiguous results.",
       "owner": "lib/evidence/",

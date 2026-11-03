@@ -1,6 +1,10 @@
 # Component contracts
 
-Status: conceptual v1 contracts. No producer is enabled by this document.
+Status: remaining flow contracts are conceptual. Bounded read-only schemas for
+RepositoryProfile, EvidenceBundle and unscored GUIDOAssessment are proposed in
+[ADR-0019](../architecture/decisions/0019-a1-read-only-contracts.md) and the
+[A1 guide](../guides/a1-contracts.md). No producer, scoring or execution is enabled
+by this document; the existing Pipeline evidence handoff has its own authority.
 
 Every cross-repository artifact must be small, versioned, serializable, and
 independently attributable. Contracts must not transfer credentials, raw
