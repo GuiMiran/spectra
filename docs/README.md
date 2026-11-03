@@ -14,6 +14,7 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 
 - [A1 read-only contracts](guides/a1-contracts.md) — bounded inventory/evidence/unscored assessment schemas and lineage checks; not a complete A1 loop.
 - [A1 recorded-evidence/live-audit projection](guides/a1-projection.md) — byte-pinned real evidence and fresh auditor results for the same source commit, without scoring or execution.
+- [A1 measured gaps and review proposals](architecture/decisions/0021-a1-gap-review.md) — scoped gap report and existing read-only dry-run planner.
 
 - [External suite / Runtime evaluation](guides/external-runtime-evaluation.md) — host-approved external cases and a separately pinned execution boundary; synthetic CI controls only.
 

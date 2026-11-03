@@ -108,7 +108,7 @@ an unattended inventory-to-analysis-to-proposal cycle is not yet delivered.
 | --- | --- | --- |
 | ECO-P1-001 | SPECTRA deterministic scanner produces RepositoryProfile | PARTIAL: bounded same-commit projection and real pinned file-presence audit proposed here; a full technology scanner remains open |
 | ECO-P1-002 | GUIDO Scale adapter produces evidence-based GUIDOAssessment | PARTIAL: audit bridge and unscored contracts shipped; new host projection proposed; no organizational score or approved rubric |
-| ECO-P1-003 | SPECTRA creates GapReport and AgentExecutionPlan with existing verify and dry-run facilities | PARTIAL: Gap Engine and bounded dry-run planning exist; deterministic evidence-to-gap-to-plan adapter still pending |
+| ECO-P1-003 | SPECTRA derives measured gaps and a bounded review proposal from verified evidence | Bounded adapter: pinned recorded evidence to GapReport and existing dry-run Task/Context/Plan. Scoped PASS or insufficient evidence emits no plan; no execution authority. Fresh unattended acquisition is separate. |
 | ECO-P1-004 | Run the A1 vertical against guido-agentic-pipeline without source mutation | PARTIAL: production TRX handoff verified; pinned recorded-evidence/live-audit projection proposed here. Full analysis → reviewed-plan receipt remains open |
 
 ## ECO-EPIC-003 — Governed execution and measurable learning

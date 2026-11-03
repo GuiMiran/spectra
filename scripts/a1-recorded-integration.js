@@ -7,7 +7,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { execFileSync } = require('node:child_process');
-const { projectA1Contracts } = require('../lib/verification/a1-projection');
+const { projectA1GapPlan } = require('../lib/verification/a1-gap-plan');
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 function read(file) {
   const stat = fs.lstatSync(file);
@@ -49,10 +49,12 @@ function run(workspacePath, outputPath) {
   clean(scale, pins.auditorCommit);
   const auditBytes = read(path.join(auditDir, 'audit.json'));
   const generatedAt = new Date().toISOString();
-  const projected = projectA1Contracts({ ...inputs, auditBytes }, pins,
+  const { projection: projected, ...review } = projectA1GapPlan({ ...inputs, auditBytes }, pins,
     { generatedAt, correlationId: `a1-pipeline-${pins.source.runId}-${pins.source.attempt}` });
   const contractsBytes = Buffer.from(JSON.stringify(projected.contracts, null, 2) + '\n');
   fs.writeFileSync(path.join(output, 'contracts.json'), contractsBytes, { flag: 'wx' });
+  const reviewBytes = Buffer.from(JSON.stringify(review, null, 2) + '\n');
+  fs.writeFileSync(path.join(output, 'gap-review.json'), reviewBytes, { flag: 'wx' });
   const receipt = { schemaVersion: 1, kind: 'recorded-evidence-live-audit-projection', generatedAt,
     repository: pins.source.repository, sourceCommit: pins.source.commit, sourceRunId: pins.source.runId,
     handoffRunId: pins.handoffRunId, auditorCommit: pins.auditorCommit, projectorCommit,
@@ -61,9 +63,11 @@ function run(workspacePath, outputPath) {
     filePresence: { observed: projected.contracts.repositoryProfile.observations.filter(item => item.status === 'observed').length,
       noEvidence: projected.contracts.repositoryProfile.observations.filter(item => item.status === 'no_evidence').length },
     testCounts: projected.contracts.evidenceBundle.counts, hostOperations: operations,
+    gapReview: { outcome: review.outcome, measuredGaps: review.gapReport.gaps.length,
+      selectedGapId: review.selectedGapId, reportSha256: review.gapReportSha256, fileSha256: hash(reviewBytes) },
     targetCleanBefore: true, targetCleanAfter: true, targetCodeExecuted: false,
     limitations: ['RECORDED_TESTS_NOT_NEW_SELENIUM_EXECUTION', 'GITHUB_AUTHENTICATION_RECORDED_BY_REVIEWED_INPUT_PINS',
-      'FILE_PRESENCE_ONLY', 'NO_GAP_TO_PLAN_INTEGRATION', 'NO_ORGANIZATIONAL_SCORE_OR_EXECUTION_AUTHORITY'] };
+      'FILE_PRESENCE_ONLY', 'NO_ORGANIZATIONAL_SCORE_OR_EXECUTION_AUTHORITY'] };
   fs.writeFileSync(path.join(output, 'projection-receipt.json'), JSON.stringify(receipt, null, 2) + '\n', { flag: 'wx' });
   console.log(JSON.stringify(receipt));
   return receipt;
