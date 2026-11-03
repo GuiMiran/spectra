@@ -5,6 +5,8 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const test = require('node:test');
 const { projectA1Contracts } = require('../lib/verification/a1-projection');
+const { projectA1GapPlan } = require('../lib/verification/a1-gap-plan');
+const { sha256 } = require('../lib/agent-runtime/contracts');
 const { qualifyEvidence } = require('../lib/evidence/qualification');
 const root = path.join(__dirname, '../evals/a1-recorded-pipeline');
 const recordedPins = require('../evals/a1-recorded-pipeline/pins.json');
@@ -103,6 +105,10 @@ test('recorded source workflow failure cannot become overall PASS from green tes
   assert.throws(() => projectA1Contracts(data, pins, options), /overall verdict/);
   receipt.verdict = 'UNKNOWN'; data.receiptBytes = bytes(receipt); rebind(data, pins);
   assert.equal(projectA1Contracts(data, pins, options).contracts.evidenceBundle.qualification, 'UNKNOWN');
+  const review = projectA1GapPlan(data, pins, options);
+  assert.equal(review.outcome, 'INSUFFICIENT_EVIDENCE');
+  assert.deepEqual(review.gapReport.gaps, []);
+  assert.equal(review.planning, null);
 });
 
 test('consistent negative recorded evidence remains FAIL and never grants execution', () => {
@@ -117,6 +123,29 @@ test('consistent negative recorded evidence remains FAIL and never grants execut
   assert.equal(projected.validation.valid, true);
   assert.equal(projected.validation.evidenceState, 'FAIL');
   assert.equal(projected.validation.executionAuthorized, false);
+  // This altered outcome and its rebound pins are synthetic negative controls.
+  const review = projectA1GapPlan(data, pins, options);
+  assert.deepEqual(review, projectA1GapPlan(data, pins, options));
+  assert.equal(review.outcome, 'REVIEW_PROPOSED');
+  assert.equal(review.selectedGapId, snapshot.qualification.results.find(item => item.state === 'FAIL').id);
+  assert.equal(review.gapReport.gaps[0].sourceDigest, pins.hashes.snapshotSha256);
+  assert.equal(review.gapReportSha256, sha256(review.gapReport));
+  assert.deepEqual(review.planning.task.scope, { allowedFiles: [], allowedSpecIds: [review.selectedGapId] });
+  assert.deepEqual(review.planning.plan.steps[0].specIds, [review.selectedGapId]);
+  assert.equal(review.planning.plan.requiresHumanApproval, true);
+  assert.equal(review.executionAuthorized, false);
+  assert.deepEqual(Object.values(review.planning.effects), [0, 0, 0, 0]);
+});
+
+test('green recorded tests do not turn missing inventory files into behavioral gaps', () => {
+  const review = projectA1GapPlan(inputs(), recordedPins, options);
+  assert.equal(review.outcome, 'NO_MEASURED_GAPS');
+  assert.ok(review.gapReport.inventoryWithoutEvidence.length > 0);
+  assert.deepEqual(review.gapReport.gaps, []);
+  assert.equal(review.planning, null);
+  assert.equal(review.a1CycleComplete, false);
+  assert.throws(() => projectA1GapPlan({ ...inputs(), snapshotBytes: bytes({ qualification: { results: [] } }) },
+    recordedPins, options), /custody digest/);
 });
 
 test('malformed bytes, over-limit inputs, invalid metadata and bad timestamps fail closed', () => {
