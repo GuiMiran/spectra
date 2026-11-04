@@ -25,6 +25,7 @@
     "spectra": "bin/spectra.js"
   },
   "files": [
+    "CHANGELOG.md",
     "schemas/",
     ".github/CODEOWNERS",
     "bin/",
