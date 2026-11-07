@@ -1,206 +1,95 @@
-# Quickstart — From zero to /specs in 15 minutes
+# Quickstart — Select a route and scaffold domain layers
 
-> This guide documents the exact steps to go from a blank repo
-> to a fully populated `/specs` folder ready for an agentic builder.
+Start with [the adoption protocol](adoption-protocol.md). Use
+[greenfield](adoption-greenfield.md) for a new behavior scope, or
+[brownfield](adoption-brownfield.md) when implementation already exists.
+Creating files is scaffolding; it does not complete the adoption or prove that
+an agent understands every business rule.
 
----
+## 1. Record the starting point
 
-## What you need
+Name the product, users, behavior scope and exclusions. For an existing project,
+freeze the source commit and working-tree delta and inspect original contracts
+and tests before proposing changes. For a new project, record the intent
+snapshot and independently selected acceptance obligations.
 
-- A code editor with an AI agent (VS Code + Gemini Code Assist, GitHub Copilot, Claude Code...)
-- Access to an LLM (Claude, GPT-4o, Gemini...)
-- A blank repo (or an existing project without specs)
+Copy and fill the [adoption record](../../templates/adoption/record.json).
+Store it under `.spectra/adoption/record.json`, or link its canonical location.
+Keep unknown fields explicit; the template is not a validated assessment.
 
----
+## 2. Scaffold only when absent
 
-## Step 1 — Get the spec for your business type
+Using a trusted installed Spectra CLI, from your authorized project directory:
 
-Open the SPECTRA catalogue and find your business sector:
-
-**Option A — Spanish business (fastest)**
-Use the interactive catalogue at the SPECTRA repo examples.
-Click "Generate specs" for your business type.
-Download the generated `.md` file.
-
-**Option B — Any business / any country**
-Open `SPECTRA-PROMPT.md` from this repo.
-Fill in all `{{variables}}` for your project (Blocks 1–5).
-The more you fill in Blocks 3, 4 and 5, the better the specs.
-
----
-
-## Step 2 — Set up your repo structure
-
-Create this folder structure in your project:
-
-```bash
-mkdir specs
-mkdir config
+```sh
+spectra init
 ```
 
-Your repo should look like:
+This creates `.spectra/` with 13 layers, copies the universal prompt and creates
+`.instructions.md` if absent. It does not create AGENTS.md, extract existing
+behavior or copy adoption templates. If `.spectra/` exists, inspect and update
+it instead of deleting it to reinitialize.
 
-```
-your-project/
-├── .claude/
-│   └── agents/
-│       └── spectra.agent.md    ← agent definition (Step 4)
-├── specs/                      ← 13 spec files will go here (Step 3)
-└── config/
-    └── negocio.md              ← specific business data (Step 5)
-```
+The canonical names are:
 
-Place the `.md` from Step 1 inside `/specs/` as a starting point.
-
----
-
-## Step 3 — Generate the 13 spec files
-
-Open your LLM (Claude, GPT-4o, Gemini) and send this prompt:
-
-```
-Read the attached file. Using the SPECTRA framework
-(github.com/GuiMiran/spectra), generate the 13 spec files
-for the /specs folder:
-
-00-index.md, 01-glossary.md, 02-stories.md,
-03-business-rules.md, 04-invariants.md, 05-contracts.md,
-06-policies.md, 07-events.md, 08-agents.md, 09-skills.md,
-10-workflows.md, 11-acceptance-criteria.md, 12-trace.md
-
-Rules:
-- No code, only functional specs in business language
-- Real regulations for the country/sector in 03-business-rules.md
-- Unique IDs with cross-references between files
-- Generate each file in order, starting with 00-index.md
+```text
+.spectra/
+  00-vision.md
+  01-glossary.md
+  02-stories.md
+  03-business-rules.md
+  04-invariants.md
+  05-contracts.md
+  06-policies.md
+  07-events.md
+  08-agents.md
+  09-skills.md
+  10-workflows.md
+  11-acceptance-criteria.md
+  12-trace.md
 ```
 
-Attach the `.md` from Step 1.
+Legacy `/specs/` technical contracts can remain in place with explicit links
+and ownership. Do not create contradictory copies. The current CLI reads the
+canonical `.spectra/` paths, including `00-vision.md` rather than `00-index.md`.
 
-Save each generated file into your `/specs/` folder.
+## 3. Author and review the domain
 
----
+Use the universal prompt with reviewed sources. For each rule identify whether
+it describes observed behavior, a desired requirement or unknown knowledge.
+Give obligations stable IDs, examples, invariants and acceptance criteria.
+Keep unsupported generated rules pending. Do not claim completeness or legal
+correctness merely because all layers are filled.
 
-## Step 4 — Set up the builder agent
+## 4. Route builders and auditors
 
-Copy the agent definition from this repo:
+Adapt the [consumer AGENTS.md template](../../templates/adoption/AGENTS.template.md)
+to the actual project paths and commands. Extend an existing AGENTS.md rather
+than replacing it. Point to relevant domain layers, code, tests, technical
+contracts, adoption record and open gaps. An auditor uses it to navigate but
+independently verifies its claims under trusted evaluator policy.
 
-```
-.claude/agents/spectra.agent.md
-```
+## 5. Check structure and link evidence
 
-Place it in the same path in your project.
-
-This agent will:
-- Read `/specs/00-index.md` before every task
-- Read `/specs/04-invariants.md` as hard limits
-- Trace every piece of code back to a spec
-- Refuse requests that violate invariants
-- Update `/specs/12-trace.md` after each iteration
-
----
-
-## Step 5 — Add your specific business data
-
-Create `config/negocio.md` with the data specific to this
-business instance — not the sector rules (those are in `/specs/`),
-but the concrete details: name, owner, hours, services, prices.
-
-```markdown
-# config/negocio.md
-
-nombre: Your Business Name
-propietario: Owner Name
-horario: Mon-Sat 9:00-20:00
-servicios:
-  - nombre: Service 1
-    precio: 00€
-# ... add what's relevant for your business type
-notas:
-  - Any specific rules that override the generic sector specs
+```sh
+spectra validate
+spectra trace
 ```
 
-The specs define HOW a barbershop works.
-`negocio.md` defines WHO this specific barbershop is.
+Validation checks layer presence, identifiers and cross-references. Trace
+records declared source/acceptance links; inspect untagged code separately.
+Run relevant authorized independent checks, record their inputs, source
+revision, environment and actual result, and use `spectra verify` only with
+valid recorded acceptance evidence. A trace link is not a passing test.
 
----
+## 6. Review the handoff and next change
 
-## Step 6 — Launch the agent
+Complete the shared protocol's acceptance checklist, preserve diagnostic
+limitations and create a bounded next change. For new projects, implement and
+verify the first slice. For existing projects, preserve the baseline while
+addressing explicitly specified gaps. Update specs, trace, change history and
+evidence together. Deployment and reconstruction remain separately scoped work.
 
-Open the AI chat in your editor with the SPECTRA agent selected.
-Send this first prompt:
-
-```
-Read specs/00-index.md and config/negocio.md.
-
-Build the complete system respecting all invariants
-in specs/04-invariants.md.
-
-Start with the folder structure and data models.
-No code until the structure is confirmed.
-```
-
-The agent reads the specs, understands the full domain,
-and builds without asking business questions.
-
----
-
-## The full picture
-
-```
-CATALOGUE / SPECTRA-PROMPT.md
-  ↓ describes the business type
-LLM (Claude, GPT-4o, Gemini)
-  ↓ generates 13 spec files
-/specs/  ←  source of truth
-  +
-config/negocio.md  ←  this specific business
-  ↓ agent reads both
-BUILDER AGENT (in your IDE)
-  ↓ builds autonomously
-Your application
-```
-
----
-
-## What the specs give the agent
-
-Without specs the agent guesses business rules, ignores
-regulations, and needs correction at every step.
-
-With SPECTRA specs the agent:
-- Knows every business rule before writing a line
-- Knows what it can never do (invariants)
-- Knows the real business flows (workflows)
-- Can fully reconstruct the system if something breaks
-- Updates the traceability matrix automatically
-
----
-
-## Troubleshooting
-
-**Agent ignores the specs**
-Make sure the agent definition file is in `.claude/agents/`
-and the agent is selected in the chat.
-
-**Specs are too generic**
-Go back to `SPECTRA-PROMPT.md` and fill in Blocks 3, 4 and 5
-with more detail — especially known business rules and
-real workflows step by step.
-
-**Agent asks business questions**
-Good — it means something is missing from the specs.
-Add it to the relevant spec file and continue.
-
-**IDs are inconsistent between files**
-Ask the LLM to regenerate `specs/SPEC-INDEX.md` with
-a full cross-reference map.
-
----
-
-## Resources
-
-- Framework: https://github.com/GuiMiran/spectra
-- Manifesto: https://github.com/GuiMiran/spectra/blob/main/MANIFESTO.md
-- Layer contracts: https://github.com/GuiMiran/spectra/tree/main/layers
-- Examples: https://github.com/GuiMiran/spectra/tree/main/examples
+GUIDO's inventory and reviewed repository diagnostic remain separate from
+adoption and from an organizational maturity rating; follow the
+[evaluation boundary](adoption-protocol.md#evaluation-ownership).

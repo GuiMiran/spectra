@@ -6,6 +6,19 @@
 
 ---
 
+## Adopción en proyectos nuevos y existentes
+
+El [protocolo de adopción 1.0.0](docs/guides/adoption-protocol.md) define dos
+rutas: [greenfield](docs/guides/adoption-greenfield.md), desde la intención del
+producto, y [brownfield](docs/guides/adoption-brownfield.md), desde un proyecto
+existente con baseline, evidencias y brechas. Las reglas observadas, deseadas y
+desconocidas se distinguen explícitamente.
+
+La [plantilla de AGENTS.md](templates/adoption/AGENTS.template.md) orienta tanto
+al constructor como al auditor; sus declaraciones deben contrastarse con las
+evidencias. Adoptar Spectra no asigna un nivel GUIDO ni demuestra reconstrucción.
+Son procedimientos documentados y plantillas opt-in, sin un comando de migración automática.
+
 ## El problema
 
 Le das una tarea a un agente de IA. Le explicas qué quieres. Lo construye. Pero adivina las reglas de negocio, ignora la normativa, inventa las excepciones. A los 10 mensajes lo estás corrigiendo en cada paso.

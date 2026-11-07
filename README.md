@@ -75,6 +75,17 @@ node ../spectra/bin/spectra.js init
 
 ![Spectra flow](docs/assets/flow.svg)
 
+### Adopt in a new or existing project
+
+Follow the versioned [adoption protocol](docs/guides/adoption-protocol.md):
+[greenfield](docs/guides/adoption-greenfield.md) starts from intent;
+[brownfield](docs/guides/adoption-brownfield.md) freezes an existing baseline,
+extracts observed rules and keeps desired changes and unknowns explicit.
+The opt-in [consumer AGENTS.md template](templates/adoption/AGENTS.template.md)
+routes builders and auditors to specifications, code, tests and evidence.
+Adoption, scoped GUIDO diagnostics and organizational ratings are separate.
+These are documented procedures and templates, not an automatic migration command.
+
 ---
 
 ## What makes Spectra different

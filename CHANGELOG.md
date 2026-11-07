@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Documented `spectra-adoption` protocol 1.0.0 with greenfield/brownfield routes,
+  opt-in consumer AGENTS.md and adoption-record templates, and separate GUIDO
+  inventory/diagnostic/rating boundaries. No new adoption CLI or evaluator.
 - English GUIDO SDD governance hub in SPECTRA: agent entry, diagrams, component
   responsibilities and cross-repository traceability.
 - Versioned five-component baseline inventory; compatibility NOT_VERIFIED.
