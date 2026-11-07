@@ -64,6 +64,7 @@ See [version policy](version-policy.md). Commits can change without a version bu
 - [Agent architecture](AGENT-ARCHITECTURE.md) and [autonomy model](AUTONOMY-MODEL.md)
 - [Workspace policy](WORKSPACE-POLICY.md) and [security plan](SECURITY-REMEDIATION-PLAN.md)
 - [Cross-repository backlog](../planning/ecosystem-backlog.md)
+- [Governance hub companion PRs and handoff](changes/2026-11-07-governance-hub.md)
 
 Historical ADRs retain their status. This hub does not ratify every earlier
 scoring rule, security disposition or architecture proposal.
