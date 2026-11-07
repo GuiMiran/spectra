@@ -1,0 +1,74 @@
+name: Ecosystem observations
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: '15 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ecosystem-observations-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Ecosystem manifest and controls
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 20
+      - run: node --test test/ecosystem.test.js
+      - run: node --check scripts/ecosystem-observe.js
+      - run: node scripts/ecosystem-observe.js
+
+  propose:
+    name: Propose observed documentation update
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 20
+      - name: Observe public component metadata without executing component code
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/ecosystem-observe.js --live
+      - name: Propose generated documentation, never baseline pins
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -- docs/ecosystem/observations.md)" ]; then
+            echo "Observed documentation unchanged."
+            exit 0
+          fi
+          pending="$(gh pr list --state open --search 'in:title "GUIDO ecosystem observations"' --json number --jq length)"
+          if [ "$pending" -gt 0 ]; then
+            echo "A documentation proposal already awaits review. No new PR created."
+            exit 0
+          fi
+          branch="automation/ecosystem-observations-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git switch -c "$branch"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- docs/ecosystem/observations.md
+          git commit -m "docs: refresh observed GUIDO component metadata"
+          git push origin "HEAD:refs/heads/$branch"
+          gh pr create --base main --head "$branch" --title "GUIDO ecosystem observations" --body "Generated metadata observations only. Baseline pins, compatibility, approvals and deployments remain unchanged. Review before merging."

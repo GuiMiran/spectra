@@ -8,6 +8,7 @@ humans and autonomous agents. Treat this file as the repository entry point.
 | If you need to… | Read first | Change only if needed | Verify |
 | --- | --- | --- | --- |
 | Understand the product | `README.md`, `MANIFESTO.md`, `skills/SKILL.md` | Domain docs and prompts | `npm test` |
+| Coordinate ecosystem repositories or version observations | `docs/ecosystem/README.md`, `docs/ecosystem/agent-entry.md`, `docs/ecosystem/version-policy.md`, ADR-0022 | Reviewed manifest, bounded observer and documentation only; no component execution authority | `node scripts/ecosystem-observe.js`, `node --test test/ecosystem.test.js`, `npm run verify` |
 | Change a CLI command | `bin/spectra.js` | `lib/`, `test/`, relevant docs | `npm test` and `npm run test:syntax` |
 | Change the evolution loop | `docs/architecture/controlled-evolution.md`, `docs/architecture/decisions/0001-controlled-evolution-superagents.md`, `lib/evolution/index.js` | `lib/evolution/`, `evals/`, `test/`, config template | `npm test` |
 | Change Mother prompt evolution | `docs/architecture/prompt-evolution.md`, `docs/architecture/decisions/0009-controlled-mother-prompt-evolution.md` | `lib/evolution/prompt-evolution.js`, `test/prompt-evolution.test.js` | `npm run verify` |

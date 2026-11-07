@@ -1,6 +1,8 @@
 # Architecture
 
 Architecture documents define durable implementation boundaries and decisions.
+See [ADR-0022](decisions/0022-ecosystem-governance-hub.md) for the central
+governance hub and reviewed version observations within SPECTRA.
 See [ADR-0020](decisions/0020-a1-evidence-projection.md) for pinned evidence projection and its separate read-only host integration.
 See [ADR-0021](decisions/0021-a1-gap-review.md) for measured gaps and bounded review proposals.
 See [ADR-0019](decisions/0019-a1-read-only-contracts.md) for bounded A1 contracts and the reconciled delivery ledger.

@@ -5,9 +5,9 @@
 | Repository | Current responsibility | Target responsibility | Classification | Recommended action |
 | --- | --- | --- | --- | --- |
 | guido-sdd-engineering-stack | Engineering doctrine, examples, quality taxonomy | Define standards and reference architecture | KEEP | Preserve as documentation-first |
-| guido-sdd-migration-effort-scale | Maturity and migration templates | Measure maturity from evidence | KEEP / REFACTOR | Reconcile score model before automation |
+| guido-sdd-migration-effort-scale | Read-only inventory, proposed diagnostics and organizational templates | Own assessment methodology | KEEP / REFACTOR | Reconcile organizational scoring before automation |
 | spectra | Domain specs, traceability, evidence and proposal-only planning | Repository understanding and governed decisions | KEEP / REFACTOR | Extend through versioned contracts |
-| guido-autonomous-runtime | Test demo plus agent-profile documents | Execute approved plans with isolated tools | REFACTOR | Build execution boundary only after A1 |
+| guido-autonomous-runtime | Planning-only control plane, bounded evaluation adapter and historical test demo | Execute approved plans with isolated tools | REFACTOR | Do not infer generalized execution authority from the prototype |
 | guido-agentic-pipeline | SauceDemo quality-engineering implementation | Prove and benchmark the ecosystem | REFERENCE | Use as first target repository |
 
 ## Overlap register
@@ -20,7 +20,10 @@
 | Self-healing | Pipeline issue workflow and Runtime documentation | Runtime under SPECTRA plan | Reclassify existing flows as detection or escalation until execution exists |
 | CI and Allure | Pipeline and Runtime each publish reports | Target repository owns raw test output; SPECTRA consumes normalized evidence | Define EvidenceBundle v1 |
 
-## Discovery findings
+## Historical discovery findings
+
+The following findings record the original discovery, not a fresh inventory.
+For current baseline revisions and observations use the [governance hub](README.md).
 
 - The Stack defines GUIDO as Governed, Unified, Intent-Driven,
   Definition-first, Outcomes.

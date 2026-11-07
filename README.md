@@ -9,6 +9,9 @@
 
 [🇪🇸 Versión en español](README.es.md)
 
+[GUIDO SDD ecosystem governance hub](docs/ecosystem/README.md): component
+responsibilities, agent entry, traceability and versioned baseline inventory.
+
 ---
 
 ## The problem

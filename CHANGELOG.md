@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- English GUIDO SDD governance hub in SPECTRA: agent entry, diagrams, component
+  responsibilities and cross-repository traceability.
+- Versioned five-component baseline inventory; compatibility NOT_VERIFIED.
+- Bounded metadata observation and scheduled/manual documentation-only PRs;
+  no automatic pin upgrades, cross-repository writes, merge or deployment.
+
 ## [0.5.0]
 
 - Native TRX ingestion with a trusted expected inventory; Allure remains optional.
