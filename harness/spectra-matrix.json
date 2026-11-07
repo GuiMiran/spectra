@@ -3,6 +3,28 @@
   "purpose": "Repository-level SPECTRA matrix: requirements, owned artefacts, independent evidence, and verification commands.",
   "entries": [
     {
+      "id": "ADOPTION-001",
+      "requirement": "Versioned greenfield and brownfield procedures route agents through scoped intent or baseline, provenance, trace and evidence without claiming automated migration or maturity assessment.",
+      "owner": "docs/guides/",
+      "artifacts": [
+        "docs/guides/adoption-protocol.md",
+        "docs/guides/adoption-greenfield.md",
+        "docs/guides/adoption-brownfield.md",
+        "docs/architecture/decisions/0023-project-adoption.md",
+        "templates/adoption/record.json",
+        "templates/adoption/AGENTS.template.md"
+      ],
+      "evidence": [
+        "test/repository-navigation.test.js",
+        "test/repository-harness.test.js",
+        "docs/guides/quickstart.md"
+      ],
+      "verify": [
+        "npm run verify",
+        "Temporary consumer CLI init/validate/trace smoke; manual protocol review"
+      ]
+    },
+    {
       "id": "A1-PROJECTION-001",
       "requirement": "Same-commit pinned evidence and real read-only auditor results project to A1 contracts without scoring, source mutation or false fresh-test claims.",
       "owner": "lib/verification/",

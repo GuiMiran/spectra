@@ -12,6 +12,9 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 
 ## Guides
 
+- [Adoption protocol 1.0.0](guides/adoption-protocol.md) — scope, provenance, agent routes, trace and evidence; separate from GUIDO assessment.
+- [Greenfield adoption](guides/adoption-greenfield.md) — reviewed intent to domain layers and a first acceptance slice.
+- [Brownfield adoption](guides/adoption-brownfield.md) — existing baseline to observed rules, unknowns and a bounded change plan.
 - [A1 read-only contracts](guides/a1-contracts.md) — bounded inventory/evidence/unscored assessment schemas and lineage checks; not a complete A1 loop.
 - [A1 recorded-evidence/live-audit projection](guides/a1-projection.md) — byte-pinned real evidence and fresh auditor results for the same source commit, without scoring or execution.
 - [A1 measured gaps and review proposals](architecture/decisions/0021-a1-gap-review.md) — scoped gap report and existing read-only dry-run planner.
@@ -32,7 +35,7 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 - [Stage 2 trust assessment](guides/stage2-trust-assessment.md) — assess policy, evidence, repeatability, and integrated results.
 - [Evaluator and signal-path assurance](guides/evaluator-assurance.md) — replay, known-answer, metamorphic and evidence-path checks; Azure YAML task audit.
 
-- [Quickstart](guides/quickstart.md) — create a complete `/specs` folder from scratch.
+- [Quickstart](guides/quickstart.md) — select an adoption route and scaffold the canonical `.spectra/` layers.
 - [Agent visibility](guides/agent-visibility.md) — expose Spectra instructions to agent runtimes.
 - [OpenSpec integration](guides/openspec-integration.md)
 - [npm availability](guides/npm-availability.md)
@@ -41,6 +44,7 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 
 ## Reference and reports
 
+- [Adoption protocol validation](reports/adoption-protocol-validation.md) — local tooling checks and explicit consumer-evaluation limits.
 - [Framework comparison](reference/framework-comparison.md)
 - [OpenSpec comparison](reference/openspec-comparison.md)
 - [GastroFlow demo and results](https://github.com/GuiMiran/GastroFlow)
