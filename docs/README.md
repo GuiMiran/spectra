@@ -20,6 +20,7 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 
 - [Frozen Stage 2 public controls](guides/stage2-public-controls.md) — execute coupled-requirement controls and audit the fault matrix.
 - [Umbral](guides/umbral.md) — synthetic HTTP control for rejected release transitions and unchanged state.
+- [Rounding and idempotency controls](guides/contract-controls.md) — synthetic boundary and duplicate-write checks, separate from Umbral.
 
 - [Budget-matched best-of-n runner](guides/best-of-n-runner.md) — host-adapter execution and a no-model deterministic demo.
 
