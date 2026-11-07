@@ -56,6 +56,9 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 
 ## GUIDO ecosystem
 
+Start at the [central governance hub](ecosystem/README.md) for component
+ownership, agent entry, traceability, baseline pins and version observations.
+
 - [Ecosystem index](ecosystem/README.md)
 - [Responsibility map](ecosystem/RESPONSIBILITY-MAP.md)
 - [Component contracts](ecosystem/COMPONENT-CONTRACTS.md)

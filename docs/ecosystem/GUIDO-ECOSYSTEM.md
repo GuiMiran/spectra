@@ -1,6 +1,7 @@
 # GUIDO ecosystem architecture
 
-Status: proposed architecture baseline
+Status: responsibility baseline with separately reviewed implementation changes.
+Start at the [governance hub](README.md) for version pins and boundaries.
 
 GUIDO and SPECTRA are complementary models. The five GUIDO engineering layers
 express what good engineering looks like. The thirteen SPECTRA layers express
@@ -37,10 +38,10 @@ Agentic Pipeline = PROVE
 | Component | What is implemented now | Architectural interpretation |
 | --- | --- | --- |
 | Stack | Documentation, five-layer model, test taxonomy, reference examples | The engineering standard |
-| Scale | Markdown assessment templates and scorecards | A manual maturity model, not yet a deterministic engine |
+| Scale | Read-only Python inventory, proposed six-dimension diagnostics, scorecards | Inventory is executable; substantive assessment and organizational scoring remain separate |
 | SPECTRA | Specification CLI, trace, recorded evidence verification, read-only planning, controlled declarative evolution | The evidence and decision nucleus |
-| Runtime | .NET authentication demo, tests, agent-profile Markdown, basic CI | A prototype target for a future execution runtime |
-| Pipeline | .NET 8 Selenium, SpecFlow, Allure, prompts, CI workflows | The first proving ground and benchmark |
+| Runtime | Planning-only Node control plane, bounded evaluation adapter and historical .NET demo | Experimental capabilities, not unrestricted execution |
+| Pipeline | .NET 8, direct xUnit and Selenium, native TRX evidence handoff | Reference checks; no mandatory SpecFlow/Reqnroll or Allure |
 
 ## Non-goals
 

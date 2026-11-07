@@ -18,6 +18,7 @@ const INDEXES = [
   'README.es.md',
   'docs/README.md',
   'docs/architecture/README.md',
+  'docs/ecosystem/README.md',
   'harness/README.md',
 ];
 

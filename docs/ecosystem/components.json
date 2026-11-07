@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "baselineVersion": "0.1.0",
+  "compatibility": "NOT_VERIFIED",
+  "owner": "GuiMiran",
+  "components": [
+    {"id": "stack", "repository": "GuiMiran/guido-sdd-engineering-stack", "role": "DEFINE", "revision": "2cc684d6701ae4e0f9d22328951719cc627d21ca", "versions": []},
+    {"id": "scale", "repository": "GuiMiran/guido-sdd-migration-effort-scale", "role": "MEASURE", "revision": "0a7648d87e84aecdc527ab56137ca418a3c1ee6e", "versions": [{"path": "pyproject.toml", "format": "python-project", "declared": "0.1.0"}]},
+    {"id": "spectra", "repository": "GuiMiran/spectra", "role": "UNDERSTAND_DECIDE", "revision": "88cb971d82790992273b82e7fc0f697ed8e1581d", "versions": [{"path": "package.json", "format": "node-package", "declared": "0.5.0"}]},
+    {"id": "runtime", "repository": "GuiMiran/guido-autonomous-runtime", "role": "EXECUTE", "revision": "ce1e73876b6b349299d84bda59d05c2596552084", "versions": [{"path": "autonomy/package.json", "format": "node-package", "declared": "0.1.0"}, {"path": "evaluation/package.json", "format": "node-package", "declared": "0.1.0"}]},
+    {"id": "pipeline", "repository": "GuiMiran/guido-agentic-pipeline", "role": "PROVE", "revision": "140ab4202f6ffdc361904b0cf4a07027fa718640", "versions": []}
+  ]
+}
