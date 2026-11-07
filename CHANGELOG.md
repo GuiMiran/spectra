@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add an explicit authorship and provenance note without changing licensing or
+  attributing third-party contributions to the project maintainer.
+- Clarify the SPECTRA name as SPECifications + TRAceability, with executed
+  evidence distinct from declared links.
 - English GUIDO SDD governance hub in SPECTRA: agent entry, diagrams, component
   responsibilities and cross-repository traceability.
 - Versioned five-component baseline inventory; compatibility NOT_VERIFIED.

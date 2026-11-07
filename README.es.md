@@ -1,5 +1,13 @@
 # SPECTRA
 
+**SPEC**ificaciones + **TRA**zabilidad: el nombre reúne dos capacidades.
+Las especificaciones expresan el comportamiento esperado del dominio; la
+trazabilidad las relaciona con decisiones, implementación y criterios de
+aceptación. Un enlace no prueba que el comportamiento funcione: para afirmarlo
+hace falta evidencia ejecutada y vinculada al alcance correcto.
+
+[Autoría y procedencia](docs/ecosystem/AUTHORSHIP.md) · [Gobernanza del ecosistema GUIDO SDD](docs/ecosystem/README.md)
+
 > **S**ource · **P**roduct · **E**xhaustive · **C**ontractual · **T**ruth · **R**econstructable · **A**gentic
 
 **El framework de especificación diseñado para ser consumido por IA, no por humanos.**
@@ -22,7 +30,7 @@ Spectra es un framework para escribir especificaciones que una IA puede consumir
 
 No es documentación técnica. No es un README. No son comentarios en el código.
 
-Es la **fuente de verdad del dominio**: reglas de negocio, invariantes, contratos, normativa, decisiones — todo estructurado en 12 capas diseñadas para que un agente opere de forma autónoma.
+Es una **fuente propuesta de verdad del dominio**: reglas de negocio, invariantes, contratos, normativa y decisiones estructuradas en 13 capas para dar contexto consistente a los agentes.
 
 ```
 Tú defines el dominio  →  Spectra estructura las specs  →  La IA construye, mantiene y evoluciona el sistema
