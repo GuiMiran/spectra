@@ -15,3 +15,5 @@ GEMINI.md @GuiMiran
 /schemas/ @GuiMiran
 /docs/ecosystem/ @GuiMiran
 /lib/ecosystem/ @GuiMiran
+/docs/guides/adoption-*.md @GuiMiran
+/templates/adoption/ @GuiMiran

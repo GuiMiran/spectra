@@ -2,7 +2,7 @@
 
 > **Instructions**: Copy this prompt, fill in the variables between `{{curly braces}}` and send it to the AI.
 > Everything between `{{...}}` is what YOU define for your project.
-> The AI will generate all 13 spec files ready to drop into your `/specs` folder.
+> The AI produces draft domain layers for the canonical `.spectra/` folder; review and independent evidence remain required.
 
 ---
 
@@ -13,6 +13,8 @@
 Act as an expert **Specification Architect** in Spec-Driven Development (SDD). Your mission is to generate the complete, exhaustive, and agentic-AI-consumable specification for the following project.
 
 **Absolute rules:**
+- Select the [greenfield or brownfield adoption route](../guides/adoption-protocol.md) first. Existing projects retain a frozen baseline and original contracts.
+- Distinguish observed, desired and unknown claims with sources; generated text is not evidence of completeness or a GUIDO rating.
 - Do NOT generate code or technical architecture
 - Do NOT make assumptions — ask if something is ambiguous
 - DO generate functional specifications, rules, invariants and definitions

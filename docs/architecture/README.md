@@ -1,6 +1,8 @@
 # Architecture
 
 Architecture documents define durable implementation boundaries and decisions.
+See [ADR-0023](decisions/0023-project-adoption.md) for versioned greenfield and
+brownfield adoption, consumer agent routing and separate diagnostic ownership.
 See [ADR-0022](decisions/0022-ecosystem-governance-hub.md) for the central
 governance hub and reviewed version observations within SPECTRA.
 See [ADR-0020](decisions/0020-a1-evidence-projection.md) for pinned evidence projection and its separate read-only host integration.
