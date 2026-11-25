@@ -71,4 +71,7 @@ jobs:
           git add -- docs/ecosystem/observations.md
           git commit -m "docs: refresh observed GUIDO component metadata"
           git push origin "HEAD:refs/heads/$branch"
-          gh pr create --base main --head "$branch" --title "GUIDO ecosystem observations" --body "Generated metadata observations only. Baseline pins, compatibility, approvals and deployments remain unchanged. Review before merging."
+          if ! gh pr create --base main --head "$branch" --title "GUIDO ecosystem observations" --body "Generated metadata observations only. Baseline pins, compatibility, approvals and deployments remain unchanged. Review before merging."; then
+            echo "::warning::Actions cannot create pull requests (enable Settings > Actions > General > Allow GitHub Actions to create and approve pull requests). Open a PR manually from branch $branch."
+            echo "Branch pushed: $branch" >> "$GITHUB_STEP_SUMMARY"
+          fi

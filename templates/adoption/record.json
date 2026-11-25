@@ -1,0 +1,20 @@
+{
+  "protocolId": "spectra-adoption",
+  "protocolVersion": "1.0.0",
+  "state": "draft",
+  "mode": null,
+  "project": {"name": null, "repository": null, "version": null},
+  "scope": {"objective": null, "behaviors": [], "exclusions": [], "owner": null},
+  "authorization": {"source": null, "allowedActions": [], "executionPolicy": null},
+  "baseline": {"commit": null, "snapshotRef": null, "snapshotSha256": null, "workingTreeDeltaRef": null, "limitations": []},
+  "tooling": {"spectraVersion": null, "spectraCommit": null, "guidoCommit": null, "rubricRevision": null},
+  "obligations": [],
+  "claims": [],
+  "evidence": [],
+  "diagnostic": {"status": "not_run", "inventoryRef": null, "reviewReportRefs": [], "reconciliationRef": null, "limitations": []},
+  "organizationalAssessment": {"status": "not_run", "reportRef": null, "level": null},
+  "reconstruction": {"status": "NOT_TESTED", "protocolRef": null, "receiptRef": null},
+  "gaps": [],
+  "nextChanges": [],
+  "review": {"reviewer": null, "reviewedRevision": null, "scope": null, "decision": null, "recordRef": null}
+}

@@ -11,6 +11,14 @@
 
 Act as an expert **Specification Architect** in Spec-Driven Development (SDD). Your mission is to generate the complete, exhaustive, and agentic-AI-consumable specification for the following project. **Do not generate code or technical architecture**. Only functional specifications, rules, invariants, and definitions that an agentic AI can use as a source of truth to build the system.
 
+Before generating, select the [adoption protocol](docs/guides/adoption-protocol.md)
+route: greenfield intent or brownfield existing implementation. For brownfield,
+freeze the source revision and preserve original contracts. Distinguish observed,
+desired and unknown rules, with sources and unresolved questions; do not infer
+completeness, reconstructability or a GUIDO level. Write canonical CLI layers in
+`.spectra/`, including `00-vision.md`, and adapt the consumer `AGENTS.md` routes.
+Generated specifications require review and independent behavioral evidence.
+
 ---
 
 ### BLOCK 1 — PROJECT CONTEXT
