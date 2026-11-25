@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add an explicit authorship and provenance note without changing licensing or
+  attributing third-party contributions to the project maintainer.
+- Clarify the SPECTRA name as SPECifications + TRAceability, with executed
+  evidence distinct from declared links.
 - Documented `spectra-adoption` protocol 1.0.0 with greenfield/brownfield routes,
   opt-in consumer AGENTS.md and adoption-record templates, and separate GUIDO
   inventory/diagnostic/rating boundaries. No new adoption CLI or evaluator.

@@ -6,6 +6,8 @@ GUIDO SDD is Guido Miranda's specification-driven engineering ecosystem.
 This directory in SPECTRA is its documentation and coordination hub, not
 a sixth product or an execution runtime. English is the shared documentation
 language, not a restriction on specification languages or formats.
+See [authorship and provenance](AUTHORSHIP.md) for attribution and the
+limits of this statement.
 
 ## Component map
 

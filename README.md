@@ -1,5 +1,11 @@
 # SPECTRA
 
+**SPEC**ifications + **TRA**ceability: the name describes the two connected
+capabilities. Specifications state the intended domain behaviour; traceability
+links those statements to decisions, implementation and acceptance checks.
+Links alone are not proof: executed, scoped evidence is needed before claiming
+that behaviour has been verified.
+
 > **S**ource · **P**roduct · **E**xhaustive · **C**ontractual · **T**ruth · **R**econstructable · **A**gentic
 
 **The specification framework designed to be consumed by AI, not humans.**
@@ -11,6 +17,9 @@
 
 [GUIDO SDD ecosystem governance hub](docs/ecosystem/README.md): component
 responsibilities, agent entry, traceability and versioned baseline inventory.
+
+[Authorship and provenance](docs/ecosystem/AUTHORSHIP.md): project attribution and the records
+used to distinguish individual contributions.
 
 ---
 
