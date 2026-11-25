@@ -1,7 +1,7 @@
 # Core de la plataforma modular — entidades, eventos y licencias
 > Generado con SPECTRA · github.com/GuiMiran/spectra
-> Borrador v0.1. Es el "contrato" entre el core, los módulos horizontales (Facturación, Contabilidad, Nóminas…) y los verticales (Peluquería, Colmado…).
-> Las decisiones abiertas están marcadas con ❓ y se resumen al final.
+> Borrador v0.2 (decisiones DEC-01 a DEC-05 cerradas como propuesta). Es el "contrato" entre el core, los módulos horizontales (Facturación, Contabilidad, Nóminas…) y los verticales (Peluquería, Colmado…).
+> Las decisiones cerradas están en la sección 5 y cada una indica dónde se aplica.
 
 ---
 
@@ -39,7 +39,7 @@
 | Contrato, nómina, cotización | Nóminas |
 | Cita, profesional, ficha de animal, receta… | Vertical correspondiente |
 
-**Extensión por vertical:** un vertical puede añadir campos propios a CE-06 (por ejemplo, duración y profesional en una peluquería) sin modificar la entidad del core. ❓
+**Extensión por vertical:** un vertical puede añadir campos propios a CE-06 (por ejemplo, duración y profesional en una peluquería) sin modificar la entidad del core (**DEC-03**).
 
 ---
 
@@ -74,7 +74,7 @@ Regla común: los eventos llevan **identificadores**, no copias de datos; son **
 
 ### 2.3 Qué pasa si el consumidor no tiene licencia
 - El emisor **no se bloquea**: la cita queda completada y la factura queda pendiente de generar.
-- El evento se **conserva en cola** durante un plazo configurable ❓ y se procesa si el módulo se activa.
+- El evento se **conserva en cola 90 días** y se procesa si el módulo se activa en ese plazo (**DEC-01**).
 - El cliente ve un aviso: "Hay N operaciones pendientes de facturar. Activa Facturación para procesarlas."
 
 ---
@@ -98,12 +98,12 @@ Un vertical **funciona sin** los módulos horizontales (agenda o TPV), pero no f
 | Prueba | Todo, con límites bajos y marca de prueba |
 | Activa | Todo, dentro de los límites del plan |
 | Suspendida (impago) | **Solo lectura y exportación**; no se emiten documentos nuevos |
-| Vencida | Solo exportación durante un periodo de gracia ❓ |
+| Vencida | Solo exportación durante 90 días (**DEC-04**) |
 | Cancelada | Exportación de datos y baja a petición |
 
 ### 3.3 Reglas
-- **Licencia por empresa o por despacho:** un despacho puede contratar un módulo para todas sus empresas o solo para algunas. ❓
-- **Límites por plan:** número de usuarios, empresas y documentos al mes.
+- **Licencia por empresa o por despacho (DEC-02):** el titular puede ser un despacho o una empresa. Un módulo está activo para una empresa si tiene licencia propia activa, o si su despacho tiene licencia activa y la empresa está asignada a ella.
+- **Límites por plan (DEC-05):** usuarios, empresas, documentos al mes y almacenamiento; los valores viven en el catálogo de planes, no en la spec.
 - **Facturación con VeriFactu:** una vez emitida una factura, **no se pierde ni se altera** aunque la licencia caduque; se conserva el mínimo legal (4 años).
 - **Cambio de plan:** el nuevo plan se aplica al siguiente ciclo salvo ampliación inmediata.
 
@@ -120,12 +120,21 @@ Un vertical **funciona sin** los módulos horizontales (agenda o TPV), pero no f
 - **INV-C08:** cada cambio sobre entidades del core genera un registro de auditoría.
 - **INV-C09:** un evento procesado dos veces produce el mismo resultado que procesado una vez.
 - **INV-C10:** una empresa tiene un solo territorio fiscal (IVA o IGIC) en un periodo dado.
+- **INV-C11:** una extensión de vertical referencia un producto del core existente; si el producto causa baja, la extensión queda inactiva, no huérfana.
+- **INV-C12:** alcanzar un límite de plan nunca impide emitir un documento fiscal obligatorio.
 
 ---
 
-## 5. Decisiones abiertas ❓
-1. ¿Cuánto tiempo se conservan los eventos pendientes si el módulo no está activo?
-2. ¿Licencia por empresa, por despacho o ambas?
-3. ¿Cómo extiende un vertical el producto base sin alterar el core?
-4. ¿Cuál es el periodo de gracia tras el vencimiento?
-5. ¿Qué límites tiene cada plan (usuarios, empresas, documentos)?
+## 5. Decisiones cerradas (propuesta, modificables)
+
+| ID | Decisión | Regla |
+|---|---|---|
+| **DEC-01** | Eventos pendientes | Si el módulo consumidor no tiene licencia, el evento se conserva **90 días**. Si el módulo se activa dentro del plazo, se ofrece "procesar pendientes". Pasado el plazo se descarta el evento, pero la operación de origen (cita, venta) sigue en su vertical y puede reprocesarse a mano |
+| **DEC-02** | Licencia por empresa y por despacho | **Ambas.** El titular es un despacho o una empresa. Un módulo está activo para una empresa si tiene licencia propia activa, o si su despacho tiene licencia activa y la ha asignado. La licencia propia de la empresa prevalece |
+| **DEC-03** | Extensión de producto por vertical | El vertical guarda una **extensión** propia enlazada por el identificador del producto del core (p. ej. duración y profesional). El core no cambia. Si el producto se da de baja, el core emite `ProductoModificado` y la extensión queda inactiva |
+| **DEC-04** | Ciclo tras impago o vencimiento | Impago → **Suspendida** (solo lectura y exportación) hasta 30 días → **Vencida** (solo exportación) 90 días → **Cancelada**. Los datos fiscales se conservan el mínimo legal (4 años) aunque la cuenta se cancele |
+| **DEC-05** | Límites por plan | La spec define solo las **dimensiones** (usuarios, empresas, documentos al mes, almacenamiento). Los valores y precios viven en un catálogo de planes. Al 80 % se avisa; al 100 % se bloquea crear más usuarios, empresas o almacenamiento, pero **nunca** se bloquea emitir una factura obligatoria: el exceso de documentos se factura aparte |
+
+### Qué no está decidido (negocio, no spec)
+- Cifras concretas de cada plan y sus precios.
+- Si el plazo de 90 días de eventos y los de DEC-04 son los comerciales definitivos.
