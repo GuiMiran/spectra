@@ -57,3 +57,7 @@
 | `LicenciaActivada` (EV-C07) | Core | Ofrece procesar pendientes (WF-K07) |
 | `LicenciaSuspendida` / `LicenciaVencida` (EV-C08) | Core | Pasa a solo lectura o solo exportación |
 | `TerceroBaja` (EV-C03) | Core | Marca el tercero como inactivo en subcuentas, sin borrarlo |
+
+## Factura Lite
+**EVT-K08 — RegistroFacturaCreado** → DISPARA: asiento (PLA-K01..K03); actualización del libro registro. Escucha: AG-K01.
+**EVT-K09 — RegistrosImportadosComoHistorico** → DISPARA: marca los Registros como históricos sin nuevo asiento. Origen: activación de Facturación.

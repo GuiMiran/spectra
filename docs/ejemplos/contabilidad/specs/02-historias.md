@@ -95,3 +95,25 @@ COMO Administrador de empresa (autónomo) QUIERO elegir entre contabilidad merca
 
 **HU-K24 — Auditoría de cambios** · Must
 COMO Auditor QUIERO ver quién hizo cada asiento, anulación o cierre PARA comprobar la trazabilidad.
+
+## Factura Lite
+**HU-K25 — Registrar una factura a mano** · Must
+COMO Contable QUIERO teclear una factura emitida o recibida PARA contabilizarla sin tener Facturación.
+- DADO un tenant sin Facturación activa CUANDO registro una factura con sus bases y cuotas ENTONCES se crea el Registro y se genera su asiento.
+- DADO un tenant con Facturación activa CUANDO intento el alta manual ENTONCES se bloquea y se indica que la fuente es Facturación.
+
+**HU-K26 — Importar registros de facturas** · Should
+COMO Contable QUIERO importar facturas en lote PARA no teclearlas una a una.
+- DADO un fichero con 50 facturas y 2 con datos erróneos CUANDO importo ENTONCES se crean 48 y se informa de las 2 con su motivo.
+
+**HU-K27 — Libros registro sin Facturación** · Must
+COMO Contable QUIERO obtener los libros registro de IVA o IGIC PARA presentar los modelos aunque no tenga Facturación.
+- DADO Registros de un trimestre CUANDO pido el libro ENTONCES sale con todas las bases y cuotas por tipo.
+
+**HU-K28 — Activar Facturación sobre Registros existentes** · Should
+COMO Responsable de despacho QUIERO activar Facturación sin repetir trabajo PARA conservar el histórico.
+- DADO un tenant con Registros CUANDO se activa Facturación ENTONCES se ofrece importarlos como histórico sin volver a contabilizarlos.
+
+**HU-K29 — Aviso de posible duplicado** · Must
+COMO Contable QUIERO que me avise si una factura parece repetida PARA no contabilizarla dos veces.
+- DADO un Registro con mismo tercero, número y fecha CUANDO intento crear otro ENTONCES se avisa y se pide confirmar.

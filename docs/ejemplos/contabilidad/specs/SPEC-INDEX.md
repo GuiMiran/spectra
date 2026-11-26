@@ -4,18 +4,18 @@
 ## Mapa
 | Capa | Archivo | IDs |
 |---|---|---|
-| 00 | [00-index](00-index.md) | DEC-K01..K06 |
+| 00 | [00-index](00-index.md) | DEC-K01..K07 |
 | 01 | [01-glosario](01-glosario.md) | términos |
-| 02 | [02-historias](02-historias.md) | HU-K01..K24 |
-| 03 | [03-reglas-negocio](03-reglas-negocio.md) | RN-K01..K26 |
-| 04 | [04-invariantes](04-invariantes.md) | INV-K01..K16 |
-| 05 | [05-contratos](05-contratos.md) | CT-K01..K09 |
-| 06 | [06-politicas](06-politicas.md) | POL-K01..K11 |
-| 07 | [07-eventos](07-eventos.md) | EVT-K01..K07 |
+| 02 | [02-historias](02-historias.md) | HU-K01..K29 |
+| 03 | [03-reglas-negocio](03-reglas-negocio.md) | RN-K01..K32 |
+| 04 | [04-invariantes](04-invariantes.md) | INV-K01..K18 |
+| 05 | [05-contratos](05-contratos.md) | CT-K01..K10 |
+| 06 | [06-politicas](06-politicas.md) | POL-K01..K12 |
+| 07 | [07-eventos](07-eventos.md) | EVT-K01..K09 |
 | 08 | [08-agentes](08-agentes.md) | AG-K01..K06 |
-| 09 | [09-skills](09-skills.md) | SK-K01..K13 |
-| 10 | [10-workflows](10-workflows.md) | WF-K01..K09 |
-| 11 | [11-criterios-aceptacion](11-criterios-aceptacion.md) | AC-K01..K24 |
+| 09 | [09-skills](09-skills.md) | SK-K01..K18 |
+| 10 | [10-workflows](10-workflows.md) | WF-K01..K11 |
+| 11 | [11-criterios-aceptacion](11-criterios-aceptacion.md) | AC-K01..K30 |
 | 12 | [12-trace](12-trace.md) | tabla Spec→Código |
 
 Contexto: [dominio-contable.md](../dominio-contable.md) (dominio) y [core-contratos.md](../../plataforma-modular/core-contratos.md) (core).

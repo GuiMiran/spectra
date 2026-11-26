@@ -126,3 +126,11 @@ ENTONCES la retención se abona en 4751 y el proveedor queda por el neto.
 DADO cualquier asiento creado o anulado
 CUANDO se consulta la auditoría
 ENTONCES consta quién, cuándo y por qué, sin el contenido personal del tercero.
+
+## Factura Lite
+**AC-K25** (HU-K25, RN-K27) DADO un tenant sin Facturación CUANDO registro una factura recibida de 1.000 € con IVA 21 % ENTONCES hay un Registro y un asiento que cuadra.
+**AC-K26** (HU-K25, RN-K28, INV-K17) DADO un tenant con Facturación CUANDO intento el alta manual ENTONCES se bloquea.
+**AC-K27** (HU-K29, RN-K30) DADO un Registro existente CUANDO creo otro con mismo tercero, número y fecha ENTONCES se avisa y se pide confirmar.
+**AC-K28** (HU-K27, RN-K31) ⚠ DADO Registros de un trimestre CUANDO pido el libro registro ENTONCES las bases y cuotas por tipo coinciden con la suma de los Registros.
+**AC-K29** (HU-K28, RN-K32, WF-K11) DADO 40 Registros contabilizados CUANDO se activa Facturación ENTONCES se importan como histórico y no se crean nuevos asientos.
+**AC-K30** (HU-K26) DADO un fichero con 2 errores en 50 CUANDO importo ENTONCES se crean 48 y se listan los 2 con motivo.

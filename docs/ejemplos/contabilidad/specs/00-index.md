@@ -42,3 +42,6 @@ Dice al agente constructor qué ficheros leer según la tarea. Todo el módulo s
 | [11-criterios-aceptacion.md](11-criterios-aceptacion.md) | Criterios AC-K |
 | [12-trace.md](12-trace.md) | SPECTRA-TRACE |
 | [SPEC-INDEX.md](SPEC-INDEX.md) | Mapa y referencias cruzadas |
+
+## Ampliación: Factura Lite (DEC-K07)
+- **DEC-K07 (propuesta, modificable):** Contabilidad es dueña del **Registro de factura** (Factura Lite), un apunte contable de una factura que existe fuera. No es la Factura legal de Facturación. Con Facturación activa, el alta manual queda bloqueada.
