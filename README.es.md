@@ -100,7 +100,7 @@ npm install -g @guimiran/spectra
 spectra init
 ```
 
-### Vía pip (pendiente de publicación en PyPI)
+### Vía pip
 
 La rueda `0.5.0` está preparada con el nombre `spectra-sdd`.
 Una vez publicada en PyPI:
@@ -113,6 +113,9 @@ spectra init
 Requiere Python 3.9+ y Node.js 18+ en el PATH. La rueda incluye el mismo
 CLI y no descarga paquetes npm al ejecutarse. Usa un solo método de
 instalación por entorno: los dos proporcionan el comando `spectra`.
+Para probar esta misma versión desde un clon del repositorio, ejecuta
+`python -m pip install .` desde su raíz.
+
 Consulta la [guía de distribución](docs/guides/distribution-0.5.0.md).
 
 ### Via Git
@@ -135,7 +138,7 @@ nombre del proyecto, sector, normativa, usuarios, módulos,
 reglas conocidas, restricciones regulatorias...
 ```
 
-### 2. La IA genera las 12 capas
+### 2. La IA genera las 13 capas
 
 Un LLM con el prompt completo genera la especificación estructurada de tu dominio. No es código — es conocimiento de negocio en formato machine-readable.
 
@@ -315,7 +318,7 @@ git clone https://github.com/tuusuario/spectra
 
 # 4. Pega el prompt en Claude, GPT-4o o Gemini
 
-# 5. Guarda las 12 capas generadas en tu repo
+# 5. Guarda las 13 capas generadas en tu repo
 # Las specs SON tu proyecto. El código es un artefacto derivado.
 ```
 

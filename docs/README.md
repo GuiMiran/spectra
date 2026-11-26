@@ -42,6 +42,11 @@ and change rules are in [`../AGENTS.md`](../AGENTS.md).
 - [Publishing](guides/publishing.md)
 - [Variable reference](guides/variable-reference.md)
 
+## Examples
+
+- [Modular platform](ejemplos/plataforma-modular/README.md) — core contracts and module specification indexes.
+- [GastroFlow agent test pilot](guides/gastroflow-agent-test-pilot.md) — Universal Test Architect proposal and pilot scope.
+
 ## Reference and reports
 
 - [Adoption protocol validation](reports/adoption-protocol-validation.md) — local tooling checks and explicit consumer-evaluation limits.

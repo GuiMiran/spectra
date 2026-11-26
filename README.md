@@ -11,7 +11,7 @@ that behaviour has been verified.
 **The specification framework designed to be consumed by AI, not humans.**
 
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/GuiMiran/spectra/releases)
+[![Version](https://img.shields.io/npm/v/@guimiran/spectra)](https://www.npmjs.com/package/@guimiran/spectra)
 
 [🇪🇸 Versión en español](README.es.md)
 
@@ -56,14 +56,17 @@ npm install -g @guimiran/spectra
 spectra init
 ```
 
-### Via pip (pending PyPI publication)
+### Via pip
 
-The `0.5.0` wheel is prepared as `spectra-sdd`. Once published on PyPI:
+Install the bundled CLI from PyPI once the `0.5.0` wheel is published:
 
 ```bash
 python -m pip install spectra-sdd==0.5.0
 spectra init
 ```
+
+To try the same version directly from a checkout of this repository, run
+`python -m pip install .` from its root.
 
 Requires Python 3.9+ and Node.js 18+ on PATH. The wheel bundles the same
 CLI; it does not download npm packages at runtime. Choose one installation

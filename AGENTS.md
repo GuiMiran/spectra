@@ -24,6 +24,8 @@ humans and autonomous agents. Treat this file as the repository entry point.
 | Change read-only agent planning | `docs/architecture/decisions/0002-evidence-and-read-only-planning.md`, `lib/agent-runtime/index.js` | `lib/agent-runtime/`, CLI adapter, templates, tests | `npm test` and `npm run test:syntax` |
 | Add an evolution capability | `lib/evolution/contracts.js`, `lib/evolution/components.js`, `templates/evolution.config.json` | A bounded component, contract, test, and ADR when the decision is durable | `npm test` |
 | Change agent-facing specification guidance | `skills/SKILL.md`, `SPECTRA-PROMPT.md`, `layers/12-trace.md` | Prompt, skill, layer reference, example | `spectra init`, `spectra validate`, `spectra trace` in a temporary project |
+| Inspect the modular platform example | `docs/ejemplos/plataforma-modular/README.md` | The relevant core contract or module specification and its trace links | Check the example index and affected trace links |
+| Design tests for the GastroFlow pilot | `skills/universal-test-architect/SKILL.md`, `docs/guides/gastroflow-agent-test-pilot.md` | Pilot inputs, expected outcomes and evidence references | Follow the pilot guide and record the scope of any executed checks |
 | Add user documentation | `docs/README.md` | The appropriate `docs/` subsection and its index | Check all relative links |
 | Audit repository structure or traceability | `harness/spectra-matrix.json`, `harness/README.md` | Matrix, harness, affected owner and evidence | `npm run verify` |
 | Publish a release | `docs/guides/publishing.md`, `package.json` | Release metadata and release docs | `npm pack --dry-run` |
