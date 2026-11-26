@@ -75,3 +75,11 @@
 - Fuente: normativa del IRPF y Código de Comercio ⚠.
 
 **RN-K26** — En modalidad solo libros registro no se generan asientos y los informes contables no están disponibles.
+
+## Factura Lite
+**RN-K27** — El Registro de factura no es documento legal y no se numera ni se emite desde Contabilidad.
+**RN-K28** — Con Facturación activa, el alta manual de Registros queda bloqueada; el asiento sale del evento de Facturación.
+**RN-K29** — Un Registro genera como máximo un asiento (idempotencia, como RN-K20).
+**RN-K30** — Si hay mismo tercero, número y fecha, se avisa de posible duplicado antes de crear.
+**RN-K31** — Sin Facturación, los libros registro de IVA e IGIC los genera Contabilidad desde los Registros ⚠ (verificar requisitos formales del libro).
+**RN-K32** — Al activar Facturación, los Registros se importan como histórico y no se vuelven a contabilizar.

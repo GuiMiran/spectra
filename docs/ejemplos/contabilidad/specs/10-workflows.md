@@ -69,3 +69,7 @@
 - Pasos: SK-K13 crea el plan o las subcuentas nuevas.
 - Resultado: cuentas listas antes de la primera factura.
 - Errores: plantilla no elegida (se pide elegir).
+
+## Factura Lite
+**WF-K10 — Captura de factura** — Trigger: alta manual o importación. Pasos: SK-K16 → SK-K14 → WF-K01 desde el Registro. Resultado: Registro y asiento. Errores: duplicado, periodo cerrado, Facturación activa.
+**WF-K11 — Activación de Facturación sobre Registros existentes** — Trigger: LicenciaActivada de Facturación. Pasos: bloquear altas manuales → SK-K17 cruza lo ya emitido → importar Registros como histórico (EVT-K09) → la serie de Facturación continúa tras el último número → revisión de diferencias. Resultado: sin recontabilizar. Errores: datos incoherentes (lista para corregir).

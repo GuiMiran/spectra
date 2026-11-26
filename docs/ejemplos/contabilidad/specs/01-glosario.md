@@ -34,3 +34,10 @@ Lenguaje canónico: toda la spec usa estos términos.
 | **Conciliación** | Comparación entre lo contabilizado y los libros registro de Facturación | 477 igual a cuotas emitidas | Cuadre |
 | **Familia fiscal** | Agrupación de impuesto, tipo, calificación y régimen. Se define en el core | IVA general 21 % | Tipo de IVA |
 | **Legalización** | Presentación de los libros en el Registro Mercantil | Dentro de los cuatro meses tras el cierre | Sellado |
+
+## Factura Lite
+**Registro de factura** — Apunte contable de una factura emitida o recibida que se teclea o importa en Contabilidad. Lleva tercero, fecha, número, bases por familia fiscal, cuotas y retención. No es un documento legal ni se emite.
+- Ejemplo: un cliente sin Facturación teclea la factura de un proveedor.
+- Evitar: "factura" a secas, "factura lite emitida".
+
+**Libro registro desde Contabilidad** — Libro registro de IVA o IGIC generado a partir de los Registros de factura cuando el tenant no tiene Facturación.

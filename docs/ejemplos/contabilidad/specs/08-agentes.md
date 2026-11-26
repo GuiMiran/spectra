@@ -44,3 +44,6 @@ Roles funcionales autónomos, no técnicos.
 - Escucha: EVT-K06.
 - Produce: EVT-K02.
 - Invariantes: INV-K03, INV-K14.
+
+## Ampliación Factura Lite
+AG-K01 también escucha EVT-K08 y usa SK-K14. AG-K05 usa SK-K15 y SK-K17 al activar Facturación.

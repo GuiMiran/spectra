@@ -63,3 +63,7 @@ SI_NO SI venció ENTONCES solo exportación durante el plazo de gracia.
 SI repercutido − soportado es positivo ENTONCES se lleva a 4750 (a ingresar).
 SI_NO SI es negativo ENTONCES se lleva a 4700 (a devolver o compensar).
 SI_NO SI es cero ENTONCES solo se cancelan 477 y 472.
+
+## POL-K12 — Fuente de la factura
+SI el tenant tiene Facturación activa ENTONCES la fuente de asientos es su evento y el alta manual se bloquea.
+SI_NO ENTONCES la fuente es el Registro de factura y se generan los libros registro desde Contabilidad.
