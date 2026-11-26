@@ -179,3 +179,61 @@ Qué hace "caro" a un despacho, de más a menos medible: volumen de documentos y
 - El coste de infraestructura compartida necesita un criterio de reparto ❓ (por uso ponderado es el más defendible).
 - El tiempo humano de soporte solo existe si alguien lo anota.
 - Sin datos de un periodo completo, el nivel de esfuerzo es una estimación, no una medida.
+
+## 7. Matriz de horizontales y dependencias (propuesta v0.4)
+
+Los verticales eligen qué horizontales necesitan. El core solo ofrece lo compartido; cada horizontal se activa por licencia.
+
+### 7.1 Catálogo de horizontales
+| ID | Horizontal | Estado de specs | Depende de | Emite | Consume |
+|---|---|---|---|---|---|
+| H-01 | Facturación | 13 capas hechas | Core | EV-F01..F09 | EV-C01, C03..C08 |
+| H-02 | Contabilidad | 13 capas hechas (incl. Factura Lite) | Core; Facturación opcional | EVT-K01..K09 | EV-F01..F05, EV-C* |
+| H-03 | Tesorería | Pendiente | Core; Facturación y Contabilidad opcionales | EV-T* | EV-F01, F04, EVT-K01 |
+| H-04 | Nóminas | Pendiente | Core | EV-N* | EV-C01, C06 |
+| H-05 | Fiscal | Pendiente | Core; Facturación, Nóminas | EV-X* | EV-F05, EV-N* |
+| H-06 | Gestión documental | Pendiente | Core (CE-12) | EV-D* | cualquiera |
+| H-07 | Portal del cliente | Pendiente | Core, Gestión documental | EV-P* | EV-D*, EV-F* |
+| H-08 | Proyectos y horas | Pendiente | Core | EV-H* | EV-C* |
+| H-09 | Compras y gastos | Pendiente | Core, Facturación | EV-G* | EV-F03 |
+| H-10 | Inventario | Pendiente | Core, Compras | EV-I* | EV-F01, EV-G* |
+| H-11 | CRM y ventas | Pendiente | Core | EV-V* | EV-F01 |
+| H-12 | Activos fijos | Pendiente | Core, Contabilidad | EV-A* | EVT-K01 |
+
+### 7.2 Reglas de convivencia
+- **RC-01:** un horizontal sin licencia no bloquea a los demás; sus eventos esperan en cola 90 días (DEC-01).
+- **RC-02:** un módulo declara qué horizontales **necesita** (obligatorio) y cuáles **mejora** (opcional) antes de activarse.
+- **RC-03:** dos horizontales nunca duplican una entidad; si una la usan dos, sube al core (principio de ≥ 2 módulos).
+- **RC-04:** el orden de construcción lo da la columna "Depende de": Core → Facturación → Contabilidad → Tesorería → Nóminas → Fiscal → resto.
+
+## 8. Rentabilidad por cliente del despacho (propuesta v0.4)
+
+La sección 6 mide la rentabilidad **de cada despacho para quien opera la plataforma**. Aquí se mide la del **asesor**: cuánto le deja cada cliente (empresa) que lleva.
+
+### 8.1 Qué falta en el core
+| ID | Entidad | Contenido clave | Dueño |
+|---|---|---|---|
+| CE-17 | **Honorario pactado** | Despacho, empresa, concepto (cuota mensual, por trimestre, por servicio), importe, vigencia | Core |
+| CE-18 | **Parte de horas** | Despacho, empresa, usuario, servicio (contabilidad, fiscal, laboral), minutos, fecha | Proyectos y horas (H-08) |
+| CE-19 | **Coste hora** | Despacho, rol o usuario, coste por hora, vigencia | Core |
+
+### 8.2 Vista de rentabilidad del cliente (se calcula, no se edita)
+Por empresa y periodo:
+- **Ingresos** = honorarios facturados y cobrados (o pactados, a elegir).
+- **Coste directo** = horas × coste hora + uso × tarifa de coste (CE-13, CE-14).
+- **Margen** = ingresos − coste, en euros y en porcentaje.
+- **Carga relativa** = horas e incidencias por documento, comparadas con la mediana de la cartera.
+- **Clasificación:** alto, medio o bajo esfuerzo ❓ (umbrales de negocio).
+
+### 8.3 Qué hace caro a un cliente
+Más horas por documento, documentos de baja calidad o tardíos, incidencias, reglas especiales (Canarias, recargo, ISP) y personalizaciones. El módulo que más pesa suele ser Contabilidad o Nóminas, según el cliente.
+
+### 8.4 Invariantes
+- **INV-C16:** todo parte de horas pertenece a una empresa y a un usuario del despacho.
+- **INV-C17:** la rentabilidad de un periodo cerrado no cambia sin reabrirlo y dejar constancia.
+- **INV-C18:** la medición guarda minutos y tipos, nunca el contenido de los documentos.
+
+### 8.5 Límites honestos
+- Sin partes de horas, el coste del cliente es una estimación por uso, no una medida.
+- El honorario pactado puede diferir del facturado; hay que decidir cuál es la referencia ❓.
+- Rentabilidad no es calidad del cliente: un cliente poco rentable puede ser estratégico.
