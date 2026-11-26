@@ -237,3 +237,6 @@ Más horas por documento, documentos de baja calidad o tardíos, incidencias, re
 - Sin partes de horas, el coste del cliente es una estimación por uso, no una medida.
 - El honorario pactado puede diferir del facturado; hay que decidir cuál es la referencia ❓.
 - Rentabilidad no es calidad del cliente: un cliente poco rentable puede ser estratégico.
+
+## 9. Ficha de la entidad legal
+La ficha ampliada de la empresa (tipo de entidad, territorio, domicilios, actividades, representantes, obligaciones y ejercicio) y cómo la consumen los módulos están en [entidad-legal.md](entidad-legal.md).
