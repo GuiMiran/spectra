@@ -36,3 +36,11 @@ Con una capa de medición de uso (sección 6 del contrato del core) se puede sab
 ## Documentos
 - [Contrato del core: entidades, eventos, licencias, invariantes y decisiones](core-contratos.md)
 - [Dominio fiscal del SaaS de facturación](../saas-facturacion/dominio-fiscal.md)
+
+## Especificaciones
+
+- [Ficha de la entidad legal](entidad-legal.md)
+- [Contabilidad](../contabilidad/specs/SPEC-INDEX.md)
+- [Facturación](../facturacion/specs/SPEC-INDEX.md)
+- [Proyectos y Horas](../proyectos-horas/specs/SPEC-INDEX.md)
+- [Tesorería](../tesoreria/specs/SPEC-INDEX.md)
