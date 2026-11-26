@@ -4,6 +4,16 @@ on:
   push:
     tags:
       - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to check or stage
+        required: true
+        type: string
+
+concurrency:
+  group: release-${{ inputs.tag || github.ref_name }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -11,13 +21,14 @@ permissions:
 
 jobs:
   release:
-    name: Create GitHub Release and publish to npm
+    name: Create GitHub Release and stage on npm
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.tag && format('refs/tags/{0}', inputs.tag) || github.ref }}
           fetch-depth: 0
 
       - name: Set up Python
@@ -31,12 +42,20 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
           registry-url: "https://registry.npmjs.org"
 
       - name: Extract version from tag
         id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        env:
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [[ "$RELEASE_TAG" != "v$version" ]]; then
+            echo "::error::Release tag must match package.json (v$version)."
+            exit 1
+          fi
+          echo "VERSION=$RELEASE_TAG" >> "$GITHUB_OUTPUT"
 
       - name: Extract release notes from CHANGELOG
         id: notes
@@ -53,6 +72,7 @@ jobs:
           echo "$NOTES" > release-notes.txt
 
       - name: Create GitHub Release
+        if: github.event_name == 'push'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.VERSION }}
@@ -61,13 +81,43 @@ jobs:
           draft: false
           prerelease: ${{ contains(steps.version.outputs.VERSION, '-') }}
 
-      - name: Sync package.json version with tag
-        run: npm version ${{ steps.version.outputs.VERSION }} --no-git-tag-version --allow-same-version
-
-      - name: Make bin executable
-        run: chmod +x bin/spectra.js
-
-      - name: Publish to npm
-        run: npm publish --access public --provenance
+      - name: Stage unpublished version on npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          package="@guimiran/spectra@$version"
+          status=$(curl --silent --show-error --retry 2 --max-time 20 \
+            --output /dev/null --write-out '%{http_code}' \
+            "https://registry.npmjs.org/@guimiran%2Fspectra/$version")
+
+          case "$status" in
+            200)
+              echo "$package is already published."
+              exit 0
+              ;;
+            404) ;;
+            *)
+              echo "::error::npm registry returned HTTP $status while checking $package."
+              exit 1
+              ;;
+          esac
+
+          if [[ -z "$NODE_AUTH_TOKEN" ]]; then
+            echo "::error::NPM_TOKEN is required to stage $package."
+            exit 1
+          fi
+
+          tag=latest
+          if [[ "$version" == *-* ]]; then
+            tag=next
+          fi
+
+          npm install --global npm@11.21.3
+          chmod +x bin/spectra.js
+          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+            npm stage publish --access public --tag "$tag" --provenance
+          else
+            npm stage publish --access public --tag "$tag"
+          fi
+          echo "::notice::Review and approve $package in npm Staged Packages."
