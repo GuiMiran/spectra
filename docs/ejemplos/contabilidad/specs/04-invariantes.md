@@ -21,3 +21,7 @@ Si una invariante se viola, el sistema está en estado corrupto.
 | **INV-K14** | Un asiento de anulación revierte exactamente los apuntes del asiento anulado | Business | La anulación no neutraliza | SK-K05 |
 | **INV-K15** | Un plan de cuentas tiene un solo código por cuenta | Business | Ambigüedad de cuentas | SK-K03 |
 | **INV-K16** | Un periodo cerrado solo se reabre con motivo y rol autorizado, y deja auditoría | Business | Reapertura sin control | SK-K10 |
+
+## Factura Lite
+**INV-K17** — Una factura nunca tiene a la vez un Registro de Contabilidad y un evento de Facturación que generen asiento.
+**INV-K18** — Todo Registro de factura contabilizado tiene exactamente un asiento enlazado.

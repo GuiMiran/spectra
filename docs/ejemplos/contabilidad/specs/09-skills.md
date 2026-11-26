@@ -106,3 +106,10 @@ Capacidades atómicas e invocables.
 - Reglas: RN-K10, RN-K13.
 - Invariantes: INV-K15.
 - Usado por: AG-K05.
+
+## Factura Lite
+**SK-K14 — registrar_factura** — Entrada: tercero, fecha, número, bases y cuotas por familia fiscal, retención. Salida: Registro y asiento. Reglas: RN-K27..K30. Invariantes: INV-K17, INV-K18. Usado por: AG-K01.
+**SK-K15 — importar_registros** — Entrada: fichero. Salida: creados y rechazados con motivo. Reglas: RN-K30. Usado por: AG-K05.
+**SK-K16 — detectar_duplicado** — Entrada: tercero, número, fecha. Salida: posible duplicado o no. Reglas: RN-K30. Usado por: AG-K01.
+**SK-K17 — conciliar_con_facturacion** — Entrada: Registros y facturas de Facturación. Salida: cruce por tercero, número, fecha e importe, y diferencias. Reglas: RN-K32. Invariantes: INV-K17. Usado por: AG-K05.
+**SK-K18 — generar_libro_registro** — Entrada: empresa, periodo, impuesto. Salida: libro registro desde Registros. Reglas: RN-K31. Usado por: AG-K04.

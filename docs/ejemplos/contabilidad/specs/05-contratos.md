@@ -53,3 +53,9 @@
 - **PRE:** licencia recién activada; eventos con menos de 90 días.
 - **POST:** cada evento seleccionado genera su asiento o una incidencia, en orden de fecha.
 - **ERROR:** eventos de más de 90 días no se procesan solos; se avisa.
+
+## Factura Lite
+OPERACIÓN: CT-K10 registrar_factura
+PRE: licencia de Contabilidad activa; Facturación no activa; periodo abierto; tercero existente; bases y cuotas informadas.
+POST: Registro creado; asiento único enlazado; evento EVT-K08 emitido.
+ERROR: Facturación activa (bloqueo); periodo cerrado (incidencia); posible duplicado (confirmación); datos incompletos (rechazo con motivo).
