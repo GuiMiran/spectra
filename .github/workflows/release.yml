@@ -68,6 +68,11 @@ jobs:
         run: chmod +x bin/spectra.js
 
       - name: Publish to npm
-        run: npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "::warning::NPM_TOKEN secret is not configured; skipping npm publish."
+            exit 0
+          fi
+          npm publish --access public --provenance
