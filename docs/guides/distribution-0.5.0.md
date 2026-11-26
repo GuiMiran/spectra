@@ -20,7 +20,12 @@ globally on the same PATH because both provide the same command name.
 
 ## Publish and install
 
-Pushing `v0.5.0` triggers the GitHub release and npm publishing workflow.
+For future tags, the Release workflow creates the GitHub release and stages
+unpublished npm versions. A maintainer approves the staged version with 2FA in
+[npm Staged Packages](https://www.npmjs.com/settings/guimiran/staged-packages).
+The workflow skips staging if that exact version is already public. To check
+or stage an existing tag, run Release manually from the default branch and
+enter the tag.
 PyPI publishing is separate: verify control of the proposed name and set up
 the authorized publishing identity before uploading the wheel and sdist
 from the same reviewed commit. This change does not configure a publisher.
