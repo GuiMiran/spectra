@@ -30,6 +30,9 @@ Línea punteada fina entre el core y cada módulo: referencia por identificador.
 ## Rentabilidad por despacho
 Con una capa de medición de uso (sección 6 del contrato del core) se puede saber cuánto cuesta cada despacho, cuál genera más carga y cuál deja más margen. No sale solo: cada módulo declara su uso y alguien registra el tiempo humano de soporte.
 
+## Datos de interés
+- [ECC (Agent Harness Operating System)](https://github.com/affaan-m/everything-claude-code): toolkit MIT con agentes, skills, hooks y memoria para agentes de código. No define specs: SPECTRA define el *qué* y herramientas como ECC pueden ser el entorno donde el agente constructor ejecuta el *cómo*. Cifras de uso autodeclaradas, sin verificar; empezar por el perfil mínimo de instalación.
+
 ## Documentos
 - [Contrato del core: entidades, eventos, licencias, invariantes y decisiones](core-contratos.md)
 - [Dominio fiscal del SaaS de facturación](../saas-facturacion/dominio-fiscal.md)
