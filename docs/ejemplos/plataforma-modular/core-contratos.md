@@ -138,3 +138,44 @@ Un vertical **funciona sin** los módulos horizontales (agenda o TPV), pero no f
 ### Qué no está decidido (negocio, no spec)
 - Cifras concretas de cada plan y sus precios.
 - Si el plazo de 90 días de eventos y los de DEC-04 son los comerciales definitivos.
+
+---
+
+## 6. Medición de uso y rentabilidad por despacho (propuesta v0.3)
+
+Objetivo: saber cuánto cuesta atender a cada despacho, quién genera más carga y quién deja más margen.
+El core no lo calcula solo: necesita que cada módulo **declare su uso** y que una persona **registre el tiempo humano** (soporte y mantenimiento).
+
+### 6.1 Entidades nuevas del core
+| ID | Entidad | Contenido clave |
+|---|---|---|
+| CE-13 | **Registro de uso** | Despacho, empresa, módulo, tipo de uso (documento emitido, evento procesado, petición, almacenamiento), cantidad, fecha |
+| CE-14 | **Tarifa de coste** | Coste unitario por tipo de uso (infraestructura, servicios externos), con vigencia desde/hasta |
+| CE-15 | **Incidencia de soporte** | Despacho, empresa, módulo, causa, tiempo dedicado, fecha de cierre |
+| CE-16 | **Personalización** | Despacho o empresa, qué excepción o extensión propia tiene, horas de mantenimiento al mes |
+
+### 6.2 Eventos nuevos
+| ID | Evento | Lo dispara | Efecto |
+|---|---|---|---|
+| EV-C10 | UsoRegistrado | Cada módulo, en las operaciones que cuestan | Alimenta el registro de uso |
+| EV-C11 | IncidenciaCerrada | Soporte, a mano | Suma horas al coste del despacho |
+
+### 6.3 Vista de rentabilidad (se calcula, no se edita)
+Por despacho y periodo:
+- **Ingresos** = suma de sus licencias activas.
+- **Coste directo** = uso × tarifa + horas de soporte × coste hora + horas de personalización × coste hora.
+- **Margen** = ingresos − coste directo, en euros y en porcentaje.
+- **Carga relativa** = su uso, incidencias y personalizaciones por empresa activa, comparado con la mediana de la cartera.
+- **Nivel de esfuerzo**: alto, medio o bajo según la carga relativa. ❓ Los umbrales son decisión de negocio.
+
+Qué hace "caro" a un despacho, de más a menos medible: volumen de documentos y eventos, número de incidencias, personalizaciones propias, y módulos con reglas especiales (por ejemplo, IGIC frente a IVA).
+
+### 6.4 Invariantes
+- **INV-C13:** todo registro de uso pertenece a una empresa y, por ella, a un despacho.
+- **INV-C14:** la medición guarda solo conteos y tipos de uso, nunca el contenido de los documentos ni datos personales de terceros (RGPD).
+- **INV-C15:** la rentabilidad de un periodo cerrado no cambia salvo reabrirlo y dejar constancia en auditoría.
+
+### 6.5 Límites honestos
+- El coste de infraestructura compartida necesita un criterio de reparto ❓ (por uso ponderado es el más defendible).
+- El tiempo humano de soporte solo existe si alguien lo anota.
+- Sin datos de un periodo completo, el nivel de esfuerzo es una estimación, no una medida.

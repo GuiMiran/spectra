@@ -260,6 +260,16 @@ Ver [guía completa de visibilidad](docs/guides/agent-visibility.md).
 
 ---
 
+## Plataforma modular (ejemplo)
+
+Cómo se organiza un producto grande desde un catálogo de specs: un core compartido, módulos horizontales con licencia y verticales por sector, conectados por eventos. Incluye el contrato del core y un modelo de rentabilidad por cliente.
+
+![Barrio modular](docs/assets/barrio-modular.svg)
+
+Ver [plataforma modular](docs/ejemplos/plataforma-modular/README.md).
+
+---
+
 ## Estructura del repo
 
 ```

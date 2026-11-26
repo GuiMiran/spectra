@@ -323,6 +323,16 @@ The reconstruction hypothesis should be tested by giving the same frozen specifi
 
 ---
 
+## Modular platform (example)
+
+How a large product is organised from a spec catalogue: a shared core, licensed horizontal modules and sector verticals, connected by events. Includes the core contract and a per-client profitability model.
+
+![Modular neighbourhood](docs/assets/barrio-modular.svg)
+
+See [modular platform](docs/ejemplos/plataforma-modular/README.md) (Spanish).
+
+---
+
 ## Repo structure
 
 ```
